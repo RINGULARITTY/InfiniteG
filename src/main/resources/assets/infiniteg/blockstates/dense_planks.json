@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "infiniteg:block/dense_planks"
+    }
+  }
+}

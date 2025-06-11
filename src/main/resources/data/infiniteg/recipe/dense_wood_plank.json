@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AA",
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": "infiniteg:dense_planks"
+  },
+  "result": {
+    "id": "infiniteg:dense_wood_plank",
+    "count": 1
+  }
+}

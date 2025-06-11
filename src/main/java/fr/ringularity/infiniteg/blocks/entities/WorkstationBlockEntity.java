@@ -3,8 +3,7 @@ package fr.ringularity.infiniteg.blocks.entities;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
-import fr.ringularity.infiniteg.menus.CompactorMenu;
-import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
+import fr.ringularity.infiniteg.menus.WorkstationMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -27,19 +26,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
+public class WorkstationBlockEntity extends BlockEntity implements MenuProvider {
     public static final int OUTPUT_SLOT = 6;
-
-    public WorkstationRecipe selectedRecipe = new WorkstationRecipe(
-            new ItemStack(Items.DIAMOND),
-            List.of(
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.COAL), 16, 0),
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.GOLD_INGOT), 8, 0),
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.COPPER_INGOT), 4, 0)
-            )
-    );
 
     public final ItemStackHandler itemHandler = new ItemStackHandler(7) {
         @Override
@@ -55,15 +43,15 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     private int progress = 0;
     private int maxProgress = 100;
 
-    public CompactorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.COMPACTOR_BE.get(), pos, blockState);
+    public WorkstationBlockEntity(BlockPos pos, BlockState blockState) {
+        super(ModBlockEntities.WORKSTATION_BE.get(), pos, blockState);
 
         data = new ContainerData() {
             @Override
             public int get(int i) {
                 return switch (i) {
-                    case 0 -> CompactorBlockEntity.this.progress;
-                    case 1 -> CompactorBlockEntity.this.maxProgress;
+                    case 0 -> WorkstationBlockEntity.this.progress;
+                    case 1 -> WorkstationBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -71,8 +59,8 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
             @Override
             public void set(int i, int value) {
                 switch (i) {
-                    case 0: CompactorBlockEntity.this.progress = value;
-                    case 1: CompactorBlockEntity.this.maxProgress = value;
+                    case 0: WorkstationBlockEntity.this.progress = value;
+                    case 1: WorkstationBlockEntity.this.maxProgress = value;
                 }
             }
 
@@ -85,12 +73,12 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.infiniteg.compactor");
+        return Component.translatable("block.infiniteg.workstation");
     }
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new CompactorMenu(i, inventory, this, this.data);
+        return new WorkstationMenu(i, inventory, this, this.data);
     }
 
     public void drops() {
@@ -111,8 +99,8 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
-        pTag.putInt("compactor.progress", progress);
-        pTag.putInt("compactor.max_progress", maxProgress);
+        pTag.putInt("workstation.progress", progress);
+        pTag.putInt("workstation.max_progress", maxProgress);
 
         super.saveAdditional(pTag, pRegistries);
     }
@@ -122,8 +110,8 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
         super.loadAdditional(pTag, pRegistries);
 
         itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory").get());
-        progress = pTag.getInt("compactor.progress").get();
-        maxProgress = pTag.getInt("compactor.max_progress").get();
+        progress = pTag.getInt("workstation.progress").get();
+        maxProgress = pTag.getInt("workstation.max_progress").get();
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {

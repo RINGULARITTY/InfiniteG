@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "BBB",
+    "C C"
+  ],
+  "key": {
+    "A": "infiniteg:iron_plate",
+    "B": "infiniteg:dense_wood_plank",
+    "C": "infiniteg:dense_wood"
+  },
+  "result": {
+    "id": "infiniteg:workstation",
+    "count": 1
+  }
+}

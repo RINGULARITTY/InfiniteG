@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": "#minecraft:logs"
+  },
+  "result": {
+    "id": "infiniteg:dense_wood",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "infiniteg:iron_plate",
+    "count": 1
+  }
+}

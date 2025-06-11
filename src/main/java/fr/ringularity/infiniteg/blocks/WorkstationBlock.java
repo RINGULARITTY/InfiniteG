@@ -1,8 +1,8 @@
 package fr.ringularity.infiniteg.blocks;
 
 import com.mojang.serialization.MapCodec;
-import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
+import fr.ringularity.infiniteg.blocks.entities.WorkstationBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -20,10 +20,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class CompactorBlock extends BaseEntityBlock {
-    public static final MapCodec<CompactorBlock> CODEC = simpleCodec(CompactorBlock::new);
+public class WorkstationBlock extends BaseEntityBlock {
+    public static final MapCodec<WorkstationBlock> CODEC = simpleCodec(WorkstationBlock::new);
 
-    public CompactorBlock(Properties properties) {
+    public WorkstationBlock(Properties properties) {
         super(properties);
     }
 
@@ -35,7 +35,7 @@ public class CompactorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new CompactorBlockEntity(blockPos, blockState);
+        return new WorkstationBlockEntity(blockPos, blockState);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class CompactorBlock extends BaseEntityBlock {
                                           Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if (entity instanceof CompactorBlockEntity be) {
-                pPlayer.openMenu(new SimpleMenuProvider(be, Component.literal("Compactor")), pPos);
+            if (entity instanceof WorkstationBlockEntity be) {
+                pPlayer.openMenu(new SimpleMenuProvider(be, Component.literal("Workstation")), pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -65,7 +65,7 @@ public class CompactorBlock extends BaseEntityBlock {
             return null;
         }
 
-        return createTickerHelper(blockEntityType, ModBlockEntities.COMPACTOR_BE.get(),
+        return createTickerHelper(blockEntityType, ModBlockEntities.WORKSTATION_BE.get(),
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": "minecraft:iron_block"
+  },
+  "result": {
+    "id": "infiniteg:dense_iron",
+    "count": 1
+  }
+}

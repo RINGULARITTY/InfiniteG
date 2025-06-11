@@ -5,7 +5,9 @@ import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
 import fr.ringularity.infiniteg.menus.ModMenuTypes;
+import fr.ringularity.infiniteg.menus.WorkstationMenu;
 import fr.ringularity.infiniteg.screens.CompactorScreen;
+import fr.ringularity.infiniteg.screens.WorkstationScreen;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
@@ -89,6 +91,7 @@ public class InfiniteG
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.COMPACTOR_MENU.get(), CompactorScreen::new);
+            event.register(ModMenuTypes.WORKSTATION_MENU.get(), WorkstationScreen::new);
         }
     }
 }

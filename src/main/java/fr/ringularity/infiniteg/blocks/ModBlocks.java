@@ -16,6 +16,14 @@ public class ModBlocks {
             DeferredRegister.createBlocks(InfiniteG.MOD_ID);
 
     public static final DeferredBlock<Block> COMPACTOR = registerBlock("compactor", CompactorBlock::new);
+    public static final DeferredBlock<Block> WORKSTATION = registerBlock("workstation", WorkstationBlock::new);
+
+    public static final DeferredBlock<Block> DENSE_COBBLESTONE = registerBlock("dense_cobblestone", Block::new);
+
+    public static final DeferredBlock<Block> DENSE_WOOD = registerBlock("dense_wood", Block::new);
+    public static final DeferredBlock<Block> DENSE_PLANKS = registerBlock("dense_planks", Block::new);
+
+    public static final DeferredBlock<Block> DENSE_IRON = registerBlock("dense_iron", Block::new);
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> function) {
         DeferredBlock<T> toReturn = BLOCKS.registerBlock(name, function);

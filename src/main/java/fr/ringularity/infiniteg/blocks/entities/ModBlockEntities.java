@@ -17,6 +17,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("compactor_be", () -> new BlockEntityType<>(
                     CompactorBlockEntity::new, ModBlocks.COMPACTOR.get()));
 
+    public static final Supplier<BlockEntityType<WorkstationBlockEntity>> WORKSTATION_BE =
+            BLOCK_ENTITIES.register("workstation_be", () -> new BlockEntityType<>(
+                    WorkstationBlockEntity::new, ModBlocks.WORKSTATION.get()));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

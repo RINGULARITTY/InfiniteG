@@ -16,6 +16,10 @@ public class ModItems {
     public static final DeferredItem<Item> DIAMOND_COMPACTOR = ITEMS.registerItem("diamond_compactor",
             (Item.Properties properties) -> new CompactItem(properties, Items.DIAMOND), new Item.Properties());
 
+    public static final DeferredItem<Item> LARGE_PLANK = ITEMS.registerItem("dense_wood_plank", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerItem("iron_plate", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> DENSE_IRON_PLATE = ITEMS.registerItem("dense_iron_plate", Item::new, new Item.Properties());
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
