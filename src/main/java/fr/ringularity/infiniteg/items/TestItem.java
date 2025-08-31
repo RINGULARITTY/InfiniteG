@@ -32,11 +32,10 @@ public class TestItem extends Item {
         CustomDataComponent current = stack.get(ModDataComponents.CUSTOM_COMPONENT);
 
         if (current != null) {
-            // Création d'une NOUVELLE instance immuable
             CustomDataComponent updated = new CustomDataComponent(
                     current.name(),
                     current.value() + 1,
-                    current.stats() // Ou modifier la liste si nécessaire
+                    current.stats()
             );
             stack.set(ModDataComponents.CUSTOM_COMPONENT, updated);
         } else {

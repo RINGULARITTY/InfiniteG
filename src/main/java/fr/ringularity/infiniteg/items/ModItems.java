@@ -20,6 +20,8 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerItem("iron_plate", Item::new, new Item.Properties());
     public static final DeferredItem<Item> DENSE_IRON_PLATE = ITEMS.registerItem("dense_iron_plate", Item::new, new Item.Properties());
 
+    public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer", Item::new, new Item.Properties());
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

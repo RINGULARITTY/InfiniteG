@@ -12,23 +12,21 @@ import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.function.Consumer;
 
-public class CompactItem extends Item {
-    private final Item storedItemType;
+public class TierItem extends Item {
+    public long tier;
 
-    public CompactItem(Properties properties, Item storedItemType) {
+    public TierItem(Item.Properties properties, long tier) {
         super(properties.stacksTo(1));
-        this.storedItemType = storedItemType;
+        this.tier = tier;
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay,
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, TooltipDisplay tooltipDisplay,
                                 Consumer<Component> components, TooltipFlag tooltipFlag) {
         final CompactDataComponent cdc = pStack.get(ModDataComponents.COMPACT_COMPONENT);
         if (cdc != null) {
-            MutableComponent tooltipLine = Component.translatable("tooltip.infiniteg.contains")
-                    .append(Component.literal(" " + cdc.quantity() + " "))
-                    .append(Component.translatable(cdc.item().getDescriptionId()))
-                    .append(Component.literal(cdc.quantity() > 1 ? "s" : ""))
+            MutableComponent tooltipLine = Component.translatable("tooltip.infiniteg.tier")
+                    .append(Component.literal(" " + String.valueOf(tier)))
                     .withStyle(ChatFormatting.YELLOW);
 
             components.accept(tooltipLine);

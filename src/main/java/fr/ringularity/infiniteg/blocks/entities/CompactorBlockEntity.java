@@ -32,15 +32,6 @@ import java.util.List;
 public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     public static final int OUTPUT_SLOT = 6;
 
-    public WorkstationRecipe selectedRecipe = new WorkstationRecipe(
-            new ItemStack(Items.DIAMOND),
-            List.of(
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.COAL), 16, 0),
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.GOLD_INGOT), 8, 0),
-                    new WorkstationRecipe.Ingredient(new ItemStack(Items.COPPER_INGOT), 4, 0)
-            )
-    );
-
     public final ItemStackHandler itemHandler = new ItemStackHandler(7) {
         @Override
         protected void onContentsChanged(int slot) {

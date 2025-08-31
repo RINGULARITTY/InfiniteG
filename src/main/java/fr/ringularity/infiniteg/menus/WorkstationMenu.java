@@ -17,7 +17,7 @@ public class WorkstationMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public WorkstationMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(7));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
     }
 
     public WorkstationMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -29,11 +29,23 @@ public class WorkstationMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        for (int i = 0; i < this.be.OUTPUT_SLOT + 1; ++i) {
-            this.addSlot(new SlotItemHandler(be.itemHandler, i, 20 + 25 * i, 34));
+        for (int i = 0; i < WorkstationBlockEntity.OUTPUT_SLOT; ++i) {
+            this.addSlot(new SlotItemHandler(be.itemHandler, i, 249 + 18 * i, 21));
         }
 
+        this.addSlot(new SlotItemHandler(be.itemHandler, WorkstationBlockEntity.OUTPUT_SLOT, 321, 139));
+
         addDataSlots(data);
+    }
+
+    /*
+    public NonNullList<ItemQuantity> getStorageItems() {
+        return be.getItems();
+    }
+     */
+
+    public int getSelectedRecipe() {
+        return data.get(WorkstationBlockEntity.DATA_SELECTED_RECIPE);
     }
 
     public boolean isCrafting() {
@@ -41,8 +53,8 @@ public class WorkstationMenu extends AbstractContainerMenu {
     }
 
     public float getProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);
+        int progress = this.data.get(WorkstationBlockEntity.DATA_PROGRESS);
+        int maxProgress = this.data.get(WorkstationBlockEntity.DATA_MAX_PROCESS);
 
         return (float) progress / (float) maxProgress;
     }

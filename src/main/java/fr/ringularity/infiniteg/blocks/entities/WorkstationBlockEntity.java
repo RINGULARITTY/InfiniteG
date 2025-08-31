@@ -4,9 +4,13 @@ import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
 import fr.ringularity.infiniteg.menus.WorkstationMenu;
+import fr.ringularity.infiniteg.recipes.ItemQuantity;
+import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -21,15 +25,24 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class WorkstationBlockEntity extends BlockEntity implements MenuProvider {
-    public static final int OUTPUT_SLOT = 6;
+import java.util.Optional;
 
-    public final ItemStackHandler itemHandler = new ItemStackHandler(7) {
+public class WorkstationBlockEntity extends BlockEntity implements MenuProvider {
+    public static final int OUTPUT_SLOT = 5;
+    public static final int
+        DATA_SELECTED_RECIPE = 0,
+        DATA_PROGRESS = 1,
+        DATA_MAX_PROCESS = 2;
+
+    private WorkstationRecipe selectedRecipe = null;
+
+    public final ItemStackHandler itemHandler = new ItemStackHandler(6) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -39,7 +52,34 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         }
     };
 
+    public void addItem(ItemStack stack, long quantity) {
+        if (selectedRecipe == null)
+            return;
+
+        Optional<WorkstationRecipe.Ingredient> existing = selectedRecipe.ingredients.stream()
+                .filter(iq -> ItemStack.isSameItem(iq.requiredStack, stack) && ItemStack.isSameItemSameComponents(iq.requiredStack, stack))
+                .findFirst();
+
+        existing.ifPresent(ingredient -> ingredient.currentAmount += quantity);
+
+        syncToClients();
+    }
+
+    public void addItemClient(ItemStack stack, long quantity) {
+        if (level != null && level.isClientSide) {
+            addItem(stack, quantity);
+        }
+    }
+
+    public NonNullList<WorkstationRecipe.Ingredient> getRecipeItems() {
+        if (selectedRecipe == null)
+            return NonNullList.create();
+
+        return NonNullList.copyOf(selectedRecipe.ingredients);
+    }
+
     protected final ContainerData data;
+    private int selectedRecipeId = 0;
     private int progress = 0;
     private int maxProgress = 100;
 
@@ -50,8 +90,9 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             @Override
             public int get(int i) {
                 return switch (i) {
-                    case 0 -> WorkstationBlockEntity.this.progress;
-                    case 1 -> WorkstationBlockEntity.this.maxProgress;
+                    case DATA_SELECTED_RECIPE -> WorkstationBlockEntity.this.selectedRecipeId;
+                    case DATA_PROGRESS -> WorkstationBlockEntity.this.progress;
+                    case DATA_MAX_PROCESS -> WorkstationBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -59,14 +100,15 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             @Override
             public void set(int i, int value) {
                 switch (i) {
-                    case 0: WorkstationBlockEntity.this.progress = value;
-                    case 1: WorkstationBlockEntity.this.maxProgress = value;
+                    case DATA_SELECTED_RECIPE -> WorkstationBlockEntity.this.selectedRecipeId = value;
+                    case DATA_PROGRESS -> WorkstationBlockEntity.this.progress = value;
+                    case DATA_MAX_PROCESS -> WorkstationBlockEntity.this.maxProgress = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
         };
     }
@@ -81,26 +123,52 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         return new WorkstationMenu(i, inventory, this, this.data);
     }
 
-    public void drops() {
+    public void drops(BlockPos pos) {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
 
         Containers.dropContents(this.level, this.worldPosition, inventory);
+
+        /*
+        for (ItemQuantity iq : storedItems) {
+            long remaining = iq.quantity;
+            while (remaining > 0) {
+                int count = (int) Math.min(remaining, iq.stack.getMaxStackSize());
+                ItemStack dropStack = iq.stack.copyWithCount(count);
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), dropStack);
+                remaining -= count;
+            }
+        }
+        storedItems.clear();
+        */
     }
 
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        drops();
+        drops(pos);
         super.preRemoveSideEffects(pos, state);
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
+        pTag.putInt("workstation.selected_recipe_id", selectedRecipeId);
         pTag.putInt("workstation.progress", progress);
         pTag.putInt("workstation.max_progress", maxProgress);
+
+        /*
+        ListTag itemsList = new ListTag();
+        for (ItemQuantity iq : storedItems) {
+            CompoundTag entry = new CompoundTag();
+            entry.putLong("quantity", iq.quantity);
+            itemsList.add(iq.stack.save(pRegistries, entry));
+            itemsList.add(entry);
+        }
+
+        pTag.put("workstation.stored_items", itemsList);
+        */
 
         super.saveAdditional(pTag, pRegistries);
     }
@@ -110,8 +178,20 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         super.loadAdditional(pTag, pRegistries);
 
         itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory").get());
+        selectedRecipeId = pTag.getInt("workstation.selected_recipe_id").get();
         progress = pTag.getInt("workstation.progress").get();
         maxProgress = pTag.getInt("workstation.max_progress").get();
+
+        /*
+        storedItems.clear();
+
+        pTag.getListOrEmpty("workstation.stored_items").compoundStream().forEach(itemTags -> {
+            final long quantity = itemTags.getIntOr("quantity", 0);
+
+            ItemStack.parse(pRegistries, itemTags).ifPresent(stack -> storedItems.add(new ItemQuantity(stack, quantity)));
+        });
+
+         */
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
@@ -200,6 +280,13 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         }
 
         return true;
+    }
+
+    private void syncToClients() {
+        if (level != null && !level.isClientSide) {
+            setChanged();
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+        }
     }
 
     @Override

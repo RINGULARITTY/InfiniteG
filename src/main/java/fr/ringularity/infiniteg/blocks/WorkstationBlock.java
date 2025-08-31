@@ -68,4 +68,6 @@ public class WorkstationBlock extends BaseEntityBlock {
         return createTickerHelper(blockEntityType, ModBlockEntities.WORKSTATION_BE.get(),
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
+
+
 }
