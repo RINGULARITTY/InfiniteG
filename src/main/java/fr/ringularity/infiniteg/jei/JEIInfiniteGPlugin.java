@@ -15,6 +15,9 @@ import net.minecraft.world.item.ItemStack;
 
 @JeiPlugin
 public class JEIInfiniteGPlugin implements IModPlugin {
+    private static final int COLS = 5;
+    private static final int ROWS = 7;
+
     @Override
     public ResourceLocation getPluginUid() {
         return ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jei_plugin");
@@ -22,38 +25,32 @@ public class JEIInfiniteGPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration reg) {
-        System.out.println("[JEI][Plugin] registerCategories START " + WorkstationJei.idInfo("categories"));
-        try {
-            reg.addRecipeCategories(new WorkstationRecipeCategory(reg.getJeiHelpers().getGuiHelper()));
-            System.out.println("[JEI][Plugin] registerCategories DONE");
-        } catch (Throwable t) {
-            t.printStackTrace();
-            System.out.println("[JEI][Plugin] registerCategories FAIL");
-        }
+        reg.addRecipeCategories(
+                new WorkstationRecipeCategoryView(reg.getJeiHelpers().getGuiHelper())
+        );
     }
 
     @Override
-    public void registerRecipes(IRecipeRegistration reg) {
-        System.out.println("[JEI][Plugin] registerRecipes START " + WorkstationJei.idInfo("recipes"));
-        java.util.List<WorkstationRecipe> list = new java.util.ArrayList<>(WorkstationRecipe.RECIPES);
-        System.out.println("[JEI][Plugin] recipes count = " + list.size());
-        reg.addRecipes(WorkstationJei.TYPE, list);
-        System.out.println("[JEI][Plugin] registerRecipes DONE");
+    public void registerRecipes(IRecipeRegistration registration) {
+        int pageSize = ROWS * COLS;
+        java.util.List<WorkstationJeiViews.WorkstationRecipeView> views = new java.util.ArrayList<>();
+        for (WorkstationRecipe r : WorkstationRecipe.RECIPES) {
+            java.util.List<WorkstationRecipe.Ingredient> ing = r.ingredients;
+            for (int start = 0, page = 0; start < ing.size(); start += pageSize, page++) {
+                int end = Math.min(start + pageSize, ing.size());
+                views.add(new WorkstationJeiViews.WorkstationRecipeView(r, page, ing.subList(start, end)));
+            }
+        }
+        registration.addRecipes(WorkstationJeiViews.TYPE, views);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        System.out.println("[JEI][Plugin] registerRecipeCatalysts START " + WorkstationJei.idInfo("catalyst"));
-        reg.addRecipeCatalyst(new ItemStack(ModBlocks.WORKSTATION.get()), WorkstationJei.TYPE);
-        System.out.println("[JEI][Plugin] registerRecipeCatalysts DONE");
+        reg.addRecipeCatalyst(new ItemStack(ModBlocks.WORKSTATION.get()), WorkstationJeiViews.TYPE);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
-        System.out.println("[JEI][Plugin] registerGuiHandlers START " + WorkstationJei.idInfo("clickArea"));
-        // Coords relatives à votre GUI, pas à l’écran
-        reg.addRecipeClickArea(WorkstationScreen.class, 0, 0, 300, 150, WorkstationJei.TYPE);
-        System.out.println("[JEI][Plugin] registerGuiHandlers DONE");
+        reg.addRecipeClickArea(WorkstationScreen.class, 14, 10, 18, 18, WorkstationJeiViews.TYPE);
     }
 }
-

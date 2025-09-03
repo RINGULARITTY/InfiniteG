@@ -1,4 +1,3 @@
-// WorkstationJei.java
 package fr.ringularity.infiniteg.jei;
 
 import fr.ringularity.infiniteg.InfiniteG;

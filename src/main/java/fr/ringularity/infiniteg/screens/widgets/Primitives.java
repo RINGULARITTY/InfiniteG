@@ -9,7 +9,7 @@ public class Primitives {
         public int x, y, color;
         public float scale;
 
-        TextElement(Component textComponent, int x, int y, int color, float scale) {
+        public TextElement(Component textComponent, int x, int y, int color, float scale) {
             this.textComponent = textComponent;
             this.x = x;
             this.y = y;
@@ -22,7 +22,7 @@ public class Primitives {
         public ItemStack itemStack;
         public int x, y;
 
-        ItemIconElement(ItemStack itemStack, int x, int y) {
+        public ItemIconElement(ItemStack itemStack, int x, int y) {
             this.itemStack = itemStack;
             this.x = x;
             this.y = y;

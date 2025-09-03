@@ -6,20 +6,20 @@ import fr.ringularity.infiniteg.network.UpdateItemQuantitiesToClient;
 import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.*;
+import net.minecraft.world.Containers;
+import net.minecraft.world.ItemStackWithSlot;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -105,7 +105,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 List<UpdateItemQuantitiesToClient.RecipeItemQuantityPayload> payloads = new ArrayList<>();
                 for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients) {
                     payloads.add(new UpdateItemQuantitiesToClient.RecipeItemQuantityPayload(
-                            ing.requiredStack.stack.copy(), "0", ing.requiredStack.quantity.toString()
+                            ing.requiredStack.stack.copy(), BigInteger.ZERO, ing.requiredStack.quantity
                     ));
                 }
                 return payloads;
@@ -147,7 +147,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             BigInteger required = ing.requiredStack.quantity;
             BigInteger current = getCurrentAmountFor(needed);
             payloads.add(new UpdateItemQuantitiesToClient.RecipeItemQuantityPayload(
-                    needed.copy(), current.toString(), required.toString()
+                    needed.copy(), current, required
             ));
         }
         return payloads;

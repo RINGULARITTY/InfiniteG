@@ -2,6 +2,7 @@ package fr.ringularity.infiniteg.screens;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.blocks.entities.WorkstationBlockEntity;
+import fr.ringularity.infiniteg.format.BigIntegerFormat;
 import fr.ringularity.infiniteg.menus.WorkstationMenu;
 import fr.ringularity.infiniteg.network.IntPayloadToServer;
 import fr.ringularity.infiniteg.network.UpdateItemQuantitiesToClient;
@@ -171,15 +172,15 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
         ingredientsScrollArea.clearElements();
         for (UpdateItemQuantitiesToClient.RecipeItemQuantityPayload itemQuantity : itemQuantities) {
             final ItemStack is = itemQuantity.stack();
-            final String currentAmount = itemQuantity.currentAmount();
-            final String requiredAmount = itemQuantity.requiredAmount();
-            final boolean incomplete = new BigInteger(currentAmount).compareTo(new BigInteger(requiredAmount)) < 0;
+            final BigInteger currentAmount = itemQuantity.currentAmount();
+            final BigInteger requiredAmount = itemQuantity.requiredAmount();
+            final boolean incomplete = currentAmount.compareTo(requiredAmount) < 0;
 
             ScrollableElement element = new ScrollableElement(155, 20)
                     .addBackgroundTexture(ELEMENT_BACKGROUND_TEXTURE, 0, 0, 155, 20, 200, 20)
                     .addItemIcon(is, 3, 2)
                     .addText(Component.translatable(is.getItem().getDescriptionId()), 23, 3, 0xFF000000, 0.75f)
-                    .addText(Component.literal(currentAmount + "/" + requiredAmount), 23, 13, incomplete ? 0xFFbf2004 : 0xFF008c05, 0.6f);
+                    .addText(Component.literal(BigIntegerFormat.format(currentAmount) + "/" + BigIntegerFormat.format(requiredAmount)), 23, 13, incomplete ? 0xFFbf2004 : 0xFF008c05, 0.6f);
 
             ingredientsScrollArea.addElement(element);
         }
@@ -200,8 +201,8 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
 
             currentRow.addInteractiveButton(
                     buttonX, buttonY, 18, 18,
-                    Component.literal(String.valueOf(recipe.outputStack.getCount())),
-                    recipe.outputStack,
+                    Component.literal(BigIntegerFormat.format(recipe.output.quantity)),
+                    recipe.output.stack,
                     () -> ClientPacketDistributor.sendToServer(new IntPayloadToServer(recipeId))
             );
 

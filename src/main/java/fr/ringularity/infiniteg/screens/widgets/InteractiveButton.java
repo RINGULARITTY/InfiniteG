@@ -33,6 +33,7 @@ public class InteractiveButton implements GuiEventListener {
 
     private static int TEXT_COLOR = 0xFFFFFFFF;
     private static float TEXT_SCALE = 0.65f;
+    private static float ITEM_TEXT_SCALE = 0.5f;
 
     /**
      * @param relativeX X position relative to the parent
@@ -44,7 +45,11 @@ public class InteractiveButton implements GuiEventListener {
         this.relativeY = relativeY;
         this.width = width;
         this.height = height;
-        this.textElement = new Primitives.TextElement(displayText, 0, 0, TEXT_COLOR, TEXT_SCALE);
+
+        if (displayItem == null)
+            this.textElement = new Primitives.TextElement(displayText, 0, 0, TEXT_COLOR, TEXT_SCALE);
+        else
+            this.textElement = new Primitives.TextElement(displayText, 0, 0, TEXT_COLOR, ITEM_TEXT_SCALE);
         this.displayItem = displayItem;
         this.clickAction = clickAction;
     }
@@ -107,10 +112,10 @@ public class InteractiveButton implements GuiEventListener {
             );
         } else {
             guiGraphics.renderItem(displayItem, buttonAbsoluteX + 1, buttonAbsoluteY + 1);
-            renderCenteredScaledText(
+            renderScaledTextBottomRight(
                     guiGraphics, font,
-                    buttonAbsoluteX + width - (int)(textElement.scale * (float)font.width(textElement.textComponent)),
-                    buttonAbsoluteY + height - 3
+                    buttonAbsoluteX + width - 2,
+                    buttonAbsoluteY + height
             );
         }
     }
@@ -158,6 +163,13 @@ public class InteractiveButton implements GuiEventListener {
         ScreenTools.renderCenteredScaledText(guiGraphics, font, textElement);
     }
 
+
+    private void renderScaledTextBottomRight(GuiGraphics guiGraphics, Font font, int x, int y) {
+        textElement.x = x;
+        textElement.y = y;
+
+        ScreenTools.renderScaledTextBottomRight(guiGraphics, font, textElement);
+    }
 
     private int determineCurrentBackgroundColor() {
         if (isPressed) return pressedBackgroundColor;

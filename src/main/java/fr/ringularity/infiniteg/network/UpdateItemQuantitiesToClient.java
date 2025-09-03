@@ -1,6 +1,7 @@
 package fr.ringularity.infiniteg.network;
 
 import fr.ringularity.infiniteg.InfiniteG;
+import fr.ringularity.infiniteg.network.codec.BigIntegerCodecs;
 import fr.ringularity.infiniteg.screens.WorkstationScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -11,19 +12,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public record UpdateItemQuantitiesToClient(List<RecipeItemQuantityPayload> items) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<UpdateItemQuantitiesToClient> TYPE =
             new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "update_item_quantities_to_client"));
 
-    public record RecipeItemQuantityPayload(ItemStack stack, String currentAmount, String requiredAmount) {
+    public record RecipeItemQuantityPayload(ItemStack stack, BigInteger currentAmount, BigInteger requiredAmount) {
         public static final StreamCodec<RegistryFriendlyByteBuf, RecipeItemQuantityPayload> CODEC = StreamCodec.composite(
                 ItemStack.STREAM_CODEC,
                 RecipeItemQuantityPayload::stack,
-                ByteBufCodecs.STRING_UTF8,
+                BigIntegerCodecs.BIG_INT,
                 RecipeItemQuantityPayload::currentAmount,
-                ByteBufCodecs.STRING_UTF8,
+                BigIntegerCodecs.BIG_INT,
                 RecipeItemQuantityPayload::requiredAmount,
                 RecipeItemQuantityPayload::new
         );

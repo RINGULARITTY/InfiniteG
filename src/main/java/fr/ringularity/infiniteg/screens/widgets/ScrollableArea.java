@@ -1,16 +1,12 @@
 package fr.ringularity.infiniteg.screens.widgets;
 
 import fr.ringularity.infiniteg.screens.InfiniteGScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,7 +139,7 @@ public class ScrollableArea implements GuiEventListener {
 
         // Handle
         float visibleContentRatio = (float) height / totalContentHeight;
-        int handleHeight = Math.max(10, (int) (scrollbarHeight * visibleContentRatio));
+        int handleHeight = Math.max(4, (int) (scrollbarHeight * visibleContentRatio));
         float scrollProgress = currentScrollOffset / getMaximumScrollOffset();
         int handleAbsoluteY = scrollbarAbsoluteY + (int) ((scrollbarHeight - handleHeight) * scrollProgress);
 
