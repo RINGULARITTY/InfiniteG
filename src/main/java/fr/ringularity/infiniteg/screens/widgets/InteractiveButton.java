@@ -1,5 +1,6 @@
 package fr.ringularity.infiniteg.screens.widgets;
 
+import fr.ringularity.infiniteg.screens.ScreenTools;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -17,7 +18,7 @@ public class InteractiveButton implements GuiEventListener {
     private final int width, height;
 
     // ===================== BUTTON CONTENT =====================
-    private final Component displayText;
+    private final Primitives.TextElement textElement;
     private final ItemStack displayItem;
     private final Runnable clickAction;
 
@@ -29,8 +30,9 @@ public class InteractiveButton implements GuiEventListener {
     private int normalBackgroundColor = 0xFF555555;
     private int hoveredBackgroundColor = 0xFF777777;
     private int pressedBackgroundColor = 0xFF333333;
-    private int textColor = 0xFFFFFFFF;
-    private float textScale = 0.65f;
+
+    private static int TEXT_COLOR = 0xFFFFFFFF;
+    private static float TEXT_SCALE = 0.65f;
 
     /**
      * @param relativeX X position relative to the parent
@@ -42,7 +44,7 @@ public class InteractiveButton implements GuiEventListener {
         this.relativeY = relativeY;
         this.width = width;
         this.height = height;
-        this.displayText = displayText;
+        this.textElement = new Primitives.TextElement(displayText, 0, 0, TEXT_COLOR, TEXT_SCALE);
         this.displayItem = displayItem;
         this.clickAction = clickAction;
     }
@@ -78,14 +80,14 @@ public class InteractiveButton implements GuiEventListener {
         int backgroundColor = determineCurrentBackgroundColor();
         int borderColor = determineCurrentBorderColor();
 
-        // Bordure
+        // Border
         guiGraphics.fill(
                 buttonAbsoluteX - 1, buttonAbsoluteY - 1,
                 buttonAbsoluteX + width + 1, buttonAbsoluteY + height + 1,
                 borderColor
         );
 
-        // Fond
+        // Background
         guiGraphics.fill(
                 buttonAbsoluteX, buttonAbsoluteY,
                 buttonAbsoluteX + width, buttonAbsoluteY + height,
@@ -99,15 +101,15 @@ public class InteractiveButton implements GuiEventListener {
     private void renderButtonContent(GuiGraphics guiGraphics, Font font, int buttonAbsoluteX, int buttonAbsoluteY) {
         if (displayItem == null) {
             renderCenteredScaledText(
-                    guiGraphics, font, displayText,
+                    guiGraphics, font,
                     buttonAbsoluteX + width / 2,
                     buttonAbsoluteY + height / 2
             );
         } else {
             guiGraphics.renderItem(displayItem, buttonAbsoluteX + 1, buttonAbsoluteY + 1);
             renderCenteredScaledText(
-                    guiGraphics, font, displayText,
-                    buttonAbsoluteX + width - (int)(textScale * (float)font.width(displayText)),
+                    guiGraphics, font,
+                    buttonAbsoluteX + width - (int)(textElement.scale * (float)font.width(textElement.textComponent)),
                     buttonAbsoluteY + height - 3
             );
         }
@@ -149,22 +151,13 @@ public class InteractiveButton implements GuiEventListener {
 
     // ===================== UTILITY METHODS =====================
 
-    private void renderCenteredScaledText(GuiGraphics guiGraphics, Font font, Component text, int centerX, int centerY) {
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(textScale, textScale, 1f);
+    private void renderCenteredScaledText(GuiGraphics guiGraphics, Font font, int centerX, int centerY) {
+        textElement.x = centerX;
+        textElement.y = centerY;
 
-        int scaledCenterX = (int)(centerX / textScale);
-        int scaledCenterY = (int)(centerY / textScale);
-
-        guiGraphics.drawString(
-                font, text,
-                scaledCenterX - font.width(text) / 2,
-                scaledCenterY - font.lineHeight / 2,
-                textColor, false
-        );
-
-        guiGraphics.pose().popPose();
+        ScreenTools.renderCenteredScaledText(guiGraphics, font, textElement);
     }
+
 
     private int determineCurrentBackgroundColor() {
         if (isPressed) return pressedBackgroundColor;
@@ -185,7 +178,7 @@ public class InteractiveButton implements GuiEventListener {
     }
 
     public InteractiveButton withTextScale(float scale) {
-        this.textScale = scale;
+        this.textElement.scale = scale;
         return this;
     }
 

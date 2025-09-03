@@ -1,9 +1,16 @@
 package fr.ringularity.infiniteg.recipes;
 
+import fr.ringularity.infiniteg.abstracts.ItemQuantity;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
+import fr.ringularity.infiniteg.component.CompactDataComponent;
+import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
+import java.math.BigInteger;
 import java.util.*;
 
 public class WorkstationRecipe {
@@ -31,19 +38,10 @@ public class WorkstationRecipe {
     }
 
     public static class Ingredient {
-        public final ItemStack requiredStack;
-        public final long requiredAmount;
-        public long currentAmount;
+        public ItemQuantity requiredStack;
 
-        public Ingredient(ItemStack requiredStack, long requiredAmount) {
+        public Ingredient(ItemQuantity requiredStack) {
             this.requiredStack = requiredStack;
-            this.requiredAmount = requiredAmount;
-        }
-
-        public Ingredient(ItemStack requiredStack, long requiredAmount, long currentAmount) {
-            this.requiredStack = requiredStack;
-            this.requiredAmount = requiredAmount;
-            this.currentAmount = currentAmount;
         }
     }
 
@@ -54,27 +52,49 @@ public class WorkstationRecipe {
                     ),
                     new ItemStack(ModItems.DENSE_IRON_PLATE.get(), 2),
                     List.of(
-                            new Ingredient(new ItemStack(ModBlocks.DENSE_IRON.asItem()), 1)
+                            new Ingredient(new ItemQuantity(new ItemStack(ModBlocks.DENSE_IRON.asItem()), BigInteger.ONE)),
+                            new Ingredient(new ItemQuantity(new ItemStack(Items.DIAMOND), BigInteger.TEN))
+                    ),
+                    100
+            ),
+            new WorkstationRecipe(
+                    Map.ofEntries(
+                            Map.entry(ToolType.HAMMER, 0)
+                    ),
+                    new ItemStack(ModBlocks.DENSE_IRON.asItem(), 1),
+                    List.of(
+                            new Ingredient(new ItemQuantity(new ItemStack(Blocks.ACACIA_BUTTON.asItem()), BigInteger.ONE)),
+                            new Ingredient(new ItemQuantity(new ItemStack(Items.DIAMOND.asItem()), BigInteger.TEN)),
+                            new Ingredient(new ItemQuantity(new ItemStack(Items.GOLD_INGOT.asItem()), BigInteger.TWO))
                     ),
                     100
             )
     ));
 
     static {
-        for (int i = 0; i < 200; ++i) {
-            RECIPES.add(
-                    new WorkstationRecipe(
-                            Map.ofEntries(
-                                    Map.entry(ToolType.HAMMER, 0)
-                            ),
-                            new ItemStack(ModItems.DENSE_IRON_PLATE.get(), 2),
-                            List.of(
-                                    new Ingredient(new ItemStack(ModBlocks.DENSE_IRON.asItem()), 1)
-                            ),
-                            100
-                    )
-            );
-        }
+        final ItemStack is = new ItemStack(Items.DIAMOND);
+        is.set(ModDataComponents.COMPACT_COMPONENT, new CompactDataComponent(
+                81,
+                Items.DIAMOND
+        ));
+
+        RECIPES.add(
+                new WorkstationRecipe(
+                        Map.ofEntries(
+                                Map.entry(ToolType.HAMMER, 0)
+                        ),
+                        new ItemStack(Blocks.DIAMOND_BLOCK.asItem(), 1),
+                        List.of(
+                                new Ingredient(new ItemQuantity(is, BigInteger.ONE)),
+                                new Ingredient(new ItemQuantity(new ItemStack(Items.DRAGON_EGG), BigInteger.TWO)),
+                                new Ingredient(new ItemQuantity(new ItemStack(Items.ENDER_PEARL), BigInteger.valueOf(100))),
+                                new Ingredient(new ItemQuantity(new ItemStack(Items.WATER_BUCKET), BigInteger.valueOf(50))),
+                                new Ingredient(new ItemQuantity(new ItemStack(Items.LAVA_BUCKET), BigInteger.valueOf(25))),
+                                new Ingredient(new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.valueOf(5)))
+                        ),
+                        100
+                )
+        );
     }
 
     public static Map<Integer, WorkstationRecipe> getRecipesWithToolTiers(Map<ToolType, Integer> toolsTier) {

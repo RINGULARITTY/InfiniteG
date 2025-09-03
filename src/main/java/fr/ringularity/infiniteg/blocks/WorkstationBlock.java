@@ -69,5 +69,9 @@ public class WorkstationBlock extends BaseEntityBlock {
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
 
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
 
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+    }
 }

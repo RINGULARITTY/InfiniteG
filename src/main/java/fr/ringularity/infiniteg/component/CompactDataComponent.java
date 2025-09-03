@@ -16,11 +16,9 @@ public class CompactDataComponent {
         this.item = item;
     }
 
-    // Getters
     public long quantity() { return quantity; }
     public Item item() { return item; }
 
-    // Égalité et hashcode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,7 +32,6 @@ public class CompactDataComponent {
         return Objects.hash(quantity, item);
     }
 
-    // Codec avec gestion de l'Item
     public static final Codec<CompactDataComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.LONG.fieldOf("quantity").forGetter(CompactDataComponent::quantity),

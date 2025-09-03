@@ -1,54 +1,43 @@
 package fr.ringularity.infiniteg.screens;
 
 import fr.ringularity.infiniteg.InfiniteG;
+import fr.ringularity.infiniteg.blocks.entities.WorkstationBlockEntity;
 import fr.ringularity.infiniteg.menus.WorkstationMenu;
-import fr.ringularity.infiniteg.recipes.ItemQuantity;
+import fr.ringularity.infiniteg.network.IntPayloadToServer;
+import fr.ringularity.infiniteg.network.UpdateItemQuantitiesToClient;
 import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
 import fr.ringularity.infiniteg.screens.widgets.InteractiveButton;
 import fr.ringularity.infiniteg.screens.widgets.ScrollableArea;
 import fr.ringularity.infiniteg.screens.widgets.ScrollableElement;
-
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> {
+public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
 
     private static final ResourceLocation GUI_BACKGROUND_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "textures/gui/container/workstation.png");
     private static final ResourceLocation ELEMENT_BACKGROUND_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "textures/gui/container/element.png");
 
-    // Position absolue du GUI sur l'écran
     private int guiAbsoluteX;
     private int guiAbsoluteY;
 
-    // Boutons externes au GUI principal
     private final List<InteractiveButton> externalButtons = new ArrayList<>();
 
-    // Zones de défilement
     private ScrollableArea ingredientsScrollArea;
     private ScrollableArea recipesScrollArea;
 
-    // Données temporaires pour les tests
-    private final List<ItemStack> temporaryTestItems = List.of(
-            new ItemStack(Items.DIAMOND),
-            new ItemStack(Items.GOLD_INGOT),
-            new ItemStack(Items.EMERALD),
-            new ItemStack(Items.COAL),
-            new ItemStack(Items.IRON_INGOT),
-            new ItemStack(Items.COPPER_INGOT),
-            new ItemStack(Items.GLOWSTONE)
-    );
+    private List<UpdateItemQuantitiesToClient.RecipeItemQuantityPayload> lastIngredientPayload = List.of();
 
     public WorkstationScreen(WorkstationMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -64,7 +53,7 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
                 Component.literal("Fill Items"),
                 null,
                 () -> {
-                    System.out.println("Fill Items button clicked");
+                    ClientPacketDistributor.sendToServer(new IntPayloadToServer(WorkstationBlockEntity.CMD_PUSH));
                 }
         ));
     }
@@ -72,14 +61,15 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
     @Override
     protected void init() {
         super.init();
-
-        // Calculer les positions absolues du GUI
         this.guiAbsoluteX = (width - imageWidth) / 2;
         this.guiAbsoluteY = (height - imageHeight) / 2;
 
-        // Initialiser les zones de défilement avec des positions relatives au GUI
         initializeIngredientsScrollArea();
+        updateIngredientsDisplay(lastIngredientPayload);
+
         initializeRecipesScrollArea();
+
+        ClientPacketDistributor.sendToServer(new IntPayloadToServer(WorkstationBlockEntity.CMD_QUERY));
     }
 
     private void initializeIngredientsScrollArea() {
@@ -93,15 +83,6 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
                 scrollAreaWidth, scrollAreaHeight,
                 10
         );
-
-        updateIngredientsDisplay(new ArrayList<>(List.of(
-                new ItemQuantity(new ItemStack(Items.DIAMOND), 100),
-                new ItemQuantity(new ItemStack(Items.EMERALD), 80),
-                new ItemQuantity(new ItemStack(Items.GLOWSTONE), 150),
-                new ItemQuantity(new ItemStack(Items.REDSTONE), 180),
-                new ItemQuantity(new ItemStack(Items.COAL), 250),
-                new ItemQuantity(new ItemStack(Items.GOLD_INGOT), 120)
-        )));
     }
 
     private void initializeRecipesScrollArea() {
@@ -122,7 +103,7 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         guiGraphics.blit(
-                RenderType.GUI_TEXTURED,
+                RenderPipelines.GUI_TEXTURED,
                 GUI_BACKGROUND_TEXTURE,
                 guiAbsoluteX, guiAbsoluteY,
                 0, 0,
@@ -134,53 +115,37 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-
-        // Calculer les coordonnées de la souris relatives au GUI
         int mouseRelativeToGuiX = mouseX - guiAbsoluteX;
         int mouseRelativeToGuiY = mouseY - guiAbsoluteY;
 
         renderScrollAreas(guiGraphics, mouseX, mouseY);
-
         renderExternalButtons(guiGraphics, mouseRelativeToGuiX, mouseRelativeToGuiY);
-
         renderTooltips(guiGraphics, mouseX, mouseY);
 
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+        ingredientsScrollArea.renderTooltip(this, guiGraphics, mouseX, mouseY);
+        recipesScrollArea.renderTooltip(this, guiGraphics, mouseX, mouseY);
+        guiGraphics.renderDeferredTooltip();
     }
 
     private void renderScrollAreas(GuiGraphics guiGraphics, int mouseAbsoluteX, int mouseAbsoluteY) {
         int ingredientsAbsoluteX = guiAbsoluteX + ingredientsScrollArea.getRelativeX();
         int ingredientsAbsoluteY = guiAbsoluteY + ingredientsScrollArea.getRelativeY();
-
         int recipesAbsoluteX = guiAbsoluteX + recipesScrollArea.getRelativeX();
         int recipesAbsoluteY = guiAbsoluteY + recipesScrollArea.getRelativeY();
 
-        ingredientsScrollArea.render(
-                guiGraphics, this.font,
-                ingredientsAbsoluteX, ingredientsAbsoluteY,
-                mouseAbsoluteX, mouseAbsoluteY
-        );
-
-        recipesScrollArea.render(
-                guiGraphics, this.font,
-                recipesAbsoluteX, recipesAbsoluteY,
-                mouseAbsoluteX, mouseAbsoluteY
-        );
+        ingredientsScrollArea.render(guiGraphics, this.font, ingredientsAbsoluteX, ingredientsAbsoluteY, mouseAbsoluteX, mouseAbsoluteY);
+        recipesScrollArea.render(guiGraphics, this.font, recipesAbsoluteX, recipesAbsoluteY, mouseAbsoluteX, mouseAbsoluteY);
     }
 
     private void renderExternalButtons(GuiGraphics guiGraphics, int mouseRelativeToGuiX, int mouseRelativeToGuiY) {
         for (InteractiveButton button : externalButtons) {
-            button.render(
-                    guiGraphics, font,
-                    guiAbsoluteX, guiAbsoluteY,
-                    mouseRelativeToGuiX, mouseRelativeToGuiY
-            );
+            button.render(guiGraphics, font, guiAbsoluteX, guiAbsoluteY, mouseRelativeToGuiX, mouseRelativeToGuiY);
         }
     }
 
     private void renderTooltips(GuiGraphics guiGraphics, int mouseAbsoluteX, int mouseAbsoluteY) {
-        ingredientsScrollArea.renderTooltip(guiGraphics, font, mouseAbsoluteX, mouseAbsoluteY);
-        recipesScrollArea.renderTooltip(guiGraphics, font, mouseAbsoluteX, mouseAbsoluteY);
+        ingredientsScrollArea.renderTooltip(this, guiGraphics, mouseAbsoluteX, mouseAbsoluteY);
+        recipesScrollArea.renderTooltip(this, guiGraphics, mouseAbsoluteX, mouseAbsoluteY);
     }
 
     @Override
@@ -191,27 +156,30 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
     }
 
     private void renderScaledText(GuiGraphics guiGraphics, float scale, Component text, int x, int y, int color) {
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0f);
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().scale(scale, scale);
         guiGraphics.drawString(
                 this.font, text,
                 (int) (x / scale), (int) (y / scale),
                 color, false
         );
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().popMatrix();
     }
 
-    private void updateIngredientsDisplay(List<ItemQuantity> itemQuantities) {
+    public void updateIngredientsDisplay(List<UpdateItemQuantitiesToClient.RecipeItemQuantityPayload> itemQuantities) {
+        this.lastIngredientPayload = itemQuantities;
         ingredientsScrollArea.clearElements();
+        for (UpdateItemQuantitiesToClient.RecipeItemQuantityPayload itemQuantity : itemQuantities) {
+            final ItemStack is = itemQuantity.stack();
+            final String currentAmount = itemQuantity.currentAmount();
+            final String requiredAmount = itemQuantity.requiredAmount();
+            final boolean incomplete = new BigInteger(currentAmount).compareTo(new BigInteger(requiredAmount)) < 0;
 
-        for (ItemQuantity itemQuantity : itemQuantities) {
             ScrollableElement element = new ScrollableElement(155, 20)
                     .addBackgroundTexture(ELEMENT_BACKGROUND_TEXTURE, 0, 0, 155, 20, 200, 20)
-                    .addItemIcon(itemQuantity.stack, 3, 2)
-                    .addText(Component.translatable(itemQuantity.stack.getItem().getDescriptionId()),
-                            23, 3, 0x000000, 0.75f)
-                    .addText(Component.literal(itemQuantity.quantity + "/" + 100),
-                            23, 13, itemQuantity.quantity < 100 ? 0xbf2004 : 0x008c05, 0.6f);
+                    .addItemIcon(is, 3, 2)
+                    .addText(Component.translatable(is.getItem().getDescriptionId()), 23, 3, 0xFF000000, 0.75f)
+                    .addText(Component.literal(currentAmount + "/" + requiredAmount), 23, 13, incomplete ? 0xFFbf2004 : 0xFF008c05, 0.6f);
 
             ingredientsScrollArea.addElement(element);
         }
@@ -219,44 +187,38 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
 
     private void updateRecipesDisplay(Map<WorkstationRecipe.ToolType, Integer> toolsTier) {
         recipesScrollArea.clearElements();
-
         Map<Integer, WorkstationRecipe> availableRecipes = WorkstationRecipe.getRecipesWithToolTiers(toolsTier);
 
-        // Créer des éléments pour les recettes par groupes de 9
-        ScrollableElement currentRecipeRow = new ScrollableElement(162, 18);
+        ScrollableElement currentRow = new ScrollableElement(162, 18);
         int recipeIndex = 0;
 
-        for (Map.Entry<Integer, WorkstationRecipe> recipeEntry : availableRecipes.entrySet()) {
+        for (Map.Entry<Integer, WorkstationRecipe> e : availableRecipes.entrySet()) {
             int buttonX = 18 * (recipeIndex % 9);
             int buttonY = 0;
+            int recipeId = e.getKey();
+            WorkstationRecipe recipe = e.getValue();
 
-            currentRecipeRow.addInteractiveButton(
+            currentRow.addInteractiveButton(
                     buttonX, buttonY, 18, 18,
-                    Component.literal(String.valueOf(recipeEntry.getValue().outputStack.getCount())),
-                    recipeEntry.getValue().outputStack,
-                    () -> {
-                        System.out.println("Selected recipe: " + recipeEntry.getKey());
-                    }
+                    Component.literal(String.valueOf(recipe.outputStack.getCount())),
+                    recipe.outputStack,
+                    () -> ClientPacketDistributor.sendToServer(new IntPayloadToServer(recipeId))
             );
 
             recipeIndex++;
-
-            // Nouvelle ligne tous les 9 éléments
             if (recipeIndex % 9 == 0) {
-                recipesScrollArea.addElement(currentRecipeRow);
-                currentRecipeRow = new ScrollableElement(162, 18);
+                recipesScrollArea.addElement(currentRow);
+                currentRow = new ScrollableElement(162, 18);
             }
         }
 
-        // Ajouter la dernière ligne si elle n'est pas vide
         if (recipeIndex % 9 != 0) {
-            recipesScrollArea.addElement(currentRecipeRow);
+            recipesScrollArea.addElement(currentRow);
         }
     }
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        // Convertir les coordonnées absolues en coordonnées relatives pour chaque scroll area
         int ingredientsAbsoluteX = guiAbsoluteX + ingredientsScrollArea.getRelativeX();
         int ingredientsAbsoluteY = guiAbsoluteY + ingredientsScrollArea.getRelativeY();
 
@@ -278,7 +240,6 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        // Gestion des boutons externes
         int mouseRelativeToGuiX = (int) (mouseX - guiAbsoluteX);
         int mouseRelativeToGuiY = (int) (mouseY - guiAbsoluteY);
 
@@ -288,7 +249,6 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
             }
         }
 
-        // Gestion des scroll areas
         int ingredientsAbsoluteX = guiAbsoluteX + ingredientsScrollArea.getRelativeX();
         int ingredientsAbsoluteY = guiAbsoluteY + ingredientsScrollArea.getRelativeY();
 
@@ -310,7 +270,7 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        // Gestion des boutons externes
+        // Extern buttons
         int mouseRelativeToGuiX = (int) (mouseX - guiAbsoluteX);
         int mouseRelativeToGuiY = (int) (mouseY - guiAbsoluteY);
 
@@ -320,7 +280,7 @@ public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> 
             }
         }
 
-        // Gestion des scroll areas
+        // Scroll areas
         int ingredientsAbsoluteX = guiAbsoluteX + ingredientsScrollArea.getRelativeX();
         int ingredientsAbsoluteY = guiAbsoluteY + ingredientsScrollArea.getRelativeY();
 

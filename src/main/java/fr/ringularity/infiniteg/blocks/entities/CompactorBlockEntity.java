@@ -7,11 +7,13 @@ import fr.ringularity.infiniteg.menus.CompactorMenu;
 import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -24,10 +26,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     public static final int OUTPUT_SLOT = 6;
@@ -100,21 +105,33 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
-        pTag.putInt("compactor.progress", progress);
-        pTag.putInt("compactor.max_progress", maxProgress);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
 
-        super.saveAdditional(pTag, pRegistries);
+        NonNullList<ItemStack> list = NonNullList.withSize(itemHandler.getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, itemHandler.getStackInSlot(i));
+        }
+        ContainerHelper.saveAllItems(output, list);
+
+        output.putInt("compactor.progress", progress);
+        output.putInt("compactor.max_progress", maxProgress);
+
+        setChanged();
     }
 
     @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        super.loadAdditional(pTag, pRegistries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
 
-        itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory").get());
-        progress = pTag.getInt("compactor.progress").get();
-        maxProgress = pTag.getInt("compactor.max_progress").get();
+        NonNullList<ItemStack> list = NonNullList.withSize(itemHandler.getSlots(), ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(input, list);
+        for (int i = 0; i < list.size(); i++) {
+            itemHandler.setStackInSlot(i, list.get(i));
+        }
+
+        progress = input.getIntOr("compactor.progress", 0);
+        maxProgress = input.getIntOr("compactor.max_progress", 0);
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {

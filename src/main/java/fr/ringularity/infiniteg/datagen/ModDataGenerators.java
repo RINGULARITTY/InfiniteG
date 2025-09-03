@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = InfiniteG.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = InfiniteG.MOD_ID)
 public class ModDataGenerators {
     @SubscribeEvent
     public static void gatherClientData(GatherDataEvent.Client event) {

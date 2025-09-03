@@ -16,58 +16,29 @@ public class WorkstationMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerData data;
 
-    public WorkstationMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
+    public WorkstationMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
+        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public WorkstationMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.WORKSTATION_MENU.get(), pContainerId);
+    public WorkstationMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(ModMenuTypes.WORKSTATION_MENU.get(), containerId);
         this.be = ((WorkstationBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-
-        for (int i = 0; i < WorkstationBlockEntity.OUTPUT_SLOT; ++i) {
-            this.addSlot(new SlotItemHandler(be.itemHandler, i, 249 + 18 * i, 21));
-        }
-
-        this.addSlot(new SlotItemHandler(be.itemHandler, WorkstationBlockEntity.OUTPUT_SLOT, 321, 139));
-
         addDataSlots(data);
     }
 
-    /*
-    public NonNullList<ItemQuantity> getStorageItems() {
-        return be.getItems();
-    }
-     */
-
-    public int getSelectedRecipe() {
-        return data.get(WorkstationBlockEntity.DATA_SELECTED_RECIPE);
-    }
-
-    public boolean isCrafting() {
-        return data.get(0) > 0;
-    }
-
-    public float getProgress() {
-        int progress = this.data.get(WorkstationBlockEntity.DATA_PROGRESS);
-        int maxProgress = this.data.get(WorkstationBlockEntity.DATA_MAX_PROCESS);
-
-        return (float) progress / (float) maxProgress;
-    }
-
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex) {
+    public ItemStack quickMoveStack(Player player, int index) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(level, be.getBlockPos()),
-                pPlayer, ModBlocks.WORKSTATION.get());
+    public boolean stillValid(Player player) {
+        return stillValid(ContainerLevelAccess.create(level, be.getBlockPos()), player, ModBlocks.WORKSTATION.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
@@ -81,5 +52,9 @@ public class WorkstationMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 15 + i * 18, 160));
         }
+    }
+
+    public int getSelectedRecipeId() {
+        return be.selectedRecipeId;
     }
 }
