@@ -253,21 +253,21 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
 
         this.storedItems = new ArrayList<>();
 
-        ValueInput.TypedInputList<ItemStackWithSlot> typedInputList = input.listOrEmpty("workstation.stored_items", ItemStackWithSlot.CODEC);
+        ValueInput.TypedInputList<ItemStackWithSlot> typedInputList = input.listOrEmpty("stored_items", ItemStackWithSlot.CODEC);
 
         for (ItemStackWithSlot slotEntry : typedInputList) {
             int slot = slotEntry.slot();
             ItemStack stack = slotEntry.stack();
 
-            BigInteger quantity = input.read("workstation.stored_items_quantity_" + slot, BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
+            BigInteger quantity = input.read("stored_items_quantity_" + slot, BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
             this.storedItems.add(new ItemQuantity(stack, quantity));
         }
 
-        this.selectedRecipeId = input.getIntOr("workstation.selected_recipe_id", -1);
+        this.selectedRecipeId = input.getIntOr("selected_recipe_id", -1);
         updateRecipeInternal(this.selectedRecipeId);
 
-        this.progress = input.getIntOr("workstation.progress", 0);
-        this.maxProgress = input.getIntOr("workstation.max_progress", 0);
+        this.progress = input.getIntOr("progress", 0);
+        this.maxProgress = input.getIntOr("max_progress", 0);
     }
 
 
@@ -275,9 +275,9 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
 
-        ValueOutput.TypedOutputList<ItemStackWithSlot> typedoutputlist = output.list("workstation.stored_items", ItemStackWithSlot.CODEC);
+        ValueOutput.TypedOutputList<ItemStackWithSlot> typedoutputlist = output.list("stored_items", ItemStackWithSlot.CODEC);
 
-        output.putInt("workstation.stored_items_size", storedItems.size());
+        output.putInt("stored_items_size", storedItems.size());
 
         for (int i = 0; i < storedItems.size(); ++i) {
             final ItemQuantity iq = storedItems.get(i);
@@ -286,13 +286,13 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 continue;
 
             typedoutputlist.add(new ItemStackWithSlot(i, iq.stack));
-            output.store("workstation.stored_items_quantity_" + i, BigIntegerCodecs.BIG_INT_CODEC, iq.quantity);
+            output.store("stored_items_quantity_" + i, BigIntegerCodecs.BIG_INT_CODEC, iq.quantity);
         }
 
-        output.putInt("workstation.selected_recipe_id", selectedRecipeId);
+        output.putInt("selected_recipe_id", selectedRecipeId);
 
-        output.putInt("workstation.progress", progress);
-        output.putInt("workstation.max_progress", maxProgress);
+        output.putInt("progress", progress);
+        output.putInt("max_progress", maxProgress);
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {

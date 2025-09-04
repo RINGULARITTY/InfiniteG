@@ -1,0 +1,8 @@
+{
+  "animation": {
+    "frametime": 5,
+    "width": 300,
+    "height": 13,
+    "interpolate": true
+  }
+}

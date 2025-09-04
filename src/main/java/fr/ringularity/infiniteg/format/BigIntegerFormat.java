@@ -11,6 +11,14 @@ public final class BigIntegerFormat {
     private static final String[] SUFFIX = { "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q" };
 
     public static String format(BigInteger n) {
+        return format_n(n, 3);
+    }
+
+    public static String format_n(BigInteger n, int significantDigits) {
+        if (significantDigits < 1) {
+            throw new IllegalArgumentException("significantDigits must be >= 1");
+        }
+
         boolean neg = n.signum() < 0;
         BigInteger abs = n.abs();
 
@@ -21,8 +29,9 @@ public final class BigIntegerFormat {
         int digits = abs.toString().length();
         int group = (digits - 1) / 3;
 
-        BigDecimal val = new BigDecimal(abs).movePointLeft(group * 3)
-                .round(new MathContext(3, RoundingMode.DOWN));
+        BigDecimal val = new BigDecimal(abs)
+                .movePointLeft(group * 3)
+                .round(new MathContext(significantDigits, RoundingMode.DOWN));
 
         if (val.compareTo(BigDecimal.valueOf(1000)) >= 0) {
             val = val.movePointLeft(3);
@@ -35,10 +44,6 @@ public final class BigIntegerFormat {
         String suffix = SUFFIX[tierIdx] + (cycle == 0 ? "" : String.valueOf(cycle + 1));
 
         String s = val.stripTrailingZeros().toPlainString();
-        if (s.indexOf('.') >= 0) {
-            while (s.endsWith("0")) s = s.substring(0, s.length() - 1);
-            if (s.endsWith(".")) s = s.substring(0, s.length() - 1);
-        }
 
         return (neg ? "-" : "") + s + suffix;
     }

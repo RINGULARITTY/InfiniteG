@@ -1,8 +1,10 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
-import fr.ringularity.infiniteg.capabilities.EnergyAdapter;
+import fr.ringularity.infiniteg.blocks.ModBlocks;
+import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyAdapter;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
+import fr.ringularity.infiniteg.format.BigIntegerFormat;
 import fr.ringularity.infiniteg.items.ModItems;
 import fr.ringularity.infiniteg.menus.CompactorMenu;
 import net.minecraft.core.BlockPos;
@@ -14,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -29,10 +32,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.IBlockComponentProvider;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
 import java.math.BigInteger;
 
@@ -49,7 +55,7 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
         }
     };
 
-    private final IEnergyStorage energy = new EnergyAdapter();
+    public final InfiniteGEnergyAdapter energy = new InfiniteGEnergyAdapter();
 
     protected final ContainerData data;
     private int progress = 0;
@@ -85,7 +91,10 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
 
     @Nullable
     public IEnergyStorage getEnergy(@Nullable Direction side) {
-        return energy;
+        if (side != null) {
+            return energy;
+        }
+        return null;
     }
 
     @Override
@@ -123,8 +132,10 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
         }
         ContainerHelper.saveAllItems(output, list);
 
-        output.putInt("compactor.progress", progress);
-        output.putInt("compactor.max_progress", maxProgress);
+        output.putInt("progress", progress);
+        output.putInt("max_progress", maxProgress);
+
+        energy.saveAdditional(output);
 
         setChanged();
     }
@@ -139,8 +150,10 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
             itemHandler.setStackInSlot(i, list.get(i));
         }
 
-        progress = input.getIntOr("compactor.progress", 0);
-        maxProgress = input.getIntOr("compactor.max_progress", 0);
+        progress = input.getIntOr("progress", 0);
+        maxProgress = input.getIntOr("max_progress", 0);
+
+        energy.loadAdditional(input);
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
