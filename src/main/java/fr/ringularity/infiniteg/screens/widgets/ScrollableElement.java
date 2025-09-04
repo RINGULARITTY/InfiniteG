@@ -160,9 +160,7 @@ public class ScrollableElement {
         return interactiveButtons;
     }
 
-    /**
-     * Représente une texture d'arrière-plan
-     */
+
     public static class BackgroundTextureElement {
         final ResourceLocation resourceLocation;
         final int x, y, width, height, textureWidth, textureHeight;

@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.jei;
+package fr.ringularity.infiniteg.integrations.jei;
 
 import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.format.BigIntegerFormat;

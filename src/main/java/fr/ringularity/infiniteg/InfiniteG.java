@@ -1,6 +1,7 @@
 package fr.ringularity.infiniteg;
 
 import fr.ringularity.infiniteg.blocks.ModBlocks;
+import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.InfiniteGCreativeTab;
@@ -17,6 +18,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -47,8 +49,7 @@ public class InfiniteG
     }
 
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event) {
     }
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
@@ -69,6 +70,14 @@ public class InfiniteG
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
             ModPackets.register(event);
         }
-    }
 
+        @SubscribeEvent
+        public static void registerCaps(RegisterCapabilitiesEvent event) {
+            event.registerBlockEntity(
+                    net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
+                    ModBlockEntities.COMPACTOR_BE.get(),
+                    CompactorBlockEntity::getEnergy
+            );
+        }
+    }
 }

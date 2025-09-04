@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.jei;
+package fr.ringularity.infiniteg.integrations.jei;
 
 import fr.ringularity.infiniteg.screens.ScreenTools;
 import fr.ringularity.infiniteg.screens.widgets.Primitives;

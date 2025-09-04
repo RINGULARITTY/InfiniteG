@@ -15,7 +15,7 @@ public final class BigIntegerFormat {
         BigInteger abs = n.abs();
 
         if (abs.compareTo(BigInteger.valueOf(1000)) < 0) {
-            return (neg ? "-" : "") + abs.toString();
+            return (neg ? "-" : "") + abs;
         }
 
         int digits = abs.toString().length();

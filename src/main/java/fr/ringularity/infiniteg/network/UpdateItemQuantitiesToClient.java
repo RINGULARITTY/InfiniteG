@@ -1,7 +1,7 @@
 package fr.ringularity.infiniteg.network;
 
 import fr.ringularity.infiniteg.InfiniteG;
-import fr.ringularity.infiniteg.network.codec.BigIntegerCodecs;
+import fr.ringularity.infiniteg.data.codec.BigIntegerCodecs;
 import fr.ringularity.infiniteg.screens.WorkstationScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -23,9 +23,9 @@ public record UpdateItemQuantitiesToClient(List<RecipeItemQuantityPayload> items
         public static final StreamCodec<RegistryFriendlyByteBuf, RecipeItemQuantityPayload> CODEC = StreamCodec.composite(
                 ItemStack.STREAM_CODEC,
                 RecipeItemQuantityPayload::stack,
-                BigIntegerCodecs.BIG_INT,
+                BigIntegerCodecs.BIG_INT_STREAM_CODEC,
                 RecipeItemQuantityPayload::currentAmount,
-                BigIntegerCodecs.BIG_INT,
+                BigIntegerCodecs.BIG_INT_STREAM_CODEC,
                 RecipeItemQuantityPayload::requiredAmount,
                 RecipeItemQuantityPayload::new
         );

@@ -1,10 +1,12 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
+import fr.ringularity.infiniteg.capabilities.EnergyAdapter;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
 import fr.ringularity.infiniteg.menus.CompactorMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -27,8 +29,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
+
+import java.math.BigInteger;
 
 public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
     public static final int OUTPUT_SLOT = 6;
@@ -37,11 +43,13 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if(!level.isClientSide()) {
+            if(level != null && !level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
         }
     };
+
+    private final IEnergyStorage energy = new EnergyAdapter();
 
     protected final ContainerData data;
     private int progress = 0;
@@ -73,6 +81,11 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
                 return 2;
             }
         };
+    }
+
+    @Nullable
+    public IEnergyStorage getEnergy(@Nullable Direction side) {
+        return energy;
     }
 
     @Override

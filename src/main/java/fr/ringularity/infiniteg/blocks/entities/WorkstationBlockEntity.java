@@ -3,6 +3,7 @@ package fr.ringularity.infiniteg.blocks.entities;
 import fr.ringularity.infiniteg.abstracts.ItemQuantity;
 import fr.ringularity.infiniteg.menus.WorkstationMenu;
 import fr.ringularity.infiniteg.network.UpdateItemQuantitiesToClient;
+import fr.ringularity.infiniteg.data.codec.BigIntegerCodecs;
 import fr.ringularity.infiniteg.recipes.WorkstationRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -37,7 +38,6 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         DATA_MAX_PROCESS = 1;
 
     public static final int CMD_NONE = -1, CMD_PUSH = -2, CMD_QUERY = -3;
-    private List<ItemQuantity> pendingItems = new ArrayList<>();
 
     private List<ItemQuantity> storedItems = new ArrayList<>();
     public int selectedRecipeId = CMD_NONE;
@@ -259,9 +259,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             int slot = slotEntry.slot();
             ItemStack stack = slotEntry.stack();
 
-            String qStr = input.getStringOr("workstation.stored_items_quantity_" + slot, "0");
-            BigInteger quantity = new BigInteger(qStr);
-
+            BigInteger quantity = input.read("workstation.stored_items_quantity_" + slot, BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
             this.storedItems.add(new ItemQuantity(stack, quantity));
         }
 
@@ -288,7 +286,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 continue;
 
             typedoutputlist.add(new ItemStackWithSlot(i, iq.stack));
-            output.putString("workstation.stored_items_quantity_" + i, iq.quantity.toString());
+            output.store("workstation.stored_items_quantity_" + i, BigIntegerCodecs.BIG_INT_CODEC, iq.quantity);
         }
 
         output.putInt("workstation.selected_recipe_id", selectedRecipeId);
