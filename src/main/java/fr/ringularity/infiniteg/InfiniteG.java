@@ -3,6 +3,7 @@ package fr.ringularity.infiniteg;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
+import fr.ringularity.infiniteg.capabilities.InfiniteGCapabilities;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.InfiniteGCreativeTab;
 import fr.ringularity.infiniteg.items.ModItems;
@@ -78,6 +79,13 @@ public class InfiniteG
                     ModBlockEntities.COMPACTOR_BE.get(),
                     CompactorBlockEntity::getEnergy
             );
+        }
+        @SubscribeEvent
+        public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+            event.registerBlockEntity(
+                    InfiniteGCapabilities.TYPED_ENERGY_BLOCK,
+                    ModBlockEntities.COMPACTOR_BE.get(),
+                    CompactorBlockEntity::getDarkEnergy);
         }
     }
 }

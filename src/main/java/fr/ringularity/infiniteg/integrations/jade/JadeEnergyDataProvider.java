@@ -17,11 +17,11 @@ public enum JadeEnergyDataProvider implements IServerDataProvider<BlockAccessor>
     @Override
     public void appendServerData(CompoundTag data, BlockAccessor accessor) {
         if (accessor.getBlockEntity() instanceof CompactorBlockEntity be) {
-            BigInteger energy = be.energy.energyStored;
+            BigInteger storedEnergy = be.energy.storedEnergy;
             BigInteger capacity = be.energy.capacity;
 
-            data.putString("EnergyBig", energy.toString());
-            data.putString("CapacityBig", capacity.toString());
+            data.putString("stored_energy", storedEnergy.toString());
+            data.putString("energy_capacity", capacity.toString());
         }
     }
 

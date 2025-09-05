@@ -25,18 +25,17 @@ public enum JadeEnergyComponentProvider implements IBlockComponentProvider {
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         CompoundTag tag = accessor.getServerData();
-        if (!tag.contains("EnergyBig") || !tag.contains("CapacityBig")) return;
+        if (!tag.contains("stored_energy") || !tag.contains("energy_capacity")) return;
 
-        BigInteger e = new BigInteger(tag.getString("EnergyBig").orElse("0"));
-        BigInteger c = new BigInteger(tag.getString("CapacityBig").orElse("0"));
-        if (c.signum() <= 0) return;
+        BigInteger storedEnergy = new BigInteger(tag.getString("stored_energy").orElse("0"));
+        BigInteger energyCapacity = new BigInteger(tag.getString("energy_capacity").orElse("0"));
+        if (storedEnergy.signum() <= 0) return;
 
-        BigDecimal p = new BigDecimal(e).divide(new BigDecimal(c), MathContext.DECIMAL64);
+        BigDecimal p = new BigDecimal(storedEnergy).divide(new BigDecimal(energyCapacity), MathContext.DECIMAL64);
         float ratio = (float) Math.max(0.0, Math.min(1.0, p.doubleValue()));
 
-        String eStr = BigIntegerFormat.format_n(e, 6);
-        String cStr = BigIntegerFormat.format_n(c, 6);
-        Component label = Component.literal(eStr + " / " + cStr).withColor(0xFFFFFFFF);
+        Component label = Component.literal(BigIntegerFormat.format_n(storedEnergy, 6) + " / "
+                + BigIntegerFormat.format_n(energyCapacity, 6)).withColor(0xFFFFFFFF);
 
         try {
             tooltip.add(JadeUI.progress(ratio, PROGRESS_BAR_BASE, PROGRESS_BAR_FILL, 300, 13, label, JadeUI.progressStyle()));
