@@ -12,10 +12,18 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(InfiniteG.MOD_ID);
 
-    public static final DeferredItem<BlockItem> COMPACTOR_ITEM =
+    public static final DeferredItem<BlockItem> COMPACTOR =
             ITEMS.registerSimpleBlockItem("compactor", ModBlocks.COMPACTOR, new Item.Properties());
-    public static final DeferredItem<BlockItem> WORKSTATION_ITEM =
+    public static final DeferredItem<BlockItem> WORKSTATION =
             ITEMS.registerSimpleBlockItem("workstation", ModBlocks.WORKSTATION, new Item.Properties());
+
+    public static final DeferredItem<BlockItem> DARK_ENERGY_NETWORK_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("dark_energy_network_controller", ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> DARK_ENERGY_PIPE =
+            ITEMS.registerSimpleBlockItem("dark_energy_pipe", ModBlocks.DARK_ENERGY_PIPE, new Item.Properties());
+    public static final DeferredItem<BlockItem> DARK_ENERGY_GENERATOR =
+            ITEMS.registerSimpleBlockItem("dark_energy_generator", ModBlocks.DARK_ENERGY_GENERATOR, new Item.Properties());
+
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);
     public static final DeferredItem<BlockItem> DENSE_WOOD_ITEM =

@@ -30,14 +30,14 @@ public final class BigIntegerCodecs {
     /**
      * Public codec: writes BigInteger as ZigZag VarInt and reads it back symmetrically [6]
      */
-    public static final StreamCodec<ByteBuf, BigInteger> BIG_INT_STREAM_CODEC = StreamCodec.of(
+    public static final StreamCodec<ByteBuf, BigInteger> STREAM_CODEC = StreamCodec.of(
             // Encoder: ZigZag-encode signed BigInteger, then write base-128 VarInt [6][7]
             BigIntegerCodecs::writeZigZagVarBigInt, // compact write path [6][7]
             // Decoder: read base-128 VarInt as unsigned BigInteger, then ZigZag-decode to signed [6][7]
             BigIntegerCodecs::readZigZagVarBigInt // compact read path [6][7]
     );
 
-    public static final Codec<BigInteger> BIG_INT_CODEC =
+    public static final Codec<BigInteger> CODEC =
             Codec.BYTE_BUFFER.comapFlatMap(
                     buf -> {
                         ByteBuffer dup = buf.slice();

@@ -21,6 +21,18 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("workstation_be", () -> new BlockEntityType<>(
                     WorkstationBlockEntity::new, ModBlocks.WORKSTATION.get()));
 
+    public static final Supplier<BlockEntityType<DarkEnergyNetworkControllerBlockEntity>> DARK_ENERGY_NETWORK_BE =
+            BLOCK_ENTITIES.register("dark_energy_network_controller", () -> new BlockEntityType<>(
+                    DarkEnergyNetworkControllerBlockEntity::new, ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER.get()));
+
+    public static final Supplier<BlockEntityType<DarkEnergyPipeBlockEntity>> DARK_ENERGY_PIPE_BE =
+            BLOCK_ENTITIES.register("dark_energy_pipe_be", () -> new BlockEntityType<>(
+                    DarkEnergyPipeBlockEntity::new, ModBlocks.DARK_ENERGY_PIPE.get()));
+
+    public static final Supplier<BlockEntityType<DarkEnergyGeneratorBlockEntity>> DARK_ENERGY_GENERATOR_BE =
+            BLOCK_ENTITIES.register("dark_energy_generator_be", () -> new BlockEntityType<>(
+                    DarkEnergyGeneratorBlockEntity::new, ModBlocks.DARK_ENERGY_GENERATOR.get()));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

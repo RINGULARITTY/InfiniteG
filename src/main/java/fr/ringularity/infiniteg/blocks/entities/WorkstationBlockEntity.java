@@ -259,7 +259,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             int slot = slotEntry.slot();
             ItemStack stack = slotEntry.stack();
 
-            BigInteger quantity = input.read("stored_items_quantity_" + slot, BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
+            BigInteger quantity = input.read("stored_items_quantity_" + slot, BigIntegerCodecs.CODEC).orElse(BigInteger.ZERO);
             this.storedItems.add(new ItemQuantity(stack, quantity));
         }
 
@@ -286,7 +286,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 continue;
 
             typedoutputlist.add(new ItemStackWithSlot(i, iq.stack));
-            output.store("stored_items_quantity_" + i, BigIntegerCodecs.BIG_INT_CODEC, iq.quantity);
+            output.store("stored_items_quantity_" + i, BigIntegerCodecs.CODEC, iq.quantity);
         }
 
         output.putInt("selected_recipe_id", selectedRecipeId);

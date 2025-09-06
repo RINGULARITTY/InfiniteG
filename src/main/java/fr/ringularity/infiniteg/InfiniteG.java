@@ -80,12 +80,5 @@ public class InfiniteG
                     CompactorBlockEntity::getEnergy
             );
         }
-        @SubscribeEvent
-        public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-            event.registerBlockEntity(
-                    InfiniteGCapabilities.TYPED_ENERGY_BLOCK,
-                    ModBlockEntities.COMPACTOR_BE.get(),
-                    CompactorBlockEntity::getDarkEnergy);
-        }
     }
 }

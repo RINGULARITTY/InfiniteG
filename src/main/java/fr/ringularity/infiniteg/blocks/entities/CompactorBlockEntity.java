@@ -1,9 +1,6 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
-import fr.ringularity.infiniteg.capabilities.DarkEnergyStorage;
-import fr.ringularity.infiniteg.capabilities.ITypedCapabilityStorage;
-import fr.ringularity.infiniteg.capabilities.InfiniteGCapabilities;
-import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyAdapter;
+import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyStorage;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.ModItems;
@@ -51,18 +48,12 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
         }
     };
 
-    public final InfiniteGEnergyAdapter energy = new InfiniteGEnergyAdapter(
+    public final InfiniteGEnergyStorage energy = new InfiniteGEnergyStorage(
             BigInteger.valueOf(0),
             BigInteger.valueOf(1000000),
             BigInteger.valueOf(100),
             BigInteger.valueOf(1)
     );
-
-    public final DarkEnergyStorage darkEnergy = new DarkEnergyStorage();
-
-    public ITypedCapabilityStorage getDarkEnergy(Direction direction) {
-        return darkEnergy;
-    }
 
     protected final ContainerData data;
     private int progress = 0;

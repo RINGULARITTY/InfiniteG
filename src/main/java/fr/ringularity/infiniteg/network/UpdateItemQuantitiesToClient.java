@@ -23,9 +23,9 @@ public record UpdateItemQuantitiesToClient(List<RecipeItemQuantityPayload> items
         public static final StreamCodec<RegistryFriendlyByteBuf, RecipeItemQuantityPayload> CODEC = StreamCodec.composite(
                 ItemStack.STREAM_CODEC,
                 RecipeItemQuantityPayload::stack,
-                BigIntegerCodecs.BIG_INT_STREAM_CODEC,
+                BigIntegerCodecs.STREAM_CODEC,
                 RecipeItemQuantityPayload::currentAmount,
-                BigIntegerCodecs.BIG_INT_STREAM_CODEC,
+                BigIntegerCodecs.STREAM_CODEC,
                 RecipeItemQuantityPayload::requiredAmount,
                 RecipeItemQuantityPayload::new
         );

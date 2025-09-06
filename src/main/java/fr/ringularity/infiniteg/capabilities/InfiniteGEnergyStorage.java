@@ -7,14 +7,14 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.math.BigInteger;
 
-public class InfiniteGEnergyAdapter implements IEnergyStorage {
+public class InfiniteGEnergyStorage implements IEnergyStorage {
 
     public BigInteger storedEnergy;
     public BigInteger capacity;
     public BigInteger maxInputRate;
     public BigInteger maxOutputRate;
 
-    public InfiniteGEnergyAdapter(BigInteger storedEnergy, BigInteger capacity, BigInteger maxInputRate, BigInteger maxOutputRate) {
+    public InfiniteGEnergyStorage(BigInteger storedEnergy, BigInteger capacity, BigInteger maxInputRate, BigInteger maxOutputRate) {
         this.storedEnergy = storedEnergy;
         this.capacity = capacity;
         this.maxInputRate = maxInputRate;
@@ -65,16 +65,16 @@ public class InfiniteGEnergyAdapter implements IEnergyStorage {
     public boolean canReceive() { return !maxInputRate.equals(BigInteger.ZERO); }
 
     public void loadAdditional(ValueInput input) {
-        capacity = input.read("infinite_g_energy_adapter.capacity", BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
-        storedEnergy = input.read("infinite_g_energy_adapter.energy_stored", BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
-        maxInputRate = input.read("infinite_g_energy_adapter.max_input_rate", BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
-        maxOutputRate = input.read("infinite_g_energy_adapter.max_output_rate", BigIntegerCodecs.BIG_INT_CODEC).orElse(BigInteger.ZERO);
+        capacity = input.read("infinite_g_energy_adapter.capacity", BigIntegerCodecs.CODEC).orElse(BigInteger.ZERO);
+        storedEnergy = input.read("infinite_g_energy_adapter.energy_stored", BigIntegerCodecs.CODEC).orElse(BigInteger.ZERO);
+        maxInputRate = input.read("infinite_g_energy_adapter.max_input_rate", BigIntegerCodecs.CODEC).orElse(BigInteger.ZERO);
+        maxOutputRate = input.read("infinite_g_energy_adapter.max_output_rate", BigIntegerCodecs.CODEC).orElse(BigInteger.ZERO);
     }
 
     public void saveAdditional(ValueOutput output) {
-        output.store("infinite_g_energy_adapter.capacity", BigIntegerCodecs.BIG_INT_CODEC, capacity);
-        output.store("infinite_g_energy_adapter.energy_stored", BigIntegerCodecs.BIG_INT_CODEC, storedEnergy);
-        output.store("infinite_g_energy_adapter.max_input_rate", BigIntegerCodecs.BIG_INT_CODEC, maxInputRate);
-        output.store("infinite_g_energy_adapter.max_output_rate", BigIntegerCodecs.BIG_INT_CODEC, maxOutputRate);
+        output.store("infinite_g_energy_adapter.capacity", BigIntegerCodecs.CODEC, capacity);
+        output.store("infinite_g_energy_adapter.energy_stored", BigIntegerCodecs.CODEC, storedEnergy);
+        output.store("infinite_g_energy_adapter.max_input_rate", BigIntegerCodecs.CODEC, maxInputRate);
+        output.store("infinite_g_energy_adapter.max_output_rate", BigIntegerCodecs.CODEC, maxOutputRate);
     }
 }

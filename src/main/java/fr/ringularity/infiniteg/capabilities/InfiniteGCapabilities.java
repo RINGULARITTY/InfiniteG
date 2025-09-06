@@ -1,18 +1,17 @@
 package fr.ringularity.infiniteg.capabilities;
 
-import fr.ringularity.infiniteg.InfiniteG;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public class InfiniteGCapabilities {
-    public enum CapabilityType {
-        DARK_ENERGY
-    }
+    public class ModCapabilityRegistration {
+        public static void register(IEventBus modBus) {
+            modBus.addListener(EventPriority.NORMAL, ModCapabilityRegistration::onRegisterCapabilities);
+        }
 
-    public static final BlockCapability<ITypedCapabilityStorage, Direction> TYPED_ENERGY_BLOCK =
-            BlockCapability.createSided(
-                    ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "dark_energy"),
-                    ITypedCapabilityStorage.class
-            );
+        private static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+
+        }
+    }
 }

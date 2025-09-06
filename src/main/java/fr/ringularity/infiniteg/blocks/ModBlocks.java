@@ -15,6 +15,18 @@ public class ModBlocks {
     public static final DeferredBlock<Block> WORKSTATION =
             BLOCKS.registerBlock("workstation", WorkstationBlock::new, BlockBehaviour.Properties.of());
 
+    public static final DeferredBlock<Block> DARK_ENERGY_NETWORK_CONTROLLER = BLOCKS.registerBlock(
+            "dark_energy_network_controller",
+            DarkEnergyNetworkControllerBlock::new,
+            BlockBehaviour.Properties.of()
+    );
+
+    public static final DeferredBlock<Block> DARK_ENERGY_PIPE =
+            BLOCKS.registerBlock("dark_energy_pipe", DarkEnergyPipeBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> DARK_ENERGY_GENERATOR =
+            BLOCKS.registerBlock("dark_energy_generator", DarkEnergyGeneratorBlock::new, BlockBehaviour.Properties.of());
+
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =
             BLOCKS.registerSimpleBlock("dense_cobblestone", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> DENSE_WOOD =
@@ -23,6 +35,8 @@ public class ModBlocks {
             BLOCKS.registerSimpleBlock("dense_planks", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> DENSE_IRON =
             BLOCKS.registerSimpleBlock("dense_iron", BlockBehaviour.Properties.of());
+
+
 
 
     public static void register(IEventBus eventBus) {
