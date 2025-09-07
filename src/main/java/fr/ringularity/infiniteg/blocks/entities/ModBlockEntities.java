@@ -33,6 +33,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("dark_energy_generator_be", () -> new BlockEntityType<>(
                     DarkEnergyGeneratorBlockEntity::new, ModBlocks.DARK_ENERGY_GENERATOR.get()));
 
+    public static final Supplier<BlockEntityType<DarkEnergyPurifierBlockEntity>> DARK_ENERGY_PURIFIER_BE =
+            BLOCK_ENTITIES.register("dark_energy_purifier_be", () -> new BlockEntityType<>(
+                    DarkEnergyPurifierBlockEntity::new, ModBlocks.DARK_ENERGY_PURIFIER.get()));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

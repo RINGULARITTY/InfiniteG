@@ -17,11 +17,6 @@ public class DarkEnergyPipeBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-    }
-
-    @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         if (level instanceof ServerLevel sl) {
             var data = DarkEnergyNetworks.get(sl);

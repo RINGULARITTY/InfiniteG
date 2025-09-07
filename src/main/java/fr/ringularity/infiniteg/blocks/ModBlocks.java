@@ -27,6 +27,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> DARK_ENERGY_GENERATOR =
             BLOCKS.registerBlock("dark_energy_generator", DarkEnergyGeneratorBlock::new, BlockBehaviour.Properties.of());
 
+    public static final DeferredBlock<Block> DARK_ENERGY_PURIFIER =
+            BLOCKS.registerBlock("dark_energy_purifier", DarkEnergyPurifierBlock::new, BlockBehaviour.Properties.of());
+
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =
             BLOCKS.registerSimpleBlock("dense_cobblestone", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> DENSE_WOOD =

@@ -35,6 +35,7 @@ public class InfiniteGCreativeTab {
                         output.accept(ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER);
                         output.accept(ModBlocks.DARK_ENERGY_PIPE);
                         output.accept(ModBlocks.DARK_ENERGY_GENERATOR);
+                        output.accept(ModBlocks.DARK_ENERGY_PURIFIER);
                     })
                     .build()
     );

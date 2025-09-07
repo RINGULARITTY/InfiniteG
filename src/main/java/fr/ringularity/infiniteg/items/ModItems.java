@@ -23,6 +23,8 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem("dark_energy_pipe", ModBlocks.DARK_ENERGY_PIPE, new Item.Properties());
     public static final DeferredItem<BlockItem> DARK_ENERGY_GENERATOR =
             ITEMS.registerSimpleBlockItem("dark_energy_generator", ModBlocks.DARK_ENERGY_GENERATOR, new Item.Properties());
+    public static final DeferredItem<BlockItem> DARK_ENERGY_PURIFIER =
+            ITEMS.registerSimpleBlockItem("dark_energy_purifier", ModBlocks.DARK_ENERGY_PURIFIER, new Item.Properties());
 
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);
