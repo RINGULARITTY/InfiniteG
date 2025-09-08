@@ -161,19 +161,7 @@ public class ScrollableElement {
     }
 
 
-    public static class BackgroundTextureElement {
-        final ResourceLocation resourceLocation;
-        final int x, y, width, height, textureWidth, textureHeight;
-
-        BackgroundTextureElement(ResourceLocation resourceLocation, int x, int y, int width, int height,
-                                 int textureWidth, int textureHeight) {
-            this.resourceLocation = resourceLocation;
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.textureWidth = textureWidth;
-            this.textureHeight = textureHeight;
-        }
+    public record BackgroundTextureElement(ResourceLocation resourceLocation, int x, int y, int width, int height,
+                                           int textureWidth, int textureHeight) {
     }
 }

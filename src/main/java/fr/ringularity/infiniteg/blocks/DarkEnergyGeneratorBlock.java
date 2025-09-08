@@ -13,27 +13,28 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class DarkEnergyGeneratorBlock extends BaseEntityBlock {
+public class DarkEnergyGeneratorBlock extends BaseEntityBlock implements IDarkEnergyMachine {
     public static final MapCodec<DarkEnergyGeneratorBlock> CODEC = simpleCodec(DarkEnergyGeneratorBlock::new);
 
     public DarkEnergyGeneratorBlock(Properties props) { super(props); }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new DarkEnergyGeneratorBlockEntity(pos, state);
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
         if (level.isClientSide) return;
         ServerLevel sl = (ServerLevel) level;
@@ -58,7 +59,7 @@ public class DarkEnergyGeneratorBlock extends BaseEntityBlock {
 
     @Override
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         return level.isClientSide ? null : (lvl, pos, st, be) -> {
             if (be instanceof DarkEnergyGeneratorBlockEntity g) g.serverTick((ServerLevel) lvl, pos, st);
         };

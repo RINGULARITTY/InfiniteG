@@ -1,8 +1,8 @@
 package fr.ringularity.infiniteg.capabilities;
 
-import fr.ringularity.infiniteg.blocks.DarkEnergyGeneratorBlock;
 import fr.ringularity.infiniteg.blocks.DarkEnergyNetworkControllerBlock;
 import fr.ringularity.infiniteg.blocks.DarkEnergyPipeBlock;
+import fr.ringularity.infiniteg.blocks.IDarkEnergyMachine;
 import fr.ringularity.infiniteg.blocks.entities.DarkEnergyNetworkControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +25,7 @@ public final class GraphUtils {
     }
 
     public static boolean isDarkEnergyMachine(BlockState s) {
-        return s.getBlock() instanceof DarkEnergyGeneratorBlock;
+        return s.getBlock() instanceof IDarkEnergyMachine;
     }
 
     public static List<BlockPos> neighbors6(BlockPos p) {

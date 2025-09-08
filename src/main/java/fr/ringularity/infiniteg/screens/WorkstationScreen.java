@@ -11,19 +11,21 @@ import fr.ringularity.infiniteg.screens.widgets.InteractiveButton;
 import fr.ringularity.infiniteg.screens.widgets.ScrollableArea;
 import fr.ringularity.infiniteg.screens.widgets.ScrollableElement;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
+public class WorkstationScreen extends AbstractContainerScreen<WorkstationMenu> {
 
     private static final ResourceLocation GUI_BACKGROUND_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "textures/gui/container/workstation.png");
@@ -102,7 +104,7 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         guiGraphics.blit(
                 RenderPipelines.GUI_TEXTURED,
                 GUI_BACKGROUND_TEXTURE,
@@ -114,7 +116,7 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         int mouseRelativeToGuiX = mouseX - guiAbsoluteX;
         int mouseRelativeToGuiY = mouseY - guiAbsoluteY;
@@ -150,10 +152,8 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         float textScale = 0.5f;
-        //renderScaledText(guiGraphics, textScale, this.title, this.titleLabelX, this.titleLabelY, 4210752);
-        //renderScaledText(guiGraphics, textScale, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752);
     }
 
     private void renderScaledText(GuiGraphics guiGraphics, float scale, Component text, int x, int y, int color) {
@@ -201,8 +201,8 @@ public class WorkstationScreen extends InfiniteGScreen<WorkstationMenu> {
 
             currentRow.addInteractiveButton(
                     buttonX, buttonY, 18, 18,
-                    Component.literal(BigIntegerFormat.format(recipe.output.quantity)),
-                    recipe.output.stack,
+                    Component.literal(BigIntegerFormat.format(recipe.output().quantity)),
+                    recipe.output().stack,
                     () -> ClientPacketDistributor.sendToServer(new IntPayloadToServer(recipeId))
             );
 

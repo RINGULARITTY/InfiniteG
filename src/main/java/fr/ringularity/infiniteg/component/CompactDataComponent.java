@@ -7,29 +7,13 @@ import net.minecraft.world.item.Item;
 
 import java.util.Objects;
 
-public class CompactDataComponent {
-    private final long quantity;
-    private final Item item;
-
-    public CompactDataComponent(long quantity, Item item) {
-        this.quantity = quantity;
-        this.item = item;
-    }
-
-    public long quantity() { return quantity; }
-    public Item item() { return item; }
+public record CompactDataComponent(long quantity, Item item) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CompactDataComponent)) return false;
-        CompactDataComponent that = (CompactDataComponent) o;
-        return quantity == that.quantity && item.equals(that.item);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(quantity, item);
+        if (!(o instanceof CompactDataComponent(long quantity1, Item item1))) return false;
+        return quantity == quantity1 && item.equals(item1);
     }
 
     public static final Codec<CompactDataComponent> CODEC = RecordCodecBuilder.create(instance ->

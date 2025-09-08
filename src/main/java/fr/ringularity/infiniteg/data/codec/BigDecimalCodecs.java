@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
  * Compact BigDecimal codecs using:
  * - ZigZag + base-128 VarInt for the scale (sint32-like) to make small +/- scales tiny [15][13]
  * - ZigZag + base-128 VarInt for the unscaledValue (BigInteger), reusing the same idea as BigIntegerCodecs [15][13]
- *
+
  * BigDecimal value is defined as: unscaledValue * 10^{-scale}, with scale a 32-bit int and can be negative [2].
  * We serialize the exact scale and unscaledValue so that decode() reconstructs an equal BigDecimal (equals, not only compareTo) [2].
  */

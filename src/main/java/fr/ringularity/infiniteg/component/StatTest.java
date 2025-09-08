@@ -5,30 +5,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Objects;
 
-public class StatTest {
-    private final String name;
-    private final double value;
-
-    public StatTest(String name, double value) {
-        this.name = name;
-        this.value = value;
-    }
+public record StatTest(String name, double value) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StatTest)) return false;
-        StatTest s = (StatTest) o;
-        return Objects.equals(name, s.name) &&
-                Double.compare(s.value, value) == 0;
+        if (!(o instanceof StatTest(String name1, double value1))) return false;
+        return Objects.equals(name, name1) &&
+                Double.compare(value1, value) == 0;
     }
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, value);
-    }
-
-    public String name() { return name; }
-    public double value() { return value; }
 
     public static final Codec<StatTest> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(

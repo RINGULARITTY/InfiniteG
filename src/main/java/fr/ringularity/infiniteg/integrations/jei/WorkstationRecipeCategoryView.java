@@ -16,6 +16,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -37,13 +38,13 @@ public class WorkstationRecipeCategoryView implements IRecipeCategory<Workstatio
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.WORKSTATION.get()));
     }
 
-    @Override public RecipeType<WorkstationJeiViews.WorkstationRecipeView> getRecipeType() { return WorkstationJeiViews.TYPE; }
-    @Override public Component getTitle() { return Component.translatable("block.infiniteg.workstation"); }
+    @Override public @NotNull RecipeType<WorkstationJeiViews.WorkstationRecipeView> getRecipeType() { return WorkstationJeiViews.TYPE; }
+    @Override public @NotNull Component getTitle() { return Component.translatable("block.infiniteg.workstation"); }
     @Override public @Nullable IDrawable getIcon() { return icon; }
     @Override public IDrawable getBackground() { return background; }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder b, WorkstationJeiViews.WorkstationRecipeView v, IFocusGroup f) {
+    public void setRecipe(@NotNull IRecipeLayoutBuilder b, WorkstationJeiViews.WorkstationRecipeView v, @NotNull IFocusGroup f) {
         final Font font = net.minecraft.client.Minecraft.getInstance().font;
 
         for (int i = 0; i < v.window().size(); i++) {
@@ -61,20 +62,20 @@ public class WorkstationRecipeCategoryView implements IRecipeCategory<Workstatio
             slot.setOverlay(overlay, SLOT, SLOT);
         }
 
-        final ItemStack s = v.base().output.stack;
+        final ItemStack s = v.base().output().stack;
         IRecipeSlotBuilder slot = b.addSlot(RecipeIngredientRole.OUTPUT, OUT_X, PAD + 5)
                 .addItemStack(s);
 
-        String outputQuantity = BigIntegerFormat.format(v.base().output.quantity);
+        String outputQuantity = BigIntegerFormat.format(v.base().output().quantity);
         IDrawable overlay = new TextOverlayDrawable(font, Component.literal(outputQuantity), 0xFFFFFFFF, SCALE);
         slot.setOverlay(overlay, SLOT, SLOT);
     }
 
     @Override
-    public void draw(WorkstationJeiViews.WorkstationRecipeView v, IRecipeSlotsView view, GuiGraphics g, double mx, double my) {
+    public void draw(WorkstationJeiViews.WorkstationRecipeView v, @NotNull IRecipeSlotsView view, GuiGraphics g, double mx, double my) {
         var font = net.minecraft.client.Minecraft.getInstance().font;
 
-        int total = v.base().ingredients.size();
+        int total = v.base().ingredients().size();
         int pageSize = ROWS * COLS;
         int pageCount = Math.max(1, (int) Math.ceil(total / (double) pageSize));
         g.drawString(font, "Recipe part " + (v.page() + 1) + "/" + pageCount, 0, 0, 0xFF000000, false);

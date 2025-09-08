@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -21,8 +22,8 @@ public class CompactItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay,
-                                Consumer<Component> components, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack pStack, @NotNull TooltipContext pContext, @NotNull TooltipDisplay tooltipDisplay,
+                                @NotNull Consumer<Component> components, @NotNull TooltipFlag tooltipFlag) {
         final CompactDataComponent cdc = pStack.get(ModDataComponents.COMPACT_COMPONENT);
         if (cdc != null) {
             MutableComponent tooltipLine = Component.translatable("tooltip.infiniteg.contains")

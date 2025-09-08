@@ -7,32 +7,26 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 
-// L’état global de tous les réseaux Dark Energy
 public class DarkEnergyNetworksData extends SavedData {
-    // Index principal: réseau par UUID
     private final Map<UUID, DarkEnergyNetwork> networks = new HashMap<>();
-    // Index inverse: NodeRef -> networkId (accès rapide)
     private final Map<DarkEnergyNetworkNodeRef, UUID> nodeToNetwork = new HashMap<>();
-    // Règles de ponts (A -> B)
     private final Map<ResourceLocation, DarkEnergyBridgeRule> bridges = new HashMap<>();
 
-    // --- Mutations et requêtes ---
     public Optional<UUID> networkOf(DarkEnergyNetworkNodeRef node) {
         return Optional.ofNullable(nodeToNetwork.get(node));
     }
 
     public DarkEnergyNetwork getOrCreate(UUID id) {
         return networks.computeIfAbsent(id, k -> new DarkEnergyNetwork(k, new HashSet<>(),
-                new DarkEnergyNetworkAggregate(BigInteger.ZERO, new HashMap<>())));
+                new DarkEnergyNetworkAggregate(BigDecimal.ZERO, new HashMap<>())));
     }
 
     public UUID createEmptyNetwork() {
         UUID id = UUID.randomUUID();
         networks.put(id, new DarkEnergyNetwork(id, new HashSet<>(),
-                new DarkEnergyNetworkAggregate(BigInteger.ZERO, new HashMap<>())));
+                new DarkEnergyNetworkAggregate(BigDecimal.ZERO, new HashMap<>())));
         setDirty();
         return id;
     }
@@ -79,7 +73,7 @@ public class DarkEnergyNetworksData extends SavedData {
         setDirty();
     }
 
-    public void modifyDarkEnergy(UUID networkId, BigInteger mIn, Map<String, BigDecimal> props) {
+    public void modifyDarkEnergy(UUID networkId, BigDecimal mIn, Map<String, BigDecimal> props) {
         var rec = networks.get(networkId);
         if (rec == null) return;
         var agg2 = rec.aggregate().mixIn(mIn, props, true);
@@ -87,7 +81,7 @@ public class DarkEnergyNetworksData extends SavedData {
         setDirty();
     }
 
-    public void injectDarkEnergy(UUID networkId, BigInteger qIn, Map<String, BigDecimal> props) {
+    public void injectDarkEnergy(UUID networkId, BigDecimal qIn, Map<String, BigDecimal> props) {
         var rec = networks.get(networkId);
         if (rec == null) return;
         var agg2 = rec.aggregate().mixIn(qIn, props, false);

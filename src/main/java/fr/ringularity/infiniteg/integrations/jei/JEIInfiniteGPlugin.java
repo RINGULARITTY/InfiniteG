@@ -12,6 +12,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
 public class JEIInfiniteGPlugin implements IModPlugin {
@@ -19,7 +20,7 @@ public class JEIInfiniteGPlugin implements IModPlugin {
     private static final int ROWS = 7;
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jei_plugin");
     }
 
@@ -31,11 +32,11 @@ public class JEIInfiniteGPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(IRecipeRegistration registration) {
+    public void registerRecipes(@NotNull IRecipeRegistration registration) {
         int pageSize = ROWS * COLS;
         java.util.List<WorkstationJeiViews.WorkstationRecipeView> views = new java.util.ArrayList<>();
         for (WorkstationRecipe r : WorkstationRecipe.RECIPES) {
-            java.util.List<WorkstationRecipe.Ingredient> ing = r.ingredients;
+            java.util.List<WorkstationRecipe.Ingredient> ing = r.ingredients();
             for (int start = 0, page = 0; start < ing.size(); start += pageSize, page++) {
                 int end = Math.min(start + pageSize, ing.size());
                 views.add(new WorkstationJeiViews.WorkstationRecipeView(r, page, ing.subList(start, end)));

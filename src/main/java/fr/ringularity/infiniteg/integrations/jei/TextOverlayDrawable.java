@@ -6,6 +6,7 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public class TextOverlayDrawable implements IDrawable {
     private final Font font;
@@ -36,7 +37,7 @@ public class TextOverlayDrawable implements IDrawable {
     }
 
     @Override
-    public void draw(GuiGraphics g, int x, int y) {
+    public void draw(@NotNull GuiGraphics g, int x, int y) {
         ScreenTools.renderScaledTextBottomRight(g, font, new Primitives.TextElement(
                 text, x, y, color, scale
         ));

@@ -1,9 +1,9 @@
 package fr.ringularity.infiniteg.screens.widgets;
 
-import fr.ringularity.infiniteg.screens.InfiniteGScreen;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
@@ -154,7 +154,7 @@ public class ScrollableArea implements GuiEventListener {
                 handleColor);
     }
 
-    public void renderTooltip(InfiniteGScreen<?> screen, GuiGraphics guiGraphics, int mouseAbsoluteX, int mouseAbsoluteY) {
+    public void renderTooltip(AbstractContainerScreen<?> screen, GuiGraphics guiGraphics, int mouseAbsoluteX, int mouseAbsoluteY) {
         if (hoveredItemForTooltip != null) {
             guiGraphics.setTooltipForNextFrame(screen.getMinecraft().font, hoveredItemForTooltip, mouseAbsoluteX, mouseAbsoluteY);
         }
@@ -256,13 +256,7 @@ public class ScrollableArea implements GuiEventListener {
         return null;
     }
 
-    private static class ButtonPosition {
-        final int elementAbsoluteY;
-
-        ButtonPosition(int elementAbsoluteY) {
-            this.elementAbsoluteY = elementAbsoluteY;
-        }
-    }
+    private record ButtonPosition(int elementAbsoluteY) { }
 
     public boolean handleMouseScroll(double mouseAbsoluteX, double mouseAbsoluteY,
                                      double scrollX, double scrollY,

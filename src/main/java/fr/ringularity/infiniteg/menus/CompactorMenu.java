@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class CompactorMenu extends AbstractContainerMenu {
     public final CompactorBlockEntity be;
@@ -29,7 +30,7 @@ public class CompactorMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        for (int i = 0; i < this.be.OUTPUT_SLOT + 1; ++i) {
+        for (int i = 0; i < CompactorBlockEntity.OUTPUT_SLOT + 1; ++i) {
             this.addSlot(new SlotItemHandler(be.itemHandler, i, 20 + 25 * i, 34));
         }
 
@@ -58,7 +59,7 @@ public class CompactorMenu extends AbstractContainerMenu {
 
     private static final int TE_INVENTORY_SLOT_COUNT = 7;
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
         if (!sourceSlot.hasItem()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getItem();
@@ -86,7 +87,7 @@ public class CompactorMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
+    public boolean stillValid(@NotNull Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, be.getBlockPos()),
                 pPlayer, ModBlocks.COMPACTOR.get());
     }

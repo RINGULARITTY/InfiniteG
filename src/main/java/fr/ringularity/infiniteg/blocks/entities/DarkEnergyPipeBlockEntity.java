@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class DarkEnergyPipeBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void preRemoveSideEffects(@NotNull BlockPos pos, @NotNull BlockState state) {
         if (level instanceof ServerLevel sl) {
             var data = DarkEnergyNetworks.get(sl);
             DarkEnergyNetworkNodeRef self = new DarkEnergyNetworkNodeRef(sl.dimension(), pos);
@@ -31,6 +32,4 @@ public class DarkEnergyPipeBlockEntity extends BlockEntity {
         }
         super.preRemoveSideEffects(pos, state);
     }
-
-
 }

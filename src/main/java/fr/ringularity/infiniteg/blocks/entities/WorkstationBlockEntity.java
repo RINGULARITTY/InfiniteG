@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -73,12 +74,12 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("block.infiniteg.workstation");
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int windowId, @NotNull Inventory inv, @NotNull Player player) {
         return new WorkstationMenu(windowId, inv, this, this.data);
     }
 
@@ -103,7 +104,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 markAndSync();
                 // Build zero-current payloads for the new recipe (optional)
                 List<UpdateItemQuantitiesToClient.RecipeItemQuantityPayload> payloads = new ArrayList<>();
-                for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients) {
+                for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients()) {
                     payloads.add(new UpdateItemQuantitiesToClient.RecipeItemQuantityPayload(
                             ing.requiredStack.stack.copy(), BigInteger.ZERO, ing.requiredStack.quantity
                     ));
@@ -142,7 +143,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
             return Collections.emptyList();
         }
         List<UpdateItemQuantitiesToClient.RecipeItemQuantityPayload> payloads = new ArrayList<>();
-        for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients) {
+        for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients()) {
             ItemStack needed = ing.requiredStack.stack;
             BigInteger required = ing.requiredStack.quantity;
             BigInteger current = getCurrentAmountFor(needed);
@@ -181,7 +182,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
 
         Inventory inv = player.getInventory();
         // For each ingredient, compute shortage and try to gather from inventory
-        for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients) {
+        for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients()) {
             ItemStack needed = ing.requiredStack.stack;
             BigInteger required = ing.requiredStack.quantity;
             BigInteger have = getCurrentAmountFor(needed);
@@ -242,13 +243,13 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
 
 
     @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void preRemoveSideEffects(@NotNull BlockPos pos, @NotNull BlockState state) {
         drops(pos);
         super.preRemoveSideEffects(pos, state);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
+    protected void loadAdditional(@NotNull ValueInput input) {
         super.loadAdditional(input);
 
         this.storedItems = new ArrayList<>();
@@ -272,7 +273,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
 
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
+    protected void saveAdditional(@NotNull ValueOutput output) {
         super.saveAdditional(output);
 
         ValueOutput.TypedOutputList<ItemStackWithSlot> typedoutputlist = output.list("stored_items", ItemStackWithSlot.CODEC);
@@ -295,12 +296,10 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         output.putInt("max_progress", maxProgress);
     }
 
-    public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        //setChanged(level, blockPos, blockState);
-    }
+    public void serverTick(Level level, BlockPos blockPos, BlockState blockState) {}
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
     }
 

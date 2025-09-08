@@ -3,7 +3,6 @@ package fr.ringularity.infiniteg;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
-import fr.ringularity.infiniteg.capabilities.InfiniteGCapabilities;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.InfiniteGCreativeTab;
 import fr.ringularity.infiniteg.items.ModItems;
@@ -53,7 +52,7 @@ public class InfiniteG
     public void onServerStarting(ServerStartingEvent event) {
     }
 
-    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid=MOD_ID, value=Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent

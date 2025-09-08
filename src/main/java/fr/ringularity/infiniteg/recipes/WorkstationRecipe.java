@@ -15,7 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkstationRecipe {
+public record WorkstationRecipe(Map<ToolType, Integer> requiredTiers, ItemQuantity output, List<Ingredient> ingredients,
+                                int processTime) {
     public static enum ToolType {
         HAMMER,
         SCREWDRIVER,
@@ -25,18 +26,6 @@ public class WorkstationRecipe {
         WIRE_STRIPPER,
         CHISEL,
         PLIERS
-    }
-
-    public final Map<ToolType, Integer> requiredTiers;
-    public final ItemQuantity output;
-    public final List<Ingredient> ingredients;
-    public final int processTime;
-
-    public WorkstationRecipe(Map<ToolType, Integer> requiredTiers, ItemQuantity output, List<Ingredient> ingredients, int processTime) {
-        this.requiredTiers = requiredTiers;
-        this.output = output;
-        this.ingredients = ingredients;
-        this.processTime = processTime;
     }
 
     public static class Ingredient {

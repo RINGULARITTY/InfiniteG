@@ -8,13 +8,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-// DarkEnergyNetworkBlockBE.java
 public class DarkEnergyNetworkControllerBlockEntity extends BlockEntity {
-    private static final String TAG_NETWORK_ID = "NetworkId";
+    private static final String TAG_NETWORK_ID = "network_id";
     private @Nullable UUID networkId;
 
     public DarkEnergyNetworkControllerBlockEntity(BlockPos pos, BlockState state) {
@@ -25,21 +25,21 @@ public class DarkEnergyNetworkControllerBlockEntity extends BlockEntity {
     public void setNetworkId(@Nullable UUID id) { this.networkId = id; setChanged(); }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
+    protected void loadAdditional(@NotNull ValueInput input) {
         super.loadAdditional(input);
 
         this.networkId = input.read(TAG_NETWORK_ID, UUIDCodecs.CODEC).orElse(null);
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
+    protected void saveAdditional(@NotNull ValueOutput output) {
         super.saveAdditional(output);
 
         if (networkId != null) output.store(TAG_NETWORK_ID, UUIDCodecs.CODEC, networkId);
     }
 
     @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void preRemoveSideEffects(@NotNull BlockPos pos, @NotNull BlockState state) {
         if (level instanceof ServerLevel sl) {
             var data = DarkEnergyNetworks.get(sl);
             UUID id = this.getNetworkId();
