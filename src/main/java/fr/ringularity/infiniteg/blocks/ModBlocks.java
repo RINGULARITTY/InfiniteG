@@ -15,20 +15,20 @@ public class ModBlocks {
     public static final DeferredBlock<Block> WORKSTATION =
             BLOCKS.registerBlock("workstation", WorkstationBlock::new, BlockBehaviour.Properties.of());
 
-    public static final DeferredBlock<Block> DARK_ENERGY_NETWORK_CONTROLLER = BLOCKS.registerBlock(
-            "dark_energy_network_controller",
-            DarkEnergyNetworkControllerBlock::new,
+    public static final DeferredBlock<Block> DE_NETWORK_CONTROLLER = BLOCKS.registerBlock(
+            "de_network_controller",
+            DENetworkControllerBlock::new,
             BlockBehaviour.Properties.of()
     );
 
-    public static final DeferredBlock<Block> DARK_ENERGY_PIPE =
-            BLOCKS.registerBlock("dark_energy_pipe", DarkEnergyPipeBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> DE_PIPE =
+            BLOCKS.registerBlock("de_pipe", DEPipeBlock::new, BlockBehaviour.Properties.of());
 
-    public static final DeferredBlock<Block> DARK_ENERGY_GENERATOR =
-            BLOCKS.registerBlock("dark_energy_generator", DarkEnergyGeneratorBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> DE_GENERATOR =
+            BLOCKS.registerBlock("de_generator", DEGeneratorBlock::new, BlockBehaviour.Properties.of());
 
-    public static final DeferredBlock<Block> DARK_ENERGY_PURIFIER =
-            BLOCKS.registerBlock("dark_energy_purifier", DarkEnergyPurifierBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> DE_PURIFIER =
+            BLOCKS.registerBlock("de_purifier", DEPurifierBlock::new, BlockBehaviour.Properties.of());
 
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =
             BLOCKS.registerSimpleBlock("dense_cobblestone", BlockBehaviour.Properties.of());

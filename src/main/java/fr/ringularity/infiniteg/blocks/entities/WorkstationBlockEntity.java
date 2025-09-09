@@ -166,14 +166,12 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
 
     private void addToStored(ItemStack pattern, BigInteger add) {
         if (add.compareTo(BigInteger.ZERO) <= 0) return;
-        // Find matching entry by same item+components
         for (ItemQuantity iq : storedItems) {
             if (ItemStack.isSameItemSameComponents(iq.stack, pattern)) {
                 iq.quantity = iq.quantity.add(add);
                 return;
             }
         }
-        // Create new entry with a canonical copy of the pattern (count ignored)
         storedItems.add(new ItemQuantity(pattern.copy(), add));
     }
 
@@ -181,7 +179,6 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         if (selectedRecipe == null) return;
 
         Inventory inv = player.getInventory();
-        // For each ingredient, compute shortage and try to gather from inventory
         for (WorkstationRecipe.Ingredient ing : selectedRecipe.ingredients()) {
             ItemStack needed = ing.requiredStack.stack;
             BigInteger required = ing.requiredStack.quantity;
@@ -191,7 +188,6 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
                 continue;
             }
 
-            // Sweep the entire inventory
             for (int slot = 0; slot < inv.getContainerSize(); slot++) {
                 if (shortage.compareTo(BigInteger.ZERO) <= 0) break;
                 ItemStack slotStack = inv.getItem(slot);
@@ -215,7 +211,7 @@ public class WorkstationBlockEntity extends BlockEntity implements MenuProvider 
         if (storedItems == null || this.level == null) return;
 
         for (ItemQuantity iq : storedItems) {
-            BigInteger remainQuantity = iq.quantity; // no need to copy string
+            BigInteger remainQuantity = iq.quantity;
             final int maxStackSize = iq.stack.getMaxStackSize();
 
             while (remainQuantity.compareTo(BigInteger.valueOf(maxStackSize)) >= 0) {

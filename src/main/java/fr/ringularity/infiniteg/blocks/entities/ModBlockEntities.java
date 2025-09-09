@@ -21,21 +21,21 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("workstation_be", () -> new BlockEntityType<>(
                     WorkstationBlockEntity::new, ModBlocks.WORKSTATION.get()));
 
-    public static final Supplier<BlockEntityType<DarkEnergyNetworkControllerBlockEntity>> DARK_ENERGY_NETWORK_BE =
-            BLOCK_ENTITIES.register("dark_energy_network_controller", () -> new BlockEntityType<>(
-                    DarkEnergyNetworkControllerBlockEntity::new, ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER.get()));
+    public static final Supplier<BlockEntityType<DENetworkControllerBlockEntity>> DE_NETWORK_BE =
+            BLOCK_ENTITIES.register("de_network_controller", () -> new BlockEntityType<>(
+                    DENetworkControllerBlockEntity::new, ModBlocks.DE_NETWORK_CONTROLLER.get()));
 
-    public static final Supplier<BlockEntityType<DarkEnergyPipeBlockEntity>> DARK_ENERGY_PIPE_BE =
-            BLOCK_ENTITIES.register("dark_energy_pipe_be", () -> new BlockEntityType<>(
-                    DarkEnergyPipeBlockEntity::new, ModBlocks.DARK_ENERGY_PIPE.get()));
+    public static final Supplier<BlockEntityType<DEPipeBlockEntity>> DE_PIPE_BE =
+            BLOCK_ENTITIES.register("de_pipe_be", () -> new BlockEntityType<>(
+                    DEPipeBlockEntity::new, ModBlocks.DE_PIPE.get()));
 
-    public static final Supplier<BlockEntityType<DarkEnergyGeneratorBlockEntity>> DARK_ENERGY_GENERATOR_BE =
-            BLOCK_ENTITIES.register("dark_energy_generator_be", () -> new BlockEntityType<>(
-                    DarkEnergyGeneratorBlockEntity::new, ModBlocks.DARK_ENERGY_GENERATOR.get()));
+    public static final Supplier<BlockEntityType<DEGeneratorBlockEntity>> DE_GENERATOR_BE =
+            BLOCK_ENTITIES.register("de_generator_be", () -> new BlockEntityType<>(
+                    DEGeneratorBlockEntity::new, ModBlocks.DE_GENERATOR.get()));
 
-    public static final Supplier<BlockEntityType<DarkEnergyPurifierBlockEntity>> DARK_ENERGY_PURIFIER_BE =
-            BLOCK_ENTITIES.register("dark_energy_purifier_be", () -> new BlockEntityType<>(
-                    DarkEnergyPurifierBlockEntity::new, ModBlocks.DARK_ENERGY_PURIFIER.get()));
+    public static final Supplier<BlockEntityType<DEPurifierBlockEntity>> DE_PURIFIER_BE =
+            BLOCK_ENTITIES.register("de_purifier_be", () -> new BlockEntityType<>(
+                    DEPurifierBlockEntity::new, ModBlocks.DE_PURIFIER.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

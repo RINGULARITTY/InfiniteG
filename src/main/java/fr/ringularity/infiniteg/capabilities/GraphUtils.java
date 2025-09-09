@@ -1,9 +1,9 @@
 package fr.ringularity.infiniteg.capabilities;
 
-import fr.ringularity.infiniteg.blocks.DarkEnergyNetworkControllerBlock;
-import fr.ringularity.infiniteg.blocks.DarkEnergyPipeBlock;
-import fr.ringularity.infiniteg.blocks.IDarkEnergyMachine;
-import fr.ringularity.infiniteg.blocks.entities.DarkEnergyNetworkControllerBlockEntity;
+import fr.ringularity.infiniteg.blocks.DENetworkControllerBlock;
+import fr.ringularity.infiniteg.blocks.DEPipeBlock;
+import fr.ringularity.infiniteg.blocks.DEMachineBlock;
+import fr.ringularity.infiniteg.blocks.entities.DENetworkControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -17,15 +17,15 @@ public final class GraphUtils {
     private GraphUtils() {}
 
     public static boolean isPipe(BlockState s) {
-        return s.getBlock() instanceof DarkEnergyPipeBlock;
+        return s.getBlock() instanceof DEPipeBlock;
     }
 
     public static boolean isNetworkBlock(BlockState s) {
-        return s.getBlock() instanceof DarkEnergyNetworkControllerBlock;
+        return s.getBlock() instanceof DENetworkControllerBlock;
     }
 
-    public static boolean isDarkEnergyMachine(BlockState s) {
-        return s.getBlock() instanceof IDarkEnergyMachine;
+    public static boolean isDEMachine(BlockState s) {
+        return s.getBlock() instanceof DEMachineBlock;
     }
 
     public static List<BlockPos> neighbors6(BlockPos p) {
@@ -46,8 +46,8 @@ public final class GraphUtils {
                 BlockState st = level.getBlockState(n);
                 if (isNetworkBlock(st)) {
                     BlockEntity be = level.getBlockEntity(n);
-                    if (be instanceof DarkEnergyNetworkControllerBlockEntity nb && nb.getNetworkId() != null) {
-                        return nb.getNetworkId();
+                    if (be instanceof DENetworkControllerBlockEntity nb && nb.getDENetworkId() != null) {
+                        return nb.getDENetworkId();
                     }
                 }
                 if (isPipe(st)) {
@@ -75,8 +75,8 @@ public final class GraphUtils {
                 BlockState st = level.getBlockState(n);
                 if (isNetworkBlock(st)) {
                     BlockEntity be = level.getBlockEntity(n);
-                    if (be instanceof DarkEnergyNetworkControllerBlockEntity nb && nb.getNetworkId() != null) {
-                        found.add(nb.getNetworkId());
+                    if (be instanceof DENetworkControllerBlockEntity nb && nb.getDENetworkId() != null) {
+                        found.add(nb.getDENetworkId());
                     }
                 } else if (isPipe(st)) {
                     dq.add(n);
@@ -118,7 +118,7 @@ public final class GraphUtils {
         Set<BlockPos> machines = new HashSet<>();
         for (BlockPos p : pipeComponent) {
             for (BlockPos n : neighbors6(p)) {
-                if (isDarkEnergyMachine(level.getBlockState(n))) {
+                if (isDEMachine(level.getBlockState(n))) {
                     machines.add(n);
                 }
             }

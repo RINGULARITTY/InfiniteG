@@ -2,8 +2,8 @@ package fr.ringularity.infiniteg.commands;
 
 import com.mojang.brigadier.context.CommandContext;
 import fr.ringularity.infiniteg.InfiniteG;
-import fr.ringularity.infiniteg.capabilities.DarkChat;
-import fr.ringularity.infiniteg.capabilities.DarkEnergyNetworks;
+import fr.ringularity.infiniteg.capabilities.DEChat;
+import fr.ringularity.infiniteg.capabilities.DENetworks;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -27,7 +27,7 @@ public final class ModCommands {
 
     private static int list(CommandContext<CommandSourceStack> ctx) {
         var src = ctx.getSource();
-        var data = DarkEnergyNetworks.get(src.getServer());
+        var data = DENetworks.get(src.getServer());
         var nets = data.networksView().values();
 
         if (nets.isEmpty()) {
@@ -38,7 +38,7 @@ public final class ModCommands {
         src.sendSuccess(() -> Component.literal("DarkEnergy Network: " + nets.size() + "/" + nets.size()), false);
 
         for (var rec : nets) {
-            Component msg = DarkChat.formatNetworkSummary(rec);
+            Component msg = DEChat.formatNetworkSummary(rec);
             src.sendSuccess(() -> msg, false);
         }
         return nets.size();

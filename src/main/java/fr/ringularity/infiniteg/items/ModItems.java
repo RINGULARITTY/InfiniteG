@@ -17,14 +17,14 @@ public class ModItems {
     public static final DeferredItem<BlockItem> WORKSTATION =
             ITEMS.registerSimpleBlockItem("workstation", ModBlocks.WORKSTATION, new Item.Properties());
 
-    public static final DeferredItem<BlockItem> DARK_ENERGY_NETWORK_CONTROLLER =
-            ITEMS.registerSimpleBlockItem("dark_energy_network_controller", ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER, new Item.Properties());
-    public static final DeferredItem<BlockItem> DARK_ENERGY_PIPE =
-            ITEMS.registerSimpleBlockItem("dark_energy_pipe", ModBlocks.DARK_ENERGY_PIPE, new Item.Properties());
-    public static final DeferredItem<BlockItem> DARK_ENERGY_GENERATOR =
-            ITEMS.registerSimpleBlockItem("dark_energy_generator", ModBlocks.DARK_ENERGY_GENERATOR, new Item.Properties());
-    public static final DeferredItem<BlockItem> DARK_ENERGY_PURIFIER =
-            ITEMS.registerSimpleBlockItem("dark_energy_purifier", ModBlocks.DARK_ENERGY_PURIFIER, new Item.Properties());
+    public static final DeferredItem<BlockItem> DE_NETWORK_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("de_network_controller", ModBlocks.DE_NETWORK_CONTROLLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> DE_PIPE =
+            ITEMS.registerSimpleBlockItem("de_pipe", ModBlocks.DE_PIPE, new Item.Properties());
+    public static final DeferredItem<BlockItem> DE_GENERATOR =
+            ITEMS.registerSimpleBlockItem("de_generator", ModBlocks.DE_GENERATOR, new Item.Properties());
+    public static final DeferredItem<BlockItem> DE_PURIFIER =
+            ITEMS.registerSimpleBlockItem("de_purifier", ModBlocks.DE_PURIFIER, new Item.Properties());
 
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);

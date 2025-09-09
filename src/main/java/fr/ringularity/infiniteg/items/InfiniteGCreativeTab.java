@@ -32,10 +32,10 @@ public class InfiniteGCreativeTab {
                         output.accept(ModBlocks.DENSE_WOOD.get());
                         output.accept(ModBlocks.DENSE_PLANKS.get());
                         output.accept(ModBlocks.DENSE_IRON.get());
-                        output.accept(ModBlocks.DARK_ENERGY_NETWORK_CONTROLLER);
-                        output.accept(ModBlocks.DARK_ENERGY_PIPE);
-                        output.accept(ModBlocks.DARK_ENERGY_GENERATOR);
-                        output.accept(ModBlocks.DARK_ENERGY_PURIFIER);
+                        output.accept(ModBlocks.DE_NETWORK_CONTROLLER);
+                        output.accept(ModBlocks.DE_PIPE);
+                        output.accept(ModBlocks.DE_GENERATOR);
+                        output.accept(ModBlocks.DE_PURIFIER);
                     })
                     .build()
     );
