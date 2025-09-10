@@ -2,8 +2,14 @@
   "tooltip.infiniteg.contains": "Contains",
 
   "block.infiniteg.workstation": "Workstation",
+  "block.infiniteg.compactor": "Compactor",
+
   "block.infiniteg.de_pipe": "Dark Energy Pipe",
   "block.infiniteg.de_generator": "Dark Energy Generator",
   "block.infiniteg.de_purifier": "Dark Energy Purifier",
-  "block.infiniteg.de_network_controller": "Dark Energy Network Controller"
+  "block.infiniteg.de_network_controller": "Dark Energy Network Controller",
+
+  "item.infiniteg.diamond_compactor": "Diamond Compactor",
+  "item.infiniteg.dense_iron_plate": "Dense Iron Plate",
+  "item.infiniteg.iron_plate": "Iron Plate"
 }
