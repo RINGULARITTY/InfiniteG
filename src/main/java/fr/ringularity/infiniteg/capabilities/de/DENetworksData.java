@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -77,7 +77,7 @@ public class DENetworksData extends SavedData {
         setDirty();
     }
 
-    public void modifyDE(UUID networkId, BigDecimal mIn, Map<String, BigDecimal> props) {
+    public void injectModifyDE(UUID networkId, BigDecimal mIn, Map<String, BigDecimal> props) {
         var rec = networks.get(networkId);
         if (rec == null) return;
         var agg2 = rec.aggregate().mixIn(mIn, props, true);

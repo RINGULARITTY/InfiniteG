@@ -2,8 +2,8 @@ package fr.ringularity.infiniteg.commands;
 
 import com.mojang.brigadier.context.CommandContext;
 import fr.ringularity.infiniteg.InfiniteG;
-import fr.ringularity.infiniteg.capabilities.DEChat;
-import fr.ringularity.infiniteg.capabilities.DENetworks;
+import fr.ringularity.infiniteg.capabilities.de.DEChat;
+import fr.ringularity.infiniteg.capabilities.de.DENetworks;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;

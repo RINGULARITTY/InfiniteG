@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import fr.ringularity.infiniteg.blocks.DENetworkControllerBlock;
 import fr.ringularity.infiniteg.blocks.entities.DEGeneratorBlockEntity;

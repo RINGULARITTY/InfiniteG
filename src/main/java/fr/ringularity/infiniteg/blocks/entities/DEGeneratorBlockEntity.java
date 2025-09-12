@@ -1,6 +1,6 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
-import fr.ringularity.infiniteg.capabilities.*;
+import fr.ringularity.infiniteg.capabilities.de.*;
 import fr.ringularity.infiniteg.data.codec.UUIDCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

@@ -1,8 +1,8 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
-import fr.ringularity.infiniteg.capabilities.DENetworkNodeRef;
-import fr.ringularity.infiniteg.capabilities.DENetworkOps;
-import fr.ringularity.infiniteg.capabilities.DENetworks;
+import fr.ringularity.infiniteg.capabilities.de.DENetworkNodeRef;
+import fr.ringularity.infiniteg.capabilities.de.DENetworkOps;
+import fr.ringularity.infiniteg.capabilities.de.DENetworks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;

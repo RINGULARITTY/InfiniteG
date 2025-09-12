@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -7,6 +7,7 @@ import fr.ringularity.infiniteg.data.codec.BigDecimalCodecs;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public record DENetworkAggregate(BigDecimal quantity,
@@ -43,7 +44,39 @@ public record DENetworkAggregate(BigDecimal quantity,
         return new DENetworkAggregate(qN, out);
     }
 
-    public DENetworkAggregate addLoss(BigDecimal dq) {
-        return new DENetworkAggregate(this.quantity.add(dq), this.properties);
+    public record Extraction(DENetworkAggregate aggregate, BigDecimal removed) {}
+
+    public Extraction mixOut(BigDecimal qOut, Map<String, BigDecimal> propsOut, boolean modify) {
+        if (qOut == null || qOut.signum() <= 0) return new Extraction(this, BigDecimal.ZERO);
+
+        BigDecimal q0 = this.quantity.max(BigDecimal.ZERO);
+        if (q0.signum() == 0) return new Extraction(this, BigDecimal.ZERO);
+
+        BigDecimal applied = qOut.min(q0);
+        if (applied.signum() == 0) return new Extraction(this, BigDecimal.ZERO);
+
+        BigDecimal qRemain = q0.subtract(applied);
+        if (qRemain.signum() == 0) {
+            return new Extraction(new DENetworkAggregate(BigDecimal.ZERO, Map.of()), applied);
+        }
+
+        Map<String, BigDecimal> out = new HashMap<>();
+        var keys = new HashSet<>(properties.keySet());
+        keys.addAll(propsOut.keySet());
+
+        for (var key : keys) {
+            BigDecimal p0 = properties.getOrDefault(key, BigDecimal.ZERO);
+            BigDecimal px = propsOut.getOrDefault(key, p0);
+            BigDecimal num = q0.multiply(p0).subtract(applied.multiply(px));
+            BigDecimal pN  = num.divide(qRemain, MathContext.DECIMAL128);
+            if (pN.signum() < 0) pN = BigDecimal.ZERO;
+            out.put(key, pN);
+        }
+
+        DENetworkAggregate agg = modify
+                ? new DENetworkAggregate(q0, out)
+                : new DENetworkAggregate(qRemain, out);
+
+        return new Extraction(agg, applied);
     }
 }

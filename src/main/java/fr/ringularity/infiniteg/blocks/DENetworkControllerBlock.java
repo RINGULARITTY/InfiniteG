@@ -2,10 +2,10 @@ package fr.ringularity.infiniteg.blocks;
 
 import com.mojang.serialization.MapCodec;
 import fr.ringularity.infiniteg.blocks.entities.DENetworkControllerBlockEntity;
-import fr.ringularity.infiniteg.capabilities.DEChat;
-import fr.ringularity.infiniteg.capabilities.DENetworkNodeRef;
-import fr.ringularity.infiniteg.capabilities.DENetworks;
-import fr.ringularity.infiniteg.capabilities.DENetworksData;
+import fr.ringularity.infiniteg.capabilities.de.DEChat;
+import fr.ringularity.infiniteg.capabilities.de.DENetworkNodeRef;
+import fr.ringularity.infiniteg.capabilities.de.DENetworks;
+import fr.ringularity.infiniteg.capabilities.de.DENetworksData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

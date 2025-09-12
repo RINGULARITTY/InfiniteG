@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import fr.ringularity.infiniteg.blocks.DENetworkControllerBlock;
 import fr.ringularity.infiniteg.blocks.DEPipeBlock;
@@ -35,9 +35,11 @@ public final class GraphUtils {
     public static @Nullable UUID findAttachedNetworkId(ServerLevel level, BlockPos start) {
         Set<BlockPos> visited = new HashSet<>();
         ArrayDeque<BlockPos> dq = new ArrayDeque<>();
+        int explored = 0, limit = 8192;
+
         dq.add(start);
         visited.add(start);
-        int explored = 0, limit = 8192; // garde-fou
+
         while (!dq.isEmpty() && explored < limit) {
             explored++;
             BlockPos cur = dq.poll();
@@ -53,13 +55,11 @@ public final class GraphUtils {
                 if (isPipe(st)) {
                     dq.add(n);
                 }
-                // ne traverse pas à travers les machines -> machines = feuilles
             }
         }
         return null;
     }
 
-    // Trouve potentiellement plusieurs réseaux atteignables si le pipe relie deux hubs (cas interdit)
     public static Set<UUID> findAllNetworksTouching(ServerLevel level, BlockPos start) {
         Set<BlockPos> visited = new HashSet<>();
         ArrayDeque<BlockPos> dq = new ArrayDeque<>();
@@ -97,10 +97,13 @@ public final class GraphUtils {
     public static Set<BlockPos> collectPipeComponent(ServerLevel level, BlockPos start) {
         Set<BlockPos> pipes = new HashSet<>();
         if (!isPipe(level.getBlockState(start))) return pipes;
+
         ArrayDeque<BlockPos> dq = new ArrayDeque<>();
+        int explored = 0, limit = 16384;
+
         dq.add(start);
         pipes.add(start);
-        int explored = 0, limit = 16384;
+
         while (!dq.isEmpty() && explored++ < limit) {
             BlockPos cur = dq.poll();
             for (BlockPos n : neighbors6(cur)) {

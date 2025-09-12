@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.Registries;

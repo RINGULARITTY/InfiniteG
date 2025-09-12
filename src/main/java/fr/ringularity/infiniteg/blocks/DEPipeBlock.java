@@ -2,8 +2,8 @@ package fr.ringularity.infiniteg.blocks;
 
 import com.mojang.serialization.MapCodec;
 import fr.ringularity.infiniteg.blocks.entities.DEPipeBlockEntity;
-import fr.ringularity.infiniteg.capabilities.DENetworkOps;
-import fr.ringularity.infiniteg.capabilities.GraphUtils;
+import fr.ringularity.infiniteg.capabilities.de.DENetworkOps;
+import fr.ringularity.infiniteg.capabilities.de.GraphUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;

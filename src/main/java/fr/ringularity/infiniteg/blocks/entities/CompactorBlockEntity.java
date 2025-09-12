@@ -1,5 +1,6 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
+import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
 import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyStorage;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
 import fr.ringularity.infiniteg.component.ModDataComponents;
@@ -36,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 
-public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
+public class CompactorBlockEntity extends BlockEntity implements MenuProvider, IInfiniteGEnergy {
     public static final int OUTPUT_SLOT = 6;
 
     public final ItemStackHandler itemHandler = new ItemStackHandler(7) {
@@ -51,7 +52,7 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
 
     public final InfiniteGEnergyStorage energy = new InfiniteGEnergyStorage(
             BigInteger.valueOf(0),
-            BigInteger.valueOf(1000000),
+            BigInteger.valueOf(10_000),
             BigInteger.valueOf(100),
             BigInteger.valueOf(1)
     );
@@ -90,10 +91,15 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider {
 
     @Nullable
     public IEnergyStorage getEnergy(@Nullable Direction side) {
-        if (side != null) {
-            return energy;
+        if (side == null) {
+            return null;
         }
-        return null;
+        return energy;
+    }
+
+    @Override
+    public @Nullable InfiniteGEnergyStorage getInfiniteGEnergy(@Nullable Direction side) {
+        return energy;
     }
 
     @Override

@@ -2,18 +2,15 @@ package fr.ringularity.infiniteg.integrations.jade.data_providers;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.blocks.entities.DEMachineBlockEntity;
-import fr.ringularity.infiniteg.capabilities.DENetwork;
-import fr.ringularity.infiniteg.capabilities.DENetworkAggregate;
-import fr.ringularity.infiniteg.capabilities.DENetworks;
-import fr.ringularity.infiniteg.capabilities.DENetworksData;
-import net.minecraft.ChatFormatting;
+import fr.ringularity.infiniteg.capabilities.de.DENetwork;
+import fr.ringularity.infiniteg.capabilities.de.DENetworkAggregate;
+import fr.ringularity.infiniteg.capabilities.de.DENetworks;
+import fr.ringularity.infiniteg.capabilities.de.DENetworksData;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
-import snownee.jade.api.ui.JadeUI;
 
 import java.util.UUID;
 

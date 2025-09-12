@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.capabilities;
+package fr.ringularity.infiniteg.capabilities.de;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

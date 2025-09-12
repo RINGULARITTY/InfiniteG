@@ -1,8 +1,8 @@
 package fr.ringularity.infiniteg;
 
 import fr.ringularity.infiniteg.blocks.ModBlocks;
-import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
+import fr.ringularity.infiniteg.capabilities.ModCapabilityRegistration;
 import fr.ringularity.infiniteg.component.ModDataComponents;
 import fr.ringularity.infiniteg.items.InfiniteGCreativeTab;
 import fr.ringularity.infiniteg.items.ModItems;
@@ -73,11 +73,7 @@ public class InfiniteG
 
         @SubscribeEvent
         public static void registerCaps(RegisterCapabilitiesEvent event) {
-            event.registerBlockEntity(
-                    net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
-                    ModBlockEntities.COMPACTOR_BE.get(),
-                    CompactorBlockEntity::getEnergy
-            );
+            ModCapabilityRegistration.registerCapabilities(event);
         }
     }
 }

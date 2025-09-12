@@ -2,6 +2,7 @@ package fr.ringularity.infiniteg.integrations.jade.component_providers;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.format.BigIntegerFormat;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -38,11 +39,9 @@ public enum JadeEnergyComponentProvider implements IBlockComponentProvider {
         Component label = Component.literal(BigIntegerFormat.format_n(storedEnergy, 6) + " / "
                 + BigIntegerFormat.format_n(energyCapacity, 6)).withColor(0xFFFFFFFF);
 
-        try {
-            tooltip.add(JadeUI.progress(ratio, PROGRESS_BAR_BASE, PROGRESS_BAR_FILL, 300, 13, label, JadeUI.progressStyle()));
-        } catch (Throwable t) {
-            tooltip.append(label);
-        }
+        tooltip.add(JadeUI.spacer(0, 5));
+        tooltip.append(Component.literal("Energy Information").withColor(0xFFFFFFFF).withStyle(ChatFormatting.BOLD));
+        tooltip.add(JadeUI.progress(ratio, PROGRESS_BAR_BASE, PROGRESS_BAR_FILL, 300, 13, label, JadeUI.progressStyle()));
     }
 
     @Override
