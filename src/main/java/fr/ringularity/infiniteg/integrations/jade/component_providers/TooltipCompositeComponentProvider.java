@@ -15,29 +15,28 @@ public enum TooltipCompositeComponentProvider implements IBlockComponentProvider
     INSTANCE;
 
     private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "infiniteg_tooltip_client_component_provider");
+    private static final ResourceLocation LINE = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jade/line.png");
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor blockAccessor, IPluginConfig cfg) {
         CompoundTag nbt = blockAccessor.getServerData();
         int feats = nbt.getInt(JadeKeys.FEATURES).orElse(0);
 
-        boolean showEnergy   = (feats & JadeKeys.FEAT_ENERGY) != 0;
-        boolean showProgress = (feats & JadeKeys.FEAT_PROGRESS) != 0;
+        boolean showEnergy = (feats & JadeKeys.ENERGY_COMPONENT) != 0;
+        boolean showDE = (feats & JadeKeys.DE_COMPONENT) != 0;
 
         boolean first = true;
 
-        if (showEnergy) {
-            if (!first) JadeUI.addTextRule(tooltip, 140, 2, 2, 0xFF777777);
+        if (showDE) {
+            if (!first) tooltip.add(JadeUI.sprite(LINE, 300, 4));
             first = false;
-            long energy = nbt.getLong("mymod.energy");
-            tooltip.add(Component.translatable("mymod.jade.energy", energy));
+            tooltip.add(Component.literal("de"));
         }
 
-        if (showProgress) {
-            if (!first) JadeUI.addTextRule(tooltip, 140, 2, 2, 0xFF777777);
+        if (showEnergy) {
+            if (!first) tooltip.add(JadeUI.sprite(LINE, 300, 4));
             first = false;
-            int p = nbt.getInt("mymod.progress");
-            tooltip.add(Component.translatable("mymod.jade.progress", p + "%"));
+            tooltip.add(Component.literal("energy"));
         }
     }
 
