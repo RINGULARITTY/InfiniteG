@@ -6,6 +6,7 @@ import fr.ringularity.infiniteg.capabilities.de.DENetwork;
 import fr.ringularity.infiniteg.capabilities.de.DENetworkAggregate;
 import fr.ringularity.infiniteg.capabilities.de.DENetworks;
 import fr.ringularity.infiniteg.capabilities.de.DENetworksData;
+import fr.ringularity.infiniteg.integrations.jade.JadeStackableComponentKeys;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +27,8 @@ public enum JadeDEDataProvider implements IServerDataProvider<BlockAccessor> {
     @Override
     public void appendServerData(CompoundTag data, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof DEMachineBlockEntity deMachine) {
+            data.putInt(JadeStackableComponentKeys.FEATURES, data.getIntOr(JadeStackableComponentKeys.FEATURES, 0) | JadeStackableComponentKeys.DE_COMPONENT);
+
             UUID deNetworkId = deMachine.getDENetworkId();
 
             if (deNetworkId == null) {

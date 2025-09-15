@@ -1,4 +1,4 @@
-package fr.ringularity.infiniteg.integrations.jade.component_providers;
+package fr.ringularity.infiniteg.integrations.jade.stackable_component;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.format.BigIntegerFormat;
@@ -7,26 +7,22 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.JadeUI;
-import snownee.jade.api.view.ClientViewGroup;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 
-public enum JadeEnergyComponentProvider implements IBlockComponentProvider {
-    INSTANCE;
-
+public class JadeEnergyComponentProvider implements IJadeStackableComponentProvider {
     private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "infiniteg_energy_component_provider");
     private static final ResourceLocation PROGRESS_BAR_BASE = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jade/progress_bar_base");
-    private static final ResourceLocation PROGRESS_BAR_FILL = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jade/energy_bar");
+    private static final ResourceLocation PROGRESS_BAR_ENERGY_FILL = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jade/energy_bar");
+
+    public static final JadeEnergyComponentProvider ENERGY_COMPONENT_PROVIDER = new JadeEnergyComponentProvider();
 
     @Override
-    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
-        CompoundTag tag = accessor.getServerData();
+    public void renderStackableComponent(ITooltip tooltip, BlockAccessor blockAccessor, CompoundTag tag) {
         if (!tag.contains("stored_energy") || !tag.contains("energy_capacity")) return;
 
         BigInteger storedEnergy = new BigInteger(tag.getString("stored_energy").orElse("0"));
@@ -41,11 +37,6 @@ public enum JadeEnergyComponentProvider implements IBlockComponentProvider {
 
         tooltip.add(JadeUI.spacer(0, 5));
         tooltip.append(Component.literal("Energy Information").withColor(0xFFFFFFFF).withStyle(ChatFormatting.BOLD));
-        tooltip.add(JadeUI.progress(ratio, PROGRESS_BAR_BASE, PROGRESS_BAR_FILL, 300, 13, label, JadeUI.progressStyle()));
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
+        tooltip.add(JadeUI.progress(ratio, PROGRESS_BAR_BASE, PROGRESS_BAR_ENERGY_FILL, 300, 13, label, JadeUI.progressStyle()));
     }
 }
