@@ -23,8 +23,8 @@ public enum TooltipCompositeComponentProvider implements IBlockComponentProvider
     private static final ResourceLocation LINE = ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID, "jade/line");
 
     private static final HashMap<Integer, IJadeStackableComponentProvider> KEYS_STACKABLE_COMPONENTS = new HashMap<>(Map.of(
-            JadeStackableComponentKeys.ENERGY_COMPONENT, JadeEnergyComponentProvider.ENERGY_COMPONENT_PROVIDER,
-            JadeStackableComponentKeys.DE_COMPONENT, JadeDEComponentProvider.DE_COMPONENT_PROVIDER
+            JadeStackableComponentKeys.DE_COMPONENT, JadeDEComponentProvider.DE_COMPONENT_PROVIDER,
+            JadeStackableComponentKeys.ENERGY_COMPONENT, JadeEnergyComponentProvider.ENERGY_COMPONENT_PROVIDER
     ));
 
     @Override
