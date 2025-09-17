@@ -43,7 +43,7 @@ public enum TooltipCompositeComponentProvider implements IBlockComponentProvider
 
             if (!firstComponent) {
                 tooltip.add(JadeUI.spacer(1, 1));
-                tooltip.add(JadeUI.sprite(LINE, 300, 2));
+                tooltip.add(JadeUI.sprite(LINE, 300, 1));
                 tooltip.add(JadeUI.spacer(1, 1));
             }
 

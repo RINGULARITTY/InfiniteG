@@ -4,10 +4,9 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public final class BigDecimalFormat {
-    private BigDecimalFormat() {}
-
-    private static final String[] SUFFIX = { "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q" };
+public class BigDecimalFormat {
+    private static final String[] LARGE = { "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q" };
+    private static final String[] SMALL = { "m", "u", "n", "p", "f", "a", "z", "y", "r", "q" };
 
     public static String format(BigDecimal x) {
         return format_n(x, 3);
@@ -17,37 +16,73 @@ public final class BigDecimalFormat {
         if (significantDigits < 1) {
             throw new IllegalArgumentException("significantDigits must be >= 1");
         }
-
-        int sign = x.signum();
-        if (sign == 0) return "0";
-
-        boolean neg = sign < 0;
-        BigDecimal abs = x.abs();
-
-        if (abs.compareTo(BigDecimal.valueOf(1000)) < 0) {
-            String s = abs.stripTrailingZeros().toPlainString();
-            return (neg ? "-" : "") + s;
+        if (x.signum() == 0) {
+            return "0";
         }
 
-        int precision = abs.precision();
-        int scale = abs.scale();
-        int intDigits = precision - scale;
-        int group = (intDigits - 1) / 3;
+        boolean neg = x.signum() < 0;
+        BigDecimal abs = x.abs();
 
-        BigDecimal val = abs.movePointLeft(group * 3)
-                .round(new MathContext(significantDigits, RoundingMode.DOWN));
+        if (abs.compareTo(BigDecimal.valueOf(1000)) >= 0) {
+            int intDigits = integerDigits(abs);
+            int group = (intDigits - 1) / 3;
+
+            BigDecimal val = abs
+                    .movePointLeft(group * 3)
+                    .round(new MathContext(significantDigits, RoundingMode.DOWN));
+
+            if (val.compareTo(BigDecimal.valueOf(1000)) >= 0) {
+                val = val.movePointLeft(3);
+                group += 1;
+            }
+
+            String suffix = tierSuffix(LARGE, group);
+            return (neg ? "-" : "") + toPlain(val) + suffix;
+        }
+
+        if (abs.compareTo(BigDecimal.ONE) >= 0) {
+            BigDecimal val = abs.round(new MathContext(significantDigits, RoundingMode.DOWN));
+            return (neg ? "-" : "") + toPlain(val);
+        }
+
+        if (abs.compareTo(new BigDecimal("0.001")) >= 0) {
+            int sig = Math.max(1, significantDigits - 1);
+            BigDecimal val = abs.round(new MathContext(sig, RoundingMode.DOWN));
+            return (neg ? "-" : "") + toPlain(val);
+        }
+
+        int smallGroup = 0;
+        BigDecimal scaled = abs;
+        while (scaled.compareTo(BigDecimal.ONE) < 0) {
+            scaled = scaled.movePointRight(3);
+            smallGroup++;
+        }
+
+        BigDecimal val = scaled.round(new MathContext(significantDigits, RoundingMode.UP));
 
         if (val.compareTo(BigDecimal.valueOf(1000)) >= 0) {
             val = val.movePointLeft(3);
-            group += 1;
+            smallGroup -= 1;
         }
 
-        int baseIndex = group - 1;
-        int cycle = baseIndex / SUFFIX.length;
-        int tierIdx = baseIndex % SUFFIX.length;
-        String suffix = SUFFIX[tierIdx] + (cycle == 0 ? "" : String.valueOf(cycle + 1));
+        String suffix = tierSuffix(SMALL, smallGroup);
+        return (neg ? "-" : "") + toPlain(val) + suffix;
+    }
 
-        String s = val.stripTrailingZeros().toPlainString();
-        return (neg ? "-" : "") + s + suffix;
+    private static String tierSuffix(String[] base, int group) {
+        int baseIndex = group - 1;
+        int cycle = baseIndex / base.length;
+        int idx = baseIndex % base.length;
+        return base[idx] + (cycle == 0 ? "" : String.valueOf(cycle + 1));
+    }
+
+    private static int integerDigits(BigDecimal bd) {
+        String s = bd.stripTrailingZeros().toPlainString();
+        int dot = s.indexOf('.');
+        return (dot >= 0 ? dot : s.length());
+    }
+
+    private static String toPlain(BigDecimal bd) {
+        return bd.stripTrailingZeros().toPlainString();
     }
 }

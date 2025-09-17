@@ -31,9 +31,8 @@ public class JadeDEComponentProvider implements IJadeStackableComponentProvider 
 
         BigDecimal deQuantity = new BigDecimal(tag.getStringOr(JadeDEDataProvider.DE_QUANTITY_NETWORK_TAG, "0"));
 
-        tooltip.add(JadeUI.spacer(0, 5));
         tooltip.append(Component.literal("Dark Energy Network Information").withColor(0xFFFFFFFF).withStyle(ChatFormatting.BOLD));
-        tooltip.add(JadeUI.progress(1, PROGRESS_BAR_BASE, PROGRESS_BAR_DE_FILL, 300, 13, Component.literal(BigDecimalFormat.format(deQuantity) + " Dark Energy"), JadeUI.progressStyle()));
+        tooltip.add(JadeUI.progress(1, PROGRESS_BAR_BASE, PROGRESS_BAR_DE_FILL, 300, 13, Component.literal(BigDecimalFormat.format(deQuantity) + " Dark Energy").withColor(0xFFFFFFFF), JadeUI.progressStyle()));
 
         int propertiesAmount = tag.getIntOr(JadeDEDataProvider.DE_PROPERTIES_AMOUNT_TAG, 0);
         if (propertiesAmount == 0)
