@@ -26,6 +26,11 @@ public class ModItems {
     public static final DeferredItem<BlockItem> DE_PURIFIER =
             ITEMS.registerSimpleBlockItem("de_purifier", ModBlocks.DE_PURIFIER, new Item.Properties());
 
+    public static final DeferredItem<BlockItem> ASSEMBLER =
+            ITEMS.registerSimpleBlockItem("assembler", ModBlocks.ASSEMBLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> ASSEMBLER_BASE =
+            ITEMS.registerSimpleBlockItem("assembler_base", ModBlocks.ASSEMBLER_BASE, new Item.Properties());
+
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);
     public static final DeferredItem<BlockItem> DENSE_WOOD_ITEM =

@@ -37,6 +37,14 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("de_purifier_be", () -> new BlockEntityType<>(
                     DEPurifierBlockEntity::new, ModBlocks.DE_PURIFIER.get()));
 
+    public static final Supplier<BlockEntityType<AssemblerBlockEntity>> ASSEMBLER_BE =
+            BLOCK_ENTITIES.register("assembler_be", () -> new BlockEntityType<>(
+                    AssemblerBlockEntity::new, ModBlocks.ASSEMBLER.get()));
+
+    public static final Supplier<BlockEntityType<AssemblerBaseBlockEntity>> ASSEMBLER_BASE_BE =
+            BLOCK_ENTITIES.register("assembler_base_be", () -> new BlockEntityType<>(
+                    AssemblerBaseBlockEntity::new, ModBlocks.ASSEMBLER_BASE.get()));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

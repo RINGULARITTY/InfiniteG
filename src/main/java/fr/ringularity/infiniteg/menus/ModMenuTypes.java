@@ -20,6 +20,10 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<WorkstationMenu>> WORKSTATION_MENU =
             registerMenuType("workstation_menu", WorkstationMenu::new);
 
+    public static final DeferredHolder<MenuType<?>, MenuType<AssemblerMenu>> ASSEMBLER_MENU =
+            registerMenuType("assembler_menu", AssemblerMenu::new);
+
+
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
                                                                                                                IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));

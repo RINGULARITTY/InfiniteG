@@ -36,6 +36,8 @@ public class InfiniteGCreativeTab {
                         output.accept(ModBlocks.DE_PIPE);
                         output.accept(ModBlocks.DE_GENERATOR);
                         output.accept(ModBlocks.DE_PURIFIER);
+                        output.accept(ModBlocks.ASSEMBLER);
+                        output.accept(ModBlocks.ASSEMBLER_BASE);
                     })
                     .build()
     );

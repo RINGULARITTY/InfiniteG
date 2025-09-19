@@ -1,7 +1,7 @@
 package fr.ringularity.infiniteg.blocks;
 
 import com.mojang.serialization.MapCodec;
-import fr.ringularity.infiniteg.blocks.entities.CompactorBlockEntity;
+import fr.ringularity.infiniteg.blocks.entities.AssemblerBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,10 +21,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CompactorBlock extends BaseEntityBlock {
-    public static final MapCodec<CompactorBlock> CODEC = simpleCodec(CompactorBlock::new);
+public class AssemblerBlock extends BaseEntityBlock {
+    public static final MapCodec<AssemblerBlock> CODEC = simpleCodec(AssemblerBlock::new);
 
-    public CompactorBlock(Properties properties) {
+    public AssemblerBlock(Properties properties) {
         super(properties);
     }
 
@@ -33,10 +33,9 @@ public class CompactorBlock extends BaseEntityBlock {
         return CODEC;
     }
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return new CompactorBlockEntity(blockPos, blockState);
+    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+        return new AssemblerBlockEntity(blockPos, blockState);
     }
 
     @Override
@@ -49,8 +48,8 @@ public class CompactorBlock extends BaseEntityBlock {
                                                    @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHitResult) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if (entity instanceof CompactorBlockEntity be) {
-                pPlayer.openMenu(new SimpleMenuProvider(be, ModBlocks.COMPACTOR.asItem().getName()), pPos);
+            if (entity instanceof AssemblerBlockEntity be) {
+                pPlayer.openMenu(new SimpleMenuProvider(be, ModBlocks.ASSEMBLER.asItem().getName()), pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -66,7 +65,7 @@ public class CompactorBlock extends BaseEntityBlock {
             return null;
         }
 
-        return createTickerHelper(blockEntityType, ModBlockEntities.COMPACTOR_BE.get(),
+        return createTickerHelper(blockEntityType, ModBlockEntities.ASSEMBLER_BE.get(),
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
 }

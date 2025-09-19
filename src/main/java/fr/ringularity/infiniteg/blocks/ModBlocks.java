@@ -30,6 +30,15 @@ public class ModBlocks {
     public static final DeferredBlock<Block> DE_PURIFIER =
             BLOCKS.registerBlock("de_purifier", DEPurifierBlock::new, BlockBehaviour.Properties.of());
 
+
+    public static final DeferredBlock<Block> ASSEMBLER =
+            BLOCKS.registerBlock("assembler", AssemblerBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> ASSEMBLER_BASE =
+            BLOCKS.registerBlock("assembler_base", AssemblerBaseBlock::new, BlockBehaviour.Properties.of());
+
+
+
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =
             BLOCKS.registerSimpleBlock("dense_cobblestone", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> DENSE_WOOD =

@@ -39,7 +39,6 @@ public class DEGeneratorBlock extends DEMachineBlock {
         if (level.isClientSide) return;
         ServerLevel sl = (ServerLevel) level;
 
-        // Enforcer feuille: une seule adjacence pipe
         int pipes = GraphUtils.countAdjacentPipes(sl, pos);
         if (pipes > 1) {
             level.destroyBlock(pos, true);

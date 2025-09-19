@@ -1,5 +1,6 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
+import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
 import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyStorage;
 import fr.ringularity.infiniteg.component.CompactDataComponent;
@@ -104,7 +105,7 @@ public class CompactorBlockEntity extends BlockEntity implements MenuProvider, I
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("block.infiniteg.compactor");
+        return ModBlocks.COMPACTOR.asItem().getName();
     }
 
     @Override
