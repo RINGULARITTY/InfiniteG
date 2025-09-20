@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import fr.ringularity.infiniteg.blocks.entities.AssemblerBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -12,20 +11,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class AssemblerBlock extends BaseEntityBlock {
     public static final MapCodec<AssemblerBlock> CODEC = simpleCodec(AssemblerBlock::new);
+    public static final BooleanProperty VALID_STRUCTURE = ModBlockStateProperties.STRUCTURE_VALID;
 
     public AssemblerBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(VALID_STRUCTURE, false));
     }
 
     @Override
@@ -49,7 +53,8 @@ public class AssemblerBlock extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if (entity instanceof AssemblerBlockEntity be) {
-                pPlayer.openMenu(new SimpleMenuProvider(be, ModBlocks.ASSEMBLER.asItem().getName()), pPos);
+                if (be.isStructureValid)
+                    pPlayer.openMenu(new SimpleMenuProvider(be, ModBlocks.ASSEMBLER.asItem().getName()), pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -67,5 +72,10 @@ public class AssemblerBlock extends BaseEntityBlock {
 
         return createTickerHelper(blockEntityType, ModBlockEntities.ASSEMBLER_BE.get(),
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(VALID_STRUCTURE);
     }
 }

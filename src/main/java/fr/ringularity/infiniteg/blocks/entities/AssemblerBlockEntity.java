@@ -1,5 +1,6 @@
 package fr.ringularity.infiniteg.blocks.entities;
 
+import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
 import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyStorage;
@@ -23,6 +24,7 @@ import java.util.HashSet;
 
 public class AssemblerBlockEntity extends BlockEntity implements MenuProvider, IInfiniteGEnergy {
     private final HashSet<BlockPos> structureBlocks = new HashSet<>();
+    public boolean isStructureValid = false;
 
     protected final ContainerData data = new ContainerData() {
         @Override
@@ -67,14 +69,32 @@ public class AssemblerBlockEntity extends BlockEntity implements MenuProvider, I
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {}
 
-    public void addStructureBlock(BlockPos blockPos) {
-        structureBlocks.add(blockPos);
-        System.out.println("Add block " + blockPos.toShortString());
+    public void addStructureBlock(@NotNull BlockState ignoredState, @NotNull Level level, @NotNull BlockPos basePos) {
+        structureBlocks.add(basePos);
+        if (structureBlocks.size() == 8) {
+            isStructureValid = true;
+            BlockPos center = getBlockPos();
+            BlockState current = level.getBlockState(center);
+            if (current.hasProperty(ModBlockStateProperties.STRUCTURE_VALID)) {
+                BlockState updated = current.setValue(ModBlockStateProperties.STRUCTURE_VALID, true);
+                level.setBlock(center, updated, 3);
+                setChanged(level, center, updated);
+            }
+        }
     }
 
-    public void removeStructureBlock(BlockPos blockPos) {
-        structureBlocks.remove(blockPos);
-        System.out.println("Remove block " + blockPos.toShortString());
+    public void removeStructureBlock(@NotNull BlockState ignoredState, @NotNull Level level, @NotNull BlockPos basePos) {
+        structureBlocks.remove(basePos);
+        if (isStructureValid && structureBlocks.size() < 8) {
+            BlockPos center = getBlockPos();
+            BlockState current = level.getBlockState(center);
+            if (current.hasProperty(ModBlockStateProperties.STRUCTURE_VALID)) {
+                BlockState updated = current.setValue(ModBlockStateProperties.STRUCTURE_VALID, false);
+                level.setBlock(center, updated, 3);
+                setChanged(level, center, updated);
+            }
+            isStructureValid = false;
+        }
     }
 
     @Override
