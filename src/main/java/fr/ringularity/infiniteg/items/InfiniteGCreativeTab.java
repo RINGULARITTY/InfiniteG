@@ -32,12 +32,18 @@ public class InfiniteGCreativeTab {
                         output.accept(ModBlocks.DENSE_WOOD.get());
                         output.accept(ModBlocks.DENSE_PLANKS.get());
                         output.accept(ModBlocks.DENSE_IRON.get());
+
                         output.accept(ModBlocks.DE_NETWORK_CONTROLLER);
                         output.accept(ModBlocks.DE_PIPE);
                         output.accept(ModBlocks.DE_GENERATOR);
                         output.accept(ModBlocks.DE_PURIFIER);
-                        output.accept(ModBlocks.ASSEMBLER);
-                        output.accept(ModBlocks.ASSEMBLER_BASE);
+
+                        output.accept(ModBlocks.BASIC_ASSEMBLER_CONTROLLER);
+                        output.accept(ModBlocks.IMPROVED_ASSEMBLER_CONTROLLER);
+                        output.accept(ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER);
+                        output.accept(ModBlocks.BASIC_ASSEMBLER_CASING);
+                        output.accept(ModBlocks.IMPROVED_ASSEMBLER_CASING);
+                        output.accept(ModBlocks.ADVANCED_ASSEMBLER_CASING);
                     })
                     .build()
     );

@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "structure_valid=false": { "model": "infiniteg:block/assembler_incorrect" },
-    "structure_valid=true":  { "model": "infiniteg:block/assembler_correct"  }
-  }
-}

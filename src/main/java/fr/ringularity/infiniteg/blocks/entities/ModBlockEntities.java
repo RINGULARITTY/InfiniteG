@@ -2,6 +2,9 @@ package fr.ringularity.infiniteg.blocks.entities;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
+import fr.ringularity.infiniteg.blocks.entities.assembler.AdvancedAssemblerControllerBlockEntity;
+import fr.ringularity.infiniteg.blocks.entities.assembler.BasicAssemblerControllerBlockEntity;
+import fr.ringularity.infiniteg.blocks.entities.assembler.ImprovedAssemblerControllerBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -37,13 +40,17 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("de_purifier_be", () -> new BlockEntityType<>(
                     DEPurifierBlockEntity::new, ModBlocks.DE_PURIFIER.get()));
 
-    public static final Supplier<BlockEntityType<AssemblerBlockEntity>> ASSEMBLER_BE =
-            BLOCK_ENTITIES.register("assembler_be", () -> new BlockEntityType<>(
-                    AssemblerBlockEntity::new, ModBlocks.ASSEMBLER.get()));
+    public static final Supplier<BlockEntityType<BasicAssemblerControllerBlockEntity>> BASIC_ASSEMBLER_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("basic_assembler_controller_be", () -> new BlockEntityType<>(
+                    BasicAssemblerControllerBlockEntity::new, ModBlocks.BASIC_ASSEMBLER_CONTROLLER.get()));
 
-    public static final Supplier<BlockEntityType<AssemblerBaseBlockEntity>> ASSEMBLER_BASE_BE =
-            BLOCK_ENTITIES.register("assembler_base_be", () -> new BlockEntityType<>(
-                    AssemblerBaseBlockEntity::new, ModBlocks.ASSEMBLER_BASE.get()));
+    public static final Supplier<BlockEntityType<ImprovedAssemblerControllerBlockEntity>> IMPROVED_ASSEMBLER_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("improved_assembler_controller_be", () -> new BlockEntityType<>(
+                    ImprovedAssemblerControllerBlockEntity::new, ModBlocks.IMPROVED_ASSEMBLER_CONTROLLER.get()));
+
+    public static final Supplier<BlockEntityType<AdvancedAssemblerControllerBlockEntity>> ADVANCED_ASSEMBLER_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("advanced_assembler_controller_be", () -> new BlockEntityType<>(
+                    AdvancedAssemblerControllerBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

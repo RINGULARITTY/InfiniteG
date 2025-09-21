@@ -1,6 +1,7 @@
 package fr.ringularity.infiniteg.blocks;
 
 import fr.ringularity.infiniteg.InfiniteG;
+import fr.ringularity.infiniteg.blocks.assembler.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -31,12 +32,23 @@ public class ModBlocks {
             BLOCKS.registerBlock("de_purifier", DEPurifierBlock::new, BlockBehaviour.Properties.of());
 
 
-    public static final DeferredBlock<Block> ASSEMBLER =
-            BLOCKS.registerBlock("assembler", AssemblerBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> BASIC_ASSEMBLER_CONTROLLER =
+            BLOCKS.registerBlock("basic_assembler_controller", BasicAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
 
-    public static final DeferredBlock<Block> ASSEMBLER_BASE =
-            BLOCKS.registerBlock("assembler_base", AssemblerBaseBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> IMPROVED_ASSEMBLER_CONTROLLER =
+            BLOCKS.registerBlock("improved_assembler_controller", ImprovedAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
 
+    public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_CONTROLLER =
+            BLOCKS.registerBlock("advanced_assembler_controller", AdvancedAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> BASIC_ASSEMBLER_CASING =
+            BLOCKS.registerBlock("basic_assembler_casing", BasicAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> IMPROVED_ASSEMBLER_CASING =
+            BLOCKS.registerBlock("improved_assembler_casing", ImprovedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_CASING =
+            BLOCKS.registerBlock("advanced_assembler_casing", AdvancedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
 
 
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =

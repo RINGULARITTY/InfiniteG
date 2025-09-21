@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class DEMachineBlock extends BaseEntityBlock {
-    public DEMachineBlock(Properties properties) {
+public abstract class AbstractDEMachineBlock extends BaseEntityBlock {
+    public AbstractDEMachineBlock(Properties properties) {
         super(properties);
     }
 

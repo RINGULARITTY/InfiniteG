@@ -26,10 +26,18 @@ public class ModItems {
     public static final DeferredItem<BlockItem> DE_PURIFIER =
             ITEMS.registerSimpleBlockItem("de_purifier", ModBlocks.DE_PURIFIER, new Item.Properties());
 
-    public static final DeferredItem<BlockItem> ASSEMBLER =
-            ITEMS.registerSimpleBlockItem("assembler", ModBlocks.ASSEMBLER, new Item.Properties());
-    public static final DeferredItem<BlockItem> ASSEMBLER_BASE =
-            ITEMS.registerSimpleBlockItem("assembler_base", ModBlocks.ASSEMBLER_BASE, new Item.Properties());
+    public static final DeferredItem<BlockItem> BASIC_ASSEMBLER_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("basic_assembler_controller", ModBlocks.BASIC_ASSEMBLER_CONTROLLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> IMPROVED_ASSEMBLER_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("improved_assembler_controller", ModBlocks.IMPROVED_ASSEMBLER_CONTROLLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> ADVANCED_ASSEMBLER_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("advanced_assembler_controller", ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER, new Item.Properties());
+    public static final DeferredItem<BlockItem> BASIC_ASSEMBLER_CASING =
+            ITEMS.registerSimpleBlockItem("basic_assembler_casing", ModBlocks.BASIC_ASSEMBLER_CASING, new Item.Properties());
+    public static final DeferredItem<BlockItem> IMPROVED_ASSEMBLER_CASING =
+            ITEMS.registerSimpleBlockItem("improved_assembler_casing", ModBlocks.IMPROVED_ASSEMBLER_CASING, new Item.Properties());
+    public static final DeferredItem<BlockItem> ADVANCED_ASSEMBLER_CASING =
+            ITEMS.registerSimpleBlockItem("advanced_assembler_casing", ModBlocks.ADVANCED_ASSEMBLER_CASING, new Item.Properties());
 
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);

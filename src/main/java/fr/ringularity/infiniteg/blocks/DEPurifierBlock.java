@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class DEPurifierBlock extends DEMachineBlock {
+public class DEPurifierBlock extends AbstractDEMachineBlock {
     public static final MapCodec<DEPurifierBlock> CODEC = simpleCodec(DEPurifierBlock::new);
 
     public DEPurifierBlock(Properties properties) {

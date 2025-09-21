@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class DEGeneratorBlock extends DEMachineBlock {
+public class DEGeneratorBlock extends AbstractDEMachineBlock {
     public static final MapCodec<DEGeneratorBlock> CODEC = simpleCodec(DEGeneratorBlock::new);
 
     public DEGeneratorBlock(Properties props) { super(props); }

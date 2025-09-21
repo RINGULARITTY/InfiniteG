@@ -2,7 +2,7 @@ package fr.ringularity.infiniteg.capabilities.de;
 
 import fr.ringularity.infiniteg.blocks.DENetworkControllerBlock;
 import fr.ringularity.infiniteg.blocks.DEPipeBlock;
-import fr.ringularity.infiniteg.blocks.DEMachineBlock;
+import fr.ringularity.infiniteg.blocks.AbstractDEMachineBlock;
 import fr.ringularity.infiniteg.blocks.entities.DENetworkControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +25,7 @@ public final class GraphUtils {
     }
 
     public static boolean isDEMachine(BlockState s) {
-        return s.getBlock() instanceof DEMachineBlock;
+        return s.getBlock() instanceof AbstractDEMachineBlock;
     }
 
     public static List<BlockPos> neighbors6(BlockPos p) {

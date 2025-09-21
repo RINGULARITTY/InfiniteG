@@ -1,6 +1,6 @@
 package fr.ringularity.infiniteg.integrations.jade;
 
-import fr.ringularity.infiniteg.blocks.DEMachineBlock;
+import fr.ringularity.infiniteg.blocks.AbstractDEMachineBlock;
 import fr.ringularity.infiniteg.blocks.entities.DEMachineBlockEntity;
 import fr.ringularity.infiniteg.integrations.jade.component_providers.TooltipCompositeComponentProvider;
 import fr.ringularity.infiniteg.integrations.jade.data_providers.JadeDEDataProvider;
@@ -20,6 +20,6 @@ public class JadeRegisters implements IWailaPlugin {
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
-        registration.registerBlockComponent(TooltipCompositeComponentProvider.INSTANCE, DEMachineBlock.class);
+        registration.registerBlockComponent(TooltipCompositeComponentProvider.INSTANCE, AbstractDEMachineBlock.class);
     }
 }

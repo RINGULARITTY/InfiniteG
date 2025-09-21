@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class DENetworkControllerBlock extends DEMachineBlock {
+public class DENetworkControllerBlock extends AbstractDEMachineBlock {
     public static final MapCodec<DENetworkControllerBlock> CODEC = simpleCodec(DENetworkControllerBlock::new);
 
     public DENetworkControllerBlock(Properties props) {
