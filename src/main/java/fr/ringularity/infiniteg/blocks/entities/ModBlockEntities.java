@@ -2,9 +2,7 @@ package fr.ringularity.infiniteg.blocks.entities;
 
 import fr.ringularity.infiniteg.InfiniteG;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
-import fr.ringularity.infiniteg.blocks.entities.assembler.AdvancedAssemblerControllerBlockEntity;
-import fr.ringularity.infiniteg.blocks.entities.assembler.BasicAssemblerControllerBlockEntity;
-import fr.ringularity.infiniteg.blocks.entities.assembler.ImprovedAssemblerControllerBlockEntity;
+import fr.ringularity.infiniteg.blocks.entities.assembler.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -51,6 +49,18 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<AdvancedAssemblerControllerBlockEntity>> ADVANCED_ASSEMBLER_CONTROLLER_BE =
             BLOCK_ENTITIES.register("advanced_assembler_controller_be", () -> new BlockEntityType<>(
                     AdvancedAssemblerControllerBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER.get()));
+
+    public static final Supplier<BlockEntityType<BasicAssemblerCasingBlockEntity>> BASIC_ASSEMBLER_CASING_BE =
+            BLOCK_ENTITIES.register("basic_assembler_casing_be", () -> new BlockEntityType<>(
+                    BasicAssemblerCasingBlockEntity::new, ModBlocks.BASIC_ASSEMBLER_CASING.get()));
+
+    public static final Supplier<BlockEntityType<ImprovedAssemblerCasingBlockEntity>> IMPROVED_ASSEMBLER_CASING_BE =
+            BLOCK_ENTITIES.register("improved_assembler_casing_be", () -> new BlockEntityType<>(
+                    ImprovedAssemblerCasingBlockEntity::new, ModBlocks.IMPROVED_ASSEMBLER_CASING.get()));
+
+    public static final Supplier<BlockEntityType<AdvancedAssemblerCasingBlockEntity>> ADVANCED_ASSEMBLER_CASING_BE =
+            BLOCK_ENTITIES.register("advanced_assembler_casing_be", () -> new BlockEntityType<>(
+                    AdvancedAssemblerCasingBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_CASING.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

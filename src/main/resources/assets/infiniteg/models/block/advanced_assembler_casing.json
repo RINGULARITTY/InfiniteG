@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "infiniteg:block/assembler/advanced_assembler_casing"
+  }
+}

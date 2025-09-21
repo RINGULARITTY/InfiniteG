@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north,structure_valid=false,working=false": { "model": "infiniteg:block/improved_assembler_controller" },
+    "facing=north,structure_valid=false,working=true":  { "model": "infiniteg:block/improved_assembler_controller"  },
+    "facing=north,structure_valid=true,working=false": { "model": "infiniteg:block/improved_assembler_controller_valid" },
+    "facing=north,structure_valid=true,working=true":  { "model": "infiniteg:block/improved_assembler_controller_valid_working"  },
+
+    "facing=east,structure_valid=false,working=false": { "model": "infiniteg:block/improved_assembler_controller", "y": 90 },
+    "facing=east,structure_valid=false,working=true":  { "model": "infiniteg:block/improved_assembler_controller", "y": 90  },
+    "facing=east,structure_valid=true,working=false": { "model": "infiniteg:block/improved_assembler_controller_valid", "y": 90 },
+    "facing=east,structure_valid=true,working=true":  { "model": "infiniteg:block/improved_assembler_controller_valid_working", "y": 90  },
+
+    "facing=south,structure_valid=false,working=false": { "model": "infiniteg:block/improved_assembler_controller", "y": 180 },
+    "facing=south,structure_valid=false,working=true":  { "model": "infiniteg:block/improved_assembler_controller", "y": 180  },
+    "facing=south,structure_valid=true,working=false": { "model": "infiniteg:block/improved_assembler_controller_valid", "y": 180 },
+    "facing=south,structure_valid=true,working=true":  { "model": "infiniteg:block/improved_assembler_controller_valid_working", "y": 180  },
+
+    "facing=west,structure_valid=false,working=false": { "model": "infiniteg:block/improved_assembler_controller", "y": 270 },
+    "facing=west,structure_valid=false,working=true":  { "model": "infiniteg:block/improved_assembler_controller", "y": 270  },
+    "facing=west,structure_valid=true,working=false": { "model": "infiniteg:block/improved_assembler_controller_valid", "y": 270 },
+    "facing=west,structure_valid=true,working=true":  { "model": "infiniteg:block/improved_assembler_controller_valid_working", "y": 270  }
+  }
+}

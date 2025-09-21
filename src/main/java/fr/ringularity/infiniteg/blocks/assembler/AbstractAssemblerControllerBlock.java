@@ -2,6 +2,9 @@ package fr.ringularity.infiniteg.blocks.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
+import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
+import fr.ringularity.infiniteg.blocks.entities.assembler.AbstractAssemblerControllerBlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -15,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,9 +52,24 @@ public abstract class AbstractAssemblerControllerBlock extends Block implements 
                 .setValue(WORKING, false);
     }
 
+    @Override
+    public @javax.annotation.Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        BlockEntityType<? extends AbstractAssemblerControllerBlockEntity> bet = switch (getTier()) {
+            case BASIC    -> ModBlockEntities.BASIC_ASSEMBLER_CONTROLLER_BE.get();
+            case IMPROVED -> ModBlockEntities.IMPROVED_ASSEMBLER_CONTROLLER_BE.get();
+            case ADVANCED -> ModBlockEntities.ADVANCED_ASSEMBLER_CONTROLLER_BE.get();
+        };
+        return bet.create(pos, state);
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         return null;
+    }
+
+    @Override
+    public PushReaction getPistonPushReaction(@NotNull BlockState state) {
+        return PushReaction.BLOCK;
     }
 }

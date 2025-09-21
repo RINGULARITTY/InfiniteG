@@ -3,16 +3,19 @@ package fr.ringularity.infiniteg.blocks.entities.assembler;
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.blocks.assembler.AbstractAssemblerControllerBlock;
+import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity {
+public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity implements MenuProvider, IInfiniteGEnergy {
 
-    protected AbstractAssemblerControllerBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    protected AbstractAssemblerControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -43,7 +46,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
         if (state.getValue(AbstractAssemblerControllerBlock.STRUCTURE_VALID) != valid) {
             BlockState updated = state.setValue(AbstractAssemblerControllerBlock.STRUCTURE_VALID, valid);
             updated = updated.setValue(AbstractAssemblerControllerBlock.WORKING, false);
-            level.setBlock(getBlockPos(), updated, Block.UPDATE_ALL);
+            level.setBlock(getBlockPos(), updated, Block.UPDATE_CLIENTS);
         }
     }
 
@@ -84,6 +87,5 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
         return true;
     }
 
-    public static <T extends AbstractAssemblerControllerBlockEntity> void tick(Level level, BlockPos pos, BlockState state, T be) {
-    }
+    public static <T extends AbstractAssemblerControllerBlockEntity> void tick(Level level, BlockPos pos, BlockState state, T be) {}
 }

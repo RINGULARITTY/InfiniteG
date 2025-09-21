@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "infiniteg:block/assembler_correct",
-    "side": "infiniteg:block/assembler",
-    "top": "infiniteg:block/assembler"
-  }
-}

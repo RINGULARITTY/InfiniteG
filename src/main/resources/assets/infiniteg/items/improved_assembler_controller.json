@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "model",
+    "model": "infiniteg:item/improved_assembler_controller"
+  }
+}
