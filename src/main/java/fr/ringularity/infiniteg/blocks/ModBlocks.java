@@ -43,12 +43,18 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> BASIC_ASSEMBLER_CASING =
             BLOCKS.registerBlock("basic_assembler_casing", BasicAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> BASIC_ASSEMBLER_ENERGY_CASING =
+            BLOCKS.registerBlock("basic_assembler_energy_casing", BasicAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
 
     public static final DeferredBlock<Block> IMPROVED_ASSEMBLER_CASING =
             BLOCKS.registerBlock("improved_assembler_casing", ImprovedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> IMPROVED_ASSEMBLER_ENERGY_CASING =
+            BLOCKS.registerBlock("improved_assembler_energy_casing", ImprovedAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
 
     public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_CASING =
             BLOCKS.registerBlock("advanced_assembler_casing", AdvancedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_ENERGY_CASING =
+            BLOCKS.registerBlock("advanced_assembler_energy_casing", AdvancedAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
 
 
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =

@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "model",
+    "model": "infiniteg:item/basic_assembler_energy_casing"
+  }
+}

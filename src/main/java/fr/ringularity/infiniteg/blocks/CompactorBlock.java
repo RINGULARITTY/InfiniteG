@@ -45,12 +45,12 @@ public class CompactorBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack pStack, @NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos,
-                                                   @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos,
+                                                   @NotNull Player player, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHitResult) {
+        if (!level.isClientSide()) {
+            BlockEntity entity = level.getBlockEntity(pos);
             if (entity instanceof CompactorBlockEntity be) {
-                pPlayer.openMenu(new SimpleMenuProvider(be, ModBlocks.COMPACTOR.asItem().getName()), pPos);
+                player.openMenu(new SimpleMenuProvider(be, ModBlocks.COMPACTOR.asItem().getName()), pos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }

@@ -42,8 +42,11 @@ public class InfiniteGCreativeTab {
                         output.accept(ModBlocks.IMPROVED_ASSEMBLER_CONTROLLER);
                         output.accept(ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER);
                         output.accept(ModBlocks.BASIC_ASSEMBLER_CASING);
+                        output.accept(ModBlocks.BASIC_ASSEMBLER_ENERGY_CASING);
                         output.accept(ModBlocks.IMPROVED_ASSEMBLER_CASING);
+                        output.accept(ModBlocks.IMPROVED_ASSEMBLER_ENERGY_CASING);
                         output.accept(ModBlocks.ADVANCED_ASSEMBLER_CASING);
+                        output.accept(ModBlocks.ADVANCED_ASSEMBLER_ENERGY_CASING);
                     })
                     .build()
     );

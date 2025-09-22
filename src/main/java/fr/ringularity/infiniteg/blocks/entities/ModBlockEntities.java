@@ -53,14 +53,23 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<BasicAssemblerCasingBlockEntity>> BASIC_ASSEMBLER_CASING_BE =
             BLOCK_ENTITIES.register("basic_assembler_casing_be", () -> new BlockEntityType<>(
                     BasicAssemblerCasingBlockEntity::new, ModBlocks.BASIC_ASSEMBLER_CASING.get()));
+    public static final Supplier<BlockEntityType<BasicAssemblerEnergyCasingBlockEntity>> BASIC_ASSEMBLER_ENERGY_CASING_BE =
+            BLOCK_ENTITIES.register("basic_assembler_energy_casing_be", () -> new BlockEntityType<>(
+                    BasicAssemblerEnergyCasingBlockEntity::new, ModBlocks.BASIC_ASSEMBLER_ENERGY_CASING.get()));
 
     public static final Supplier<BlockEntityType<ImprovedAssemblerCasingBlockEntity>> IMPROVED_ASSEMBLER_CASING_BE =
             BLOCK_ENTITIES.register("improved_assembler_casing_be", () -> new BlockEntityType<>(
                     ImprovedAssemblerCasingBlockEntity::new, ModBlocks.IMPROVED_ASSEMBLER_CASING.get()));
+    public static final Supplier<BlockEntityType<ImprovedAssemblerEnergyCasingBlockEntity>> IMPROVED_ASSEMBLER_ENERGY_CASING_BE =
+            BLOCK_ENTITIES.register("improved_assembler_casing_energy_be", () -> new BlockEntityType<>(
+                    ImprovedAssemblerEnergyCasingBlockEntity::new, ModBlocks.IMPROVED_ASSEMBLER_ENERGY_CASING.get()));
 
     public static final Supplier<BlockEntityType<AdvancedAssemblerCasingBlockEntity>> ADVANCED_ASSEMBLER_CASING_BE =
             BLOCK_ENTITIES.register("advanced_assembler_casing_be", () -> new BlockEntityType<>(
                     AdvancedAssemblerCasingBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_CASING.get()));
+    public static final Supplier<BlockEntityType<AdvancedAssemblerEnergyCasingBlockEntity>> ADVANCED_ASSEMBLER_ENERGY_CASING_BE =
+            BLOCK_ENTITIES.register("advanced_assembler_energy_casing_be", () -> new BlockEntityType<>(
+                    AdvancedAssemblerEnergyCasingBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_ENERGY_CASING.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

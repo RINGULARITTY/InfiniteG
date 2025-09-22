@@ -1,11 +1,16 @@
 package fr.ringularity.infiniteg.blocks.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
+import fr.ringularity.infiniteg.abstracts.RecipeType;
 import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import fr.ringularity.infiniteg.blocks.entities.assembler.AbstractAssemblerControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +24,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,10 +68,37 @@ public abstract class AbstractAssemblerControllerBlock extends Block implements 
         return bet.create(pos, state);
     }
 
+    @Override
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+        if (level.isClientSide())
+            return InteractionResult.FAIL;
+
+        if (level.getBlockEntity(pos) instanceof AbstractAssemblerControllerBlockEntity cbe) {
+            for (RecipeType rt : cbe.recipeTypes) {
+                System.out.print(rt.typeName());
+                System.out.print(", ");
+            }
+            System.out.println("");
+
+            return InteractionResult.SUCCESS;
+        }
+
+        return InteractionResult.FAIL;
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         return null;
+    }
+
+    @Override
+    public void onPlace(@NotNull BlockState newState, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean movedByPiston) {
+        super.onPlace(newState, level, pos, oldState, movedByPiston);
+        if (!level.isClientSide) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof AbstractAssemblerControllerBlockEntity ctrl) ctrl.initializeLinksAndValidate();
+        }
     }
 
     @Override

@@ -34,10 +34,16 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem("advanced_assembler_controller", ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER, new Item.Properties());
     public static final DeferredItem<BlockItem> BASIC_ASSEMBLER_CASING =
             ITEMS.registerSimpleBlockItem("basic_assembler_casing", ModBlocks.BASIC_ASSEMBLER_CASING, new Item.Properties());
+    public static final DeferredItem<BlockItem> BASIC_ASSEMBLER_ENERGY_CASING =
+            ITEMS.registerSimpleBlockItem("basic_assembler_energy_casing", ModBlocks.BASIC_ASSEMBLER_ENERGY_CASING, new Item.Properties());
     public static final DeferredItem<BlockItem> IMPROVED_ASSEMBLER_CASING =
             ITEMS.registerSimpleBlockItem("improved_assembler_casing", ModBlocks.IMPROVED_ASSEMBLER_CASING, new Item.Properties());
+    public static final DeferredItem<BlockItem> IMPROVED_ASSEMBLER_ENERGY_CASING =
+            ITEMS.registerSimpleBlockItem("improved_assembler_energy_casing", ModBlocks.IMPROVED_ASSEMBLER_ENERGY_CASING, new Item.Properties());
     public static final DeferredItem<BlockItem> ADVANCED_ASSEMBLER_CASING =
             ITEMS.registerSimpleBlockItem("advanced_assembler_casing", ModBlocks.ADVANCED_ASSEMBLER_CASING, new Item.Properties());
+    public static final DeferredItem<BlockItem> ADVANCED_ASSEMBLER_ENERGY_CASING =
+            ITEMS.registerSimpleBlockItem("advanced_assembler_energy_casing", ModBlocks.ADVANCED_ASSEMBLER_ENERGY_CASING, new Item.Properties());
 
     public static final DeferredItem<BlockItem> DENSE_COBBLESTONE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.DENSE_COBBLESTONE);

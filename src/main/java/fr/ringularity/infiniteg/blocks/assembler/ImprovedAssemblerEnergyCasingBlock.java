@@ -2,22 +2,21 @@ package fr.ringularity.infiniteg.blocks.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.abstracts.RecipeType;
-import fr.ringularity.infiniteg.blocks.entities.assembler.ImprovedAssemblerCasingBlockEntity;
+import fr.ringularity.infiniteg.blocks.entities.assembler.ImprovedAssemblerEnergyCasingBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class ImprovedAssemblerCasingBlock extends AbstractAssemblerCasingBlock {
-    public ImprovedAssemblerCasingBlock(BlockBehaviour.Properties props) {
-        super(MachineTier.IMPROVED, RecipeType.NONE, props);
+public class ImprovedAssemblerEnergyCasingBlock extends AbstractAssemblerCasingBlock {
+    public ImprovedAssemblerEnergyCasingBlock(Properties props) {
+        super(MachineTier.IMPROVED, RecipeType.ENERGY, props);
     }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return new ImprovedAssemblerCasingBlockEntity(pos, state);
+        return new ImprovedAssemblerEnergyCasingBlockEntity(pos, state);
     }
 }
