@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "infiniteg:block/elite_assembler_casing"
+    }
+  }
+}

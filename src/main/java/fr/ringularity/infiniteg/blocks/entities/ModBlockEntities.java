@@ -41,14 +41,18 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<BasicAssemblerControllerBlockEntity>> BASIC_ASSEMBLER_CONTROLLER_BE =
             BLOCK_ENTITIES.register("basic_assembler_controller_be", () -> new BlockEntityType<>(
                     BasicAssemblerControllerBlockEntity::new, ModBlocks.BASIC_ASSEMBLER_CONTROLLER.get()));
-
     public static final Supplier<BlockEntityType<ImprovedAssemblerControllerBlockEntity>> IMPROVED_ASSEMBLER_CONTROLLER_BE =
             BLOCK_ENTITIES.register("improved_assembler_controller_be", () -> new BlockEntityType<>(
                     ImprovedAssemblerControllerBlockEntity::new, ModBlocks.IMPROVED_ASSEMBLER_CONTROLLER.get()));
-
     public static final Supplier<BlockEntityType<AdvancedAssemblerControllerBlockEntity>> ADVANCED_ASSEMBLER_CONTROLLER_BE =
             BLOCK_ENTITIES.register("advanced_assembler_controller_be", () -> new BlockEntityType<>(
                     AdvancedAssemblerControllerBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_CONTROLLER.get()));
+    public static final Supplier<BlockEntityType<SophisticatedAssemblerControllerBlockEntity>> SOPHISTICATED_ASSEMBLER_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("sophisticated_assembler_controller_be", () -> new BlockEntityType<>(
+                    SophisticatedAssemblerControllerBlockEntity::new, ModBlocks.SOPHISTICATED_ASSEMBLER_CONTROLLER.get()));
+    public static final Supplier<BlockEntityType<EliteAssemblerControllerBlockEntity>> ELITE_ASSEMBLER_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("elite_assembler_controller_be", () -> new BlockEntityType<>(
+                    EliteAssemblerControllerBlockEntity::new, ModBlocks.ELITE_ASSEMBLER_CONTROLLER.get()));
 
     public static final Supplier<BlockEntityType<BasicAssemblerCasingBlockEntity>> BASIC_ASSEMBLER_CASING_BE =
             BLOCK_ENTITIES.register("basic_assembler_casing_be", () -> new BlockEntityType<>(
@@ -70,6 +74,20 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<AdvancedAssemblerEnergyCasingBlockEntity>> ADVANCED_ASSEMBLER_ENERGY_CASING_BE =
             BLOCK_ENTITIES.register("advanced_assembler_energy_casing_be", () -> new BlockEntityType<>(
                     AdvancedAssemblerEnergyCasingBlockEntity::new, ModBlocks.ADVANCED_ASSEMBLER_ENERGY_CASING.get()));
+
+    public static final Supplier<BlockEntityType<SophisticatedAssemblerCasingBlockEntity>> SOPHISTICATED_ASSEMBLER_CASING_BE =
+            BLOCK_ENTITIES.register("sophisticated_assembler_casing_be", () -> new BlockEntityType<>(
+                    SophisticatedAssemblerCasingBlockEntity::new, ModBlocks.SOPHISTICATED_ASSEMBLER_CASING.get()));
+    public static final Supplier<BlockEntityType<SophisticatedAssemblerEnergyCasingBlockEntity>> SOPHISTICATED_ASSEMBLER_ENERGY_CASING_BE =
+            BLOCK_ENTITIES.register("sophisticated_assembler_energy_casing_be", () -> new BlockEntityType<>(
+                    SophisticatedAssemblerEnergyCasingBlockEntity::new, ModBlocks.SOPHISTICATED_ASSEMBLER_ENERGY_CASING.get()));
+
+    public static final Supplier<BlockEntityType<EliteAssemblerCasingBlockEntity>> ELITE_ASSEMBLER_CASING_BE =
+            BLOCK_ENTITIES.register("elite_assembler_casing_be", () -> new BlockEntityType<>(
+                    EliteAssemblerCasingBlockEntity::new, ModBlocks.ELITE_ASSEMBLER_CASING.get()));
+    public static final Supplier<BlockEntityType<EliteAssemblerEnergyCasingBlockEntity>> ELITE_ASSEMBLER_ENERGY_CASING_BE =
+            BLOCK_ENTITIES.register("elite_assembler_energy_casing_be", () -> new BlockEntityType<>(
+                    EliteAssemblerEnergyCasingBlockEntity::new, ModBlocks.ELITE_ASSEMBLER_ENERGY_CASING.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

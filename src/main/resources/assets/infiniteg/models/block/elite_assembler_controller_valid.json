@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "infiniteg:block/assembler/elite_assembler_controller_valid",
+    "side": "infiniteg:block/assembler/elite_assembler_casing",
+    "top": "infiniteg:block/assembler/elite_assembler_casing"
+  }
+}

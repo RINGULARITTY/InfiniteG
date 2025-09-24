@@ -34,12 +34,14 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> BASIC_ASSEMBLER_CONTROLLER =
             BLOCKS.registerBlock("basic_assembler_controller", BasicAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
-
     public static final DeferredBlock<Block> IMPROVED_ASSEMBLER_CONTROLLER =
             BLOCKS.registerBlock("improved_assembler_controller", ImprovedAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
-
     public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_CONTROLLER =
             BLOCKS.registerBlock("advanced_assembler_controller", AdvancedAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> SOPHISTICATED_ASSEMBLER_CONTROLLER =
+            BLOCKS.registerBlock("sophisticated_assembler_controller", SophisticatedAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> ELITE_ASSEMBLER_CONTROLLER =
+            BLOCKS.registerBlock("elite_assembler_controller", EliteAssemblerControllerBlock::new, BlockBehaviour.Properties.of());
 
     public static final DeferredBlock<Block> BASIC_ASSEMBLER_CASING =
             BLOCKS.registerBlock("basic_assembler_casing", BasicAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
@@ -55,6 +57,16 @@ public class ModBlocks {
             BLOCKS.registerBlock("advanced_assembler_casing", AdvancedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> ADVANCED_ASSEMBLER_ENERGY_CASING =
             BLOCKS.registerBlock("advanced_assembler_energy_casing", AdvancedAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> SOPHISTICATED_ASSEMBLER_CASING =
+            BLOCKS.registerBlock("sophisticated_assembler_casing", SophisticatedAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> SOPHISTICATED_ASSEMBLER_ENERGY_CASING =
+            BLOCKS.registerBlock("sophisticated_assembler_energy_casing", SophisticatedAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
+
+    public static final DeferredBlock<Block> ELITE_ASSEMBLER_CASING =
+            BLOCKS.registerBlock("elite_assembler_casing", EliteAssemblerCasingBlock::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> ELITE_ASSEMBLER_ENERGY_CASING =
+            BLOCKS.registerBlock("elite_assembler_energy_casing", EliteAssemblerEnergyCasingBlock::new, BlockBehaviour.Properties.of());
 
 
     public static final DeferredBlock<Block> DENSE_COBBLESTONE =

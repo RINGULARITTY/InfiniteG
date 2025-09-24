@@ -64,6 +64,8 @@ public abstract class AbstractAssemblerControllerBlock extends Block implements 
             case BASIC    -> ModBlockEntities.BASIC_ASSEMBLER_CONTROLLER_BE.get();
             case IMPROVED -> ModBlockEntities.IMPROVED_ASSEMBLER_CONTROLLER_BE.get();
             case ADVANCED -> ModBlockEntities.ADVANCED_ASSEMBLER_CONTROLLER_BE.get();
+            case SOPHISTICATED -> ModBlockEntities.SOPHISTICATED_ASSEMBLER_CONTROLLER_BE.get();
+            case ELITE -> ModBlockEntities.ELITE_ASSEMBLER_CONTROLLER_BE.get();
         };
         return bet.create(pos, state);
     }
