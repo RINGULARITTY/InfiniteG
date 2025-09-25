@@ -3,12 +3,15 @@ package fr.ringularity.infiniteg.blocks.assembler;
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.abstracts.RecipeType;
 import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
+import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import fr.ringularity.infiniteg.blocks.entities.assembler.AbstractAssemblerControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -70,17 +73,18 @@ public abstract class AbstractAssemblerControllerBlock extends Block implements 
         return bet.create(pos, state);
     }
 
+    protected abstract void openMenu(AbstractAssemblerControllerBlockEntity cbe, Player player, BlockPos pos);
+
     @Override
     protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (level.isClientSide())
             return InteractionResult.FAIL;
 
         if (level.getBlockEntity(pos) instanceof AbstractAssemblerControllerBlockEntity cbe) {
-            for (RecipeType rt : cbe.recipeTypes) {
-                System.out.print(rt.typeName());
-                System.out.print(", ");
-            }
-            System.out.println("");
+            if (!state.getValue(STRUCTURE_VALID))
+                return InteractionResult.FAIL;
+
+            openMenu(cbe, player, pos);
 
             return InteractionResult.SUCCESS;
         }

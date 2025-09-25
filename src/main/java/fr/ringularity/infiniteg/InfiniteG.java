@@ -65,7 +65,7 @@ public class InfiniteG
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.COMPACTOR_MENU.get(), CompactorScreen::new);
             event.register(ModMenuTypes.WORKSTATION_MENU.get(), WorkstationScreen::new);
-            event.register(ModMenuTypes.ASSEMBLER_MENU.get(), AssemblerScreen::new);
+            event.register(ModMenuTypes.BASIC_ASSEMBLER_MENU.get(), AssemblerScreen::new);
         }
 
         @SubscribeEvent

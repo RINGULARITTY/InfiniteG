@@ -1,7 +1,7 @@
 package fr.ringularity.infiniteg.screens;
 
 import fr.ringularity.infiniteg.InfiniteG;
-import fr.ringularity.infiniteg.menus.AssemblerMenu;
+import fr.ringularity.infiniteg.menus.AbstractAssemblerControllerMenu;
 import fr.ringularity.infiniteg.screens.widgets.Primitives;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,11 +12,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-public class AssemblerScreen extends AbstractContainerScreen<AssemblerMenu> {
+public class AssemblerScreen extends AbstractContainerScreen<AbstractAssemblerControllerMenu> {
     private static final ResourceLocation GUI_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(InfiniteG.MOD_ID,"textures/gui/growth_chamber/growth_chamber_gui.png");
 
-    public AssemblerScreen(AssemblerMenu menu, Inventory playerInventory, Component title) {
+    public AssemblerScreen(AbstractAssemblerControllerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
