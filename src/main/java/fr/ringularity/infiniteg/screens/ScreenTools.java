@@ -3,6 +3,7 @@ package fr.ringularity.infiniteg.screens;
 import fr.ringularity.infiniteg.screens.widgets.Primitives;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.item.ItemStack;
 
 public class ScreenTools {
     public static void renderScaledText(GuiGraphics g, Font font, Primitives.TextElement t) {
@@ -46,5 +47,14 @@ public class ScreenTools {
         );
 
         guiGraphics.pose().popMatrix();
+    }
+
+    public static void renderScaledItem(GuiGraphics gg, ItemStack stack, int x, int y, float scale) {
+        gg.pose().pushMatrix();
+        gg.pose().scale(scale, scale);
+        int sx = (int) (x / scale);
+        int sy = (int) (y / scale);
+        gg.renderItem(stack, sx, sy);
+        gg.pose().popMatrix();
     }
 }

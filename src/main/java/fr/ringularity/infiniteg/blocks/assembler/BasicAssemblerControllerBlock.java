@@ -5,10 +5,13 @@ import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.blocks.entities.assembler.AbstractAssemblerControllerBlockEntity;
 import fr.ringularity.infiniteg.blocks.entities.assembler.BasicAssemblerControllerBlockEntity;
 import fr.ringularity.infiniteg.menus.BasicAssemblerControllerMenu;
+import fr.ringularity.infiniteg.network.dto.DTOIndexItemQuantity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.List;
 
 public class BasicAssemblerControllerBlock extends AbstractAssemblerControllerBlock {
 
@@ -24,7 +27,12 @@ public class BasicAssemblerControllerBlock extends AbstractAssemblerControllerBl
                             (cid, inv, p) -> new BasicAssemblerControllerMenu(cid, inv, basicACBE),
                             Component.translatable(InfiniteG.MOD_ID + ".menu.basic_assembler_controller")
                     ),
-                    buf -> buf.writeBlockPos(basicACBE.getBlockPos())
+                    buf -> {
+                        buf.writeBlockPos(basicACBE.getBlockPos());
+                        List<DTOIndexItemQuantity> packet = cbe.getItemsPacket();
+                        buf.writeVarInt(packet.size());
+                        for (DTOIndexItemQuantity e : packet) DTOIndexItemQuantity.STREAM_CODEC.encode(buf, e);
+                    }
             );
         }
     }

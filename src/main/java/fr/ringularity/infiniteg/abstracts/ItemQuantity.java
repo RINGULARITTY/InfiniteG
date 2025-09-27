@@ -12,4 +12,8 @@ public class ItemQuantity {
         this.stack = item;
         this.quantity = quantity;
     }
+
+    public ItemQuantity copy() {
+        return new ItemQuantity(stack.copy(), new BigInteger(quantity.toByteArray()));
+    }
 }

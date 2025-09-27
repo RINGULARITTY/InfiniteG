@@ -3,6 +3,7 @@ package fr.ringularity.infiniteg.blocks.entities.assembler;
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.abstracts.RecipeType;
 import fr.ringularity.infiniteg.blocks.assembler.AbstractAssemblerControllerBlock;
+import fr.ringularity.infiniteg.blocks.entities.AbstractIGBE;
 import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -20,9 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.List;
 
-public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity implements MenuProvider, IInfiniteGEnergy {
+public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGBE implements MenuProvider, IInfiniteGEnergy {
     private final ObjectOpenHashSet<BlockPos> linkedCasings = new ObjectOpenHashSet<>();
-    public final HashSet<RecipeType> recipeTypes = new HashSet<>();
+    public final HashSet<RecipeType> recipeUpgrades = new HashSet<>();
 
     protected AbstractAssemblerControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -36,7 +37,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
     public void initializeLinksAndValidate() {
         if (!(level instanceof ServerLevel server)) return;
         linkedCasings.clear();
-        recipeTypes.clear();
+        recipeUpgrades.clear();
         MachineTier tier = getTier();
         Direction facing = getBlockState().getValue(AbstractAssemblerControllerBlock.FACING);
         for (BlockPos p : expectedPositions(server, getBlockPos(), facing, tier)) {
@@ -44,7 +45,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
             if (be instanceof AbstractAssemblerCasingBlockEntity casing) {
                 if (casingLinkTo(casing, getBlockPos())) {
                     linkedCasings.add(p.immutable());
-                    recipeTypes.add(casing.getRecipeType());
+                    recipeUpgrades.add(casing.getRecipeType());
                 }
             }
         }
@@ -60,7 +61,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
         if (!casingLinkTo(casing, getBlockPos())) return false;
 
         linkedCasings.add(casingPos.immutable());
-        recipeTypes.add(casing.getRecipeType());
+        recipeUpgrades.add(casing.getRecipeType());
         updateValidFlag();
         return true;
     }
@@ -68,10 +69,10 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
     public void onCasingUnlinked(BlockPos casingPos) {
         if (!(level instanceof ServerLevel)) return;
         if (linkedCasings.remove(casingPos)) {
-            recipeTypes.clear();
+            recipeUpgrades.clear();
             for (BlockPos bp : linkedCasings) {
                 if (level.getBlockEntity(bp) instanceof AbstractAssemblerCasingBlockEntity cbe)
-                    recipeTypes.add(cbe.getRecipeType());
+                    recipeUpgrades.add(cbe.getRecipeType());
             }
             updateValidFlag();
         }
@@ -88,7 +89,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends BlockEntity
             }
         }
         linkedCasings.clear();
-        recipeTypes.clear();
+        recipeUpgrades.clear();
     }
 
     private void updateValidFlag() {

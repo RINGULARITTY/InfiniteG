@@ -1,5 +1,6 @@
 package fr.ringularity.infiniteg.blocks.assembler;
 
+import fr.ringularity.infiniteg.abstracts.ItemQuantity;
 import fr.ringularity.infiniteg.abstracts.MachineTier;
 import fr.ringularity.infiniteg.abstracts.RecipeType;
 import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
@@ -14,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,6 +32,10 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractAssemblerControllerBlock extends Block implements EntityBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -83,6 +89,19 @@ public abstract class AbstractAssemblerControllerBlock extends Block implements 
         if (level.getBlockEntity(pos) instanceof AbstractAssemblerControllerBlockEntity cbe) {
             if (!state.getValue(STRUCTURE_VALID))
                 return InteractionResult.FAIL;
+
+            cbe.storedItems = new HashMap<>(Map.of(
+                    0, new ItemQuantity(new ItemStack(Items.DIAMOND), BigInteger.TEN),
+                    1, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    2, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    3, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    4, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    5, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    6, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    7, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    8, new ItemQuantity(new ItemStack(Items.EMERALD), BigInteger.TWO),
+                    12, new ItemQuantity(new ItemStack(Items.CHAIN), BigInteger.TWO)
+            ));
 
             openMenu(cbe, player, pos);
 

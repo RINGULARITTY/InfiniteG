@@ -4,32 +4,52 @@ import net.minecraft.world.item.ItemStack;
 
 import java.math.BigInteger;
 
-public abstract class AbstractIGItemStack {
+public class IGItemStack {
+    public static final BigInteger INFINITE_SIZE = BigInteger.valueOf(-1);
+
     private final ItemQuantity iq;
 
-    public AbstractIGItemStack() {
+    public IGItemStack() {
         iq = new ItemQuantity(ItemStack.EMPTY, BigInteger.ZERO);
     }
 
-    public AbstractIGItemStack(ItemStack stack) {
+    public IGItemStack(ItemStack stack) {
         iq = new ItemQuantity(stack.copy(), BigInteger.ONE);
     }
 
-    public AbstractIGItemStack(ItemStack stack, BigInteger quantity) {
-        iq = new ItemQuantity(stack.copy(), quantity);
+    public IGItemStack(ItemQuantity iq) {
+        this.iq = new ItemQuantity(iq.stack, iq.quantity);
     }
 
-    public abstract BigInteger getMaxQuantity();
+    public ItemQuantity getItemQuantity() {
+        return iq;
+    }
+
+    public BigInteger getMaxRatioQuantity() {
+        return INFINITE_SIZE;
+    }
+
+    public BigInteger getMaxQuantity(ItemStack stack) {
+        BigInteger ratio = getMaxRatioQuantity();
+        if (ratio.compareTo(BigInteger.ZERO) < 0 || iq.stack.isEmpty())
+            return INFINITE_SIZE;
+
+        return ratio.multiply(BigInteger.valueOf(stack.getMaxStackSize()));
+    }
 
     public boolean isMergeable(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
         return ItemStack.isSameItemSameComponents(this.iq.stack, stack);
     }
 
+    public void setStack(ItemStack stack) {
+        iq.stack = stack;
+    }
+
     public BigInteger addQuantity(BigInteger quantity) {
         if (quantity == null || quantity.signum() <= 0) return BigInteger.ZERO;
         final BigInteger sum = iq.quantity.add(quantity);
-        final BigInteger maxSize = getMaxQuantity();
+        final BigInteger maxSize = getMaxQuantity(iq.stack);
 
         if (maxSize.compareTo(BigInteger.ZERO) < 0 || sum.compareTo(maxSize) <= 0) {
             iq.quantity = sum;
@@ -108,4 +128,7 @@ public abstract class AbstractIGItemStack {
         return removeQuantity(req);
     }
 
+    public boolean isEmpty() {
+        return iq.stack.isEmpty() || iq.quantity.equals(BigInteger.ZERO);
+    }
 }

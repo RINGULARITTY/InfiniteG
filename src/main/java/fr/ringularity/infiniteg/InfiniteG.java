@@ -8,7 +8,7 @@ import fr.ringularity.infiniteg.items.InfiniteGCreativeTab;
 import fr.ringularity.infiniteg.items.ModItems;
 import fr.ringularity.infiniteg.menus.ModMenuTypes;
 import fr.ringularity.infiniteg.network.ModPackets;
-import fr.ringularity.infiniteg.screens.AssemblerScreen;
+import fr.ringularity.infiniteg.screens.BasicAssemblerScreen;
 import fr.ringularity.infiniteg.screens.CompactorScreen;
 import fr.ringularity.infiniteg.screens.WorkstationScreen;
 import net.neoforged.api.distmarker.Dist;
@@ -65,7 +65,7 @@ public class InfiniteG
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.COMPACTOR_MENU.get(), CompactorScreen::new);
             event.register(ModMenuTypes.WORKSTATION_MENU.get(), WorkstationScreen::new);
-            event.register(ModMenuTypes.BASIC_ASSEMBLER_MENU.get(), AssemblerScreen::new);
+            event.register(ModMenuTypes.BASIC_ASSEMBLER_MENU.get(), BasicAssemblerScreen::new);
         }
 
         @SubscribeEvent

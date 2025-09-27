@@ -111,7 +111,8 @@ public class InteractiveButton implements GuiEventListener {
                     buttonAbsoluteY + height / 2
             );
         } else {
-            guiGraphics.renderItem(displayItem, buttonAbsoluteX + 1, buttonAbsoluteY + 1);
+            ScreenTools.renderScaledItem(guiGraphics, displayItem, buttonAbsoluteX + 1, buttonAbsoluteY + 1, 0.6667f);
+            //guiGraphics.renderItem(displayItem, buttonAbsoluteX + 1, buttonAbsoluteY + 1);
             renderScaledTextBottomRight(
                     guiGraphics, font,
                     buttonAbsoluteX + width - 2,
