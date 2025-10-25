@@ -1,9 +1,8 @@
 package fr.ringularity.infiniteg.menus;
 
 import fr.ringularity.infiniteg.blocks.ModBlocks;
-import fr.ringularity.infiniteg.blocks.entities.AbstractIGBE;
+import fr.ringularity.infiniteg.blocks.entities.AbstractIGBEContainer;
 import fr.ringularity.infiniteg.blocks.entities.assembler.BasicAssemblerControllerBlockEntity;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +30,7 @@ public final class BasicAssemblerControllerMenu
     }
 
     @Override
-    protected Map<Integer, IGSlot> createIGSlots(AbstractIGBE igbe) {
+    protected Map<Integer, IGSlot> createIGSlots(AbstractIGBEContainer igbe) {
         Map<Integer, IGSlot> slots = new HashMap<>();
 
         for (int slotIndex : igbe.storedItems.keySet())

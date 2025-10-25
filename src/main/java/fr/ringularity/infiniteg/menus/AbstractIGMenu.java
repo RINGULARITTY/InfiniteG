@@ -1,10 +1,9 @@
 package fr.ringularity.infiniteg.menus;
 
 import fr.ringularity.infiniteg.abstracts.ItemQuantity;
-import fr.ringularity.infiniteg.blocks.entities.AbstractIGBE;
+import fr.ringularity.infiniteg.blocks.entities.AbstractIGBEContainer;
 import fr.ringularity.infiniteg.network.dto.DTOIndexItemQuantity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,14 +31,14 @@ public abstract class AbstractIGMenu<B extends BlockEntity> extends AbstractCont
         this.access = ContainerLevelAccess.create(be.getLevel(), this.pos);
         this.beRef = Optional.of(be);
 
-        if (beRef.orElse(null) instanceof AbstractIGBE igbe) {
+        if (beRef.orElse(null) instanceof AbstractIGBEContainer igbe) {
             slots = createIGSlots(igbe);
         } else {
             slots = null;
         }
     }
 
-    protected abstract Map<Integer, IGSlot> createIGSlots(AbstractIGBE igbe);
+    protected abstract Map<Integer, IGSlot> createIGSlots(AbstractIGBEContainer igbe);
 
     protected AbstractIGMenu(MenuType<?> type, int id, Inventory pinv, RegistryFriendlyByteBuf buf) {
         super(type, id);

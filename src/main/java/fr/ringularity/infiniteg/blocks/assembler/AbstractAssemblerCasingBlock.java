@@ -1,7 +1,7 @@
 package fr.ringularity.infiniteg.blocks.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
-import fr.ringularity.infiniteg.abstracts.RecipeType;
+import fr.ringularity.infiniteg.abstracts.StructureUpgrade;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractAssemblerCasingBlock extends Block implements EntityBlock {
     private final MachineTier tier;
-    private final RecipeType recipeType;
+    private final StructureUpgrade recipeType;
 
-    protected AbstractAssemblerCasingBlock(MachineTier tier, RecipeType recipeType, Properties props) {
+    protected AbstractAssemblerCasingBlock(MachineTier tier, StructureUpgrade recipeType, Properties props) {
         super(props);
         this.tier = tier;
         this.recipeType = recipeType;
@@ -20,7 +20,7 @@ public abstract class AbstractAssemblerCasingBlock extends Block implements Enti
 
     public MachineTier getTier() { return tier; }
 
-    public RecipeType getRecipeType() { return recipeType; }
+    public StructureUpgrade getRecipeType() { return recipeType; }
 
     @Override
     public PushReaction getPistonPushReaction(@NotNull BlockState state) {

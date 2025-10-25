@@ -1,12 +1,12 @@
 package fr.ringularity.infiniteg.abstracts;
 
-public enum RecipeType {
+public enum StructureUpgrade {
     NONE("none"),
     ENERGY("energy");
 
     private final String typeName;
 
-    RecipeType(String typeName) {
+    StructureUpgrade(String typeName) {
         this.typeName = typeName;
     }
 

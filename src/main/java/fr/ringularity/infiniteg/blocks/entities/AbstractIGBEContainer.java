@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class AbstractIGBE extends BlockEntity {
+public abstract class AbstractIGBEContainer extends BlockEntity {
     private static final String STORED_ITEMS_SIZE_KEY = "ig_stored_items_size";
     private static final String STORED_ITEMS_INDEXES_KEY = "ig_stored_items_indexes";
     private static final String STORED_ITEMS_STACKS_KEY = "ig_stored_items_stacks";
@@ -26,7 +26,7 @@ public abstract class AbstractIGBE extends BlockEntity {
 
     public HashMap<Integer, ItemQuantity> storedItems = new HashMap<>();
 
-    public AbstractIGBE(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    public AbstractIGBEContainer(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 

@@ -1,10 +1,11 @@
 package fr.ringularity.infiniteg.blocks.entities.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
-import fr.ringularity.infiniteg.abstracts.RecipeType;
+import fr.ringularity.infiniteg.abstracts.StructureUpgrade;
 import fr.ringularity.infiniteg.blocks.assembler.AbstractAssemblerControllerBlock;
-import fr.ringularity.infiniteg.blocks.entities.AbstractIGBE;
+import fr.ringularity.infiniteg.blocks.entities.AbstractIGBEContainer;
 import fr.ringularity.infiniteg.capabilities.IInfiniteGEnergy;
+import fr.ringularity.infiniteg.capabilities.InfiniteGEnergyStorage;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -16,17 +17,27 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.List;
 
-public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGBE implements MenuProvider, IInfiniteGEnergy {
+public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGBEContainer implements MenuProvider, IInfiniteGEnergy {
     private final ObjectOpenHashSet<BlockPos> linkedCasings = new ObjectOpenHashSet<>();
-    public final HashSet<RecipeType> recipeUpgrades = new HashSet<>();
+    public final HashSet<StructureUpgrade> structureUpgrades = new HashSet<>();
+    public InfiniteGEnergyStorage energySystem;
 
     protected AbstractAssemblerControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        this.energySystem = new InfiniteGEnergyStorage(
+                BigInteger.ZERO,
+                BigInteger.valueOf(1000000 * ( 1 + getTier().ordinal() * getTier().ordinal())),
+                BigInteger.valueOf(10000 * (1 + getTier().ordinal())),
+                BigInteger.valueOf(10000 * (1 + getTier().ordinal()))
+        );
     }
 
     private MachineTier getTier() {
@@ -34,10 +45,26 @@ public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGB
         return (b instanceof AbstractAssemblerControllerBlock ctrl) ? ctrl.getTier() : MachineTier.BASIC;
     }
 
+    @Override
+    public @Nullable IEnergyStorage getEnergy(@Nullable Direction side) {
+        if (structureUpgrades.contains(StructureUpgrade.ENERGY)) {
+            return energySystem;
+        }
+        return null;
+    }
+
+    @Override
+    public @Nullable InfiniteGEnergyStorage getInfiniteGEnergy(@Nullable Direction side) {
+        if (structureUpgrades.contains(StructureUpgrade.ENERGY)) {
+            return energySystem;
+        }
+        return null;
+    }
+
     public void initializeLinksAndValidate() {
         if (!(level instanceof ServerLevel server)) return;
         linkedCasings.clear();
-        recipeUpgrades.clear();
+        structureUpgrades.clear();
         MachineTier tier = getTier();
         Direction facing = getBlockState().getValue(AbstractAssemblerControllerBlock.FACING);
         for (BlockPos p : expectedPositions(server, getBlockPos(), facing, tier)) {
@@ -45,7 +72,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGB
             if (be instanceof AbstractAssemblerCasingBlockEntity casing) {
                 if (casingLinkTo(casing, getBlockPos())) {
                     linkedCasings.add(p.immutable());
-                    recipeUpgrades.add(casing.getRecipeType());
+                    structureUpgrades.add(casing.getRecipeType());
                 }
             }
         }
@@ -61,7 +88,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGB
         if (!casingLinkTo(casing, getBlockPos())) return false;
 
         linkedCasings.add(casingPos.immutable());
-        recipeUpgrades.add(casing.getRecipeType());
+        structureUpgrades.add(casing.getRecipeType());
         updateValidFlag();
         return true;
     }
@@ -69,10 +96,10 @@ public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGB
     public void onCasingUnlinked(BlockPos casingPos) {
         if (!(level instanceof ServerLevel)) return;
         if (linkedCasings.remove(casingPos)) {
-            recipeUpgrades.clear();
+            structureUpgrades.clear();
             for (BlockPos bp : linkedCasings) {
                 if (level.getBlockEntity(bp) instanceof AbstractAssemblerCasingBlockEntity cbe)
-                    recipeUpgrades.add(cbe.getRecipeType());
+                    structureUpgrades.add(cbe.getRecipeType());
             }
             updateValidFlag();
         }
@@ -89,7 +116,7 @@ public abstract class AbstractAssemblerControllerBlockEntity extends AbstractIGB
             }
         }
         linkedCasings.clear();
-        recipeUpgrades.clear();
+        structureUpgrades.clear();
     }
 
     private void updateValidFlag() {

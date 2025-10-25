@@ -19,16 +19,6 @@ public class BasicAssemblerControllerBlockEntity extends AbstractAssemblerContro
     }
 
     @Override
-    public @Nullable IEnergyStorage getEnergy(@Nullable Direction side) {
-        return null;
-    }
-
-    @Override
-    public @Nullable InfiniteGEnergyStorage getInfiniteGEnergy(@Nullable Direction side) {
-        return null;
-    }
-
-    @Override
     public Component getDisplayName() {
         return null;
     }

@@ -1,7 +1,7 @@
 package fr.ringularity.infiniteg.blocks.entities.assembler;
 
 import fr.ringularity.infiniteg.abstracts.MachineTier;
-import fr.ringularity.infiniteg.abstracts.RecipeType;
+import fr.ringularity.infiniteg.abstracts.StructureUpgrade;
 import fr.ringularity.infiniteg.blocks.assembler.AbstractAssemblerCasingBlock;
 import fr.ringularity.infiniteg.blocks.assembler.AbstractAssemblerControllerBlock;
 import net.minecraft.core.BlockPos;
@@ -19,9 +19,9 @@ public abstract class AbstractAssemblerCasingBlockEntity extends BlockEntity {
 
     public AbstractAssemblerCasingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) { super(type, pos, state); }
 
-    public RecipeType getRecipeType() {
+    public StructureUpgrade getRecipeType() {
         BlockState bs = getBlockState();
-        return bs.getBlock() instanceof AbstractAssemblerCasingBlock c ? c.getRecipeType() : RecipeType.NONE;
+        return bs.getBlock() instanceof AbstractAssemblerCasingBlock c ? c.getRecipeType() : StructureUpgrade.NONE;
     }
 
     private MachineTier getTier() {

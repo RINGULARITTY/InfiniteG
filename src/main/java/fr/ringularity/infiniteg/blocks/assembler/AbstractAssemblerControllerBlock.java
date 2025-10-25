@@ -2,17 +2,13 @@ package fr.ringularity.infiniteg.blocks.assembler;
 
 import fr.ringularity.infiniteg.abstracts.ItemQuantity;
 import fr.ringularity.infiniteg.abstracts.MachineTier;
-import fr.ringularity.infiniteg.abstracts.RecipeType;
 import fr.ringularity.infiniteg.blocks.ModBlockStateProperties;
-import fr.ringularity.infiniteg.blocks.ModBlocks;
 import fr.ringularity.infiniteg.blocks.entities.ModBlockEntities;
 import fr.ringularity.infiniteg.blocks.entities.assembler.AbstractAssemblerControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
